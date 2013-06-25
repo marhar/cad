@@ -6,6 +6,8 @@ StickDia=10;    // for 10x10 stick
 HolderLen=20;   // length of stick holder
 HolderHeight=8; // height of stick holder
 HolderWid=2;    // width of stick holder
+
+BoltRad=3/2;   // radius of boltholes
 LightGray=[.2,.2,.9,.2];
 
 //----------------------------------------------------------------------
@@ -20,21 +22,36 @@ module plate() {
         // trim edges
         for (i = [0:3]) {
             rotate(90*i) {
-            translate([PlateRadius,PlateRadius])
-                cylinder(h=PlateHeight, r=PlateRadius/1.2);
+                translate([StickDia/2+HolderWid+20,StickDia/2+HolderWid+20,-1])
+                    cylinder(h=PlateHeight+2, r=PlateRadius/5);
+                // MAGICNUMS
+                translate([StickDia/2+HolderWid+PlateRadius/5/2-4+6,20,-1])
+                    cube([PlateRadius,PlateRadius,12]);
+                translate([20,StickDia/2+HolderWid+PlateRadius/5/2+2,-1])
+                    cube([PlateRadius,PlateRadius,12]);
+
+                // drill holes
+                translate([StickDia/2+HolderWid+HolderLen/2,StickDia/2+HolderWid*2+1,-1])
+                    color("green") cylinder(h=PlateHeight+2,r=BoltRad);
+                translate([PlateRadius-10,StickDia/2+HolderWid*2+1,-1])
+                    color("green") cylinder(h=PlateHeight+2,r=BoltRad);
+
+                translate([StickDia/2+HolderWid+3,StickDia/2+HolderWid+HolderLen/2,-1])
+                    color("green") cylinder(h=PlateHeight+2,r=BoltRad);
+                translate([StickDia/2+HolderWid+3,PlateRadius-10,-1])
+                    color("green") cylinder(h=PlateHeight+2,r=BoltRad);
             }
         }
 
-        // drill holes
     }
 
     // arm stops
-    //for (i = [0:3]) {
-        //rotate(90*i) {
+    for (i = [0:3]) {
+        rotate(90*i) {
             translate([StickDia/2-HolderWid,-StickDia/4,0])
-            color("green") cube(StickDia,2,PlateHeight+HolderWid);
-        //}
-    //}
+            color("green") cube([HolderWid,StickDia/2,PlateHeight+2]);
+        }
+    }
 }
 
 //----------------------------------------------------------------------
