@@ -14,15 +14,27 @@ LightGray=[.2,.2,.9,.2];
 
 module plate() {
     difference() {
+        // plate
         color([.1,.1,.1,.1]) cylinder(h=PlateHeight, r=PlateRadius);
 
+        // trim edges
         for (i = [0:3]) {
             rotate(90*i) {
             translate([PlateRadius,PlateRadius])
                 cylinder(h=PlateHeight, r=PlateRadius/1.2);
             }
         }
+
+        // drill holes
     }
+
+    // arm stops
+    //for (i = [0:3]) {
+        //rotate(90*i) {
+            translate([StickDia/2-HolderWid,-StickDia/4,0])
+            color("green") cube(StickDia,2,PlateHeight+HolderWid);
+        //}
+    //}
 }
 
 //----------------------------------------------------------------------
@@ -44,24 +56,24 @@ module refcubes() {
 //----------------------------------------------------------------------
 
 module holders() {
-for ( i = [0 : 3] ){
-    rotate(90*i) {
+    for ( i = [0 : 3] ){
+        rotate(90*i) {
 
-        // outside
-        translate([PlateRadius-HolderLen-2,StickDia/2,2])
-            color("red") cube([HolderLen,HolderWid,HolderHeight]);
+            // outside
+            translate([PlateRadius-HolderLen-2,StickDia/2,2])
+                color("red") cube([HolderLen,HolderWid,HolderHeight]);
 
-        translate([PlateRadius-HolderLen-2,-HolderWid-StickDia/2,2])
-            color("blue") cube([HolderLen,HolderWid,HolderHeight]);
+            translate([PlateRadius-HolderLen-2,-HolderWid-StickDia/2,2])
+                color("blue") cube([HolderLen,HolderWid,HolderHeight]);
 
-        // inside
-        translate([StickDia/2,StickDia/2,2])
-            color("red") cube([HolderLen,HolderWid,HolderHeight]);
+            // inside
+            translate([StickDia/2,StickDia/2,2])
+                color("red") cube([HolderLen,HolderWid,HolderHeight]);
 
-        translate([StickDia/2,-HolderWid-StickDia/2,2])
-            color("blue") cube([HolderLen,HolderWid,HolderHeight]);
+            translate([StickDia/2,-HolderWid-StickDia/2,2])
+                color("blue") cube([HolderLen,HolderWid,HolderHeight]);
+        }
     }
-}
 }
 
 //----------------------------------------------------------------------
