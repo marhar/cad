@@ -10,6 +10,7 @@ HolderWid=2;    // width of stick holder
 BoltRad=3/2;   // radius of boltholes
 LightGray=[.2,.2,.9,.2];
 
+DrillOffset=1;
 //----------------------------------------------------------------------
 // main plate
 //----------------------------------------------------------------------
@@ -17,28 +18,27 @@ LightGray=[.2,.2,.9,.2];
 module plate() {
     difference() {
         // plate
-        color([.1,.1,.1,.1]) cylinder(h=PlateHeight, r=PlateRadius);
+        color([.1,.1,.1,.4]) cylinder(h=PlateHeight, r=PlateRadius);
 
         // trim edges
         for (i = [0:3]) {
             rotate(90*i) {
-                translate([StickDia/2+HolderWid+20,StickDia/2+HolderWid+20,-1])
-                    cylinder(h=PlateHeight+2, r=PlateRadius/5);
-                // MAGICNUMS
-                translate([StickDia/2+HolderWid+PlateRadius/5/2-4+6,20,-1])
-                    cube([PlateRadius,PlateRadius,12]);
-                translate([20,StickDia/2+HolderWid+PlateRadius/5/2+2,-1])
-                    cube([PlateRadius,PlateRadius,12]);
+                translate([16,18,-1]) {
+                    minkowski() {
+                        cube([50,50,10]);
+                        cylinder(10,5,5);
+                    }
+                }
 
                 // drill holes
-                translate([StickDia/2+HolderWid+HolderLen/2,StickDia/2+HolderWid*2+1,-1])
+                translate([StickDia/2+HolderWid+HolderLen/2,StickDia/2+HolderWid*2+DrillOffset,-1])
                     color("green") cylinder(h=PlateHeight+2,r=BoltRad);
-                translate([PlateRadius-10,StickDia/2+HolderWid*2+1,-1])
+                translate([PlateRadius-10,StickDia/2+HolderWid*2+DrillOffset,-1])
                     color("green") cylinder(h=PlateHeight+2,r=BoltRad);
 
-                translate([StickDia/2+HolderWid+3,StickDia/2+HolderWid+HolderLen/2,-1])
+                translate([StickDia/2+HolderWid+3-DrillOffset,StickDia/2+HolderWid+HolderLen/2,-1])
                     color("green") cylinder(h=PlateHeight+2,r=BoltRad);
-                translate([StickDia/2+HolderWid+3,PlateRadius-10,-1])
+                translate([StickDia/2+HolderWid+BoltRad+.5,PlateRadius-10,-1])
                     color("green") cylinder(h=PlateHeight+2,r=BoltRad);
             }
         }
