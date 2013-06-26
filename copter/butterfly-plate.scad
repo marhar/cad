@@ -1,3 +1,8 @@
+//----------------------------------------------------------------------
+// stick holding bottom portion.
+//
+//----------------------------------------------------------------------
+
 PlateRadius=5*25.4/2;
 PlateHeight=3;
 
@@ -11,6 +16,7 @@ BoltRad=3/2;   // radius of boltholes
 LightGray=[.2,.2,.9,.2];
 
 DrillOffset=1;
+
 //----------------------------------------------------------------------
 // main plate
 //----------------------------------------------------------------------
@@ -23,7 +29,7 @@ module plate() {
         // trim edges
         for (i = [0:3]) {
             rotate(90*i) {
-                translate([16,18,-1]) {
+                translate([18,18,-1]) {
                     minkowski() {
                         cube([50,50,10]);
                         cylinder(10,5,5);
@@ -31,18 +37,37 @@ module plate() {
                 }
 
                 // drill holes
+                // hole 1
                 translate([StickDia/2+HolderWid+HolderLen/2,StickDia/2+HolderWid*2+DrillOffset,-1])
                     color("green") cylinder(h=PlateHeight+2,r=BoltRad);
+                // hole 2
                 translate([PlateRadius-10,StickDia/2+HolderWid*2+DrillOffset,-1])
                     color("green") cylinder(h=PlateHeight+2,r=BoltRad);
-
+                // hole 3
                 translate([StickDia/2+HolderWid+3-DrillOffset,StickDia/2+HolderWid+HolderLen/2,-1])
                     color("green") cylinder(h=PlateHeight+2,r=BoltRad);
-                translate([StickDia/2+HolderWid+BoltRad+.5,PlateRadius-10,-1])
+                // hole 4
+                translate([StickDia/2+HolderWid*2+DrillOffset-1,PlateRadius-10,-1])
                     color("green") cylinder(h=PlateHeight+2,r=BoltRad);
+
+                // battery holders
+                translate([28,10,-1]) {
+                    hull() {
+                        cylinder(10,2,2);
+                        translate([10,0,0]) cylinder(10,2,2);
+                    }
+                }
+
+                translate([10,28,-1]) {
+                    hull() {
+                        cylinder(10,2,2);
+                        translate([0,10,0]) cylinder(10,2,2);
+                    }
+                }
+
+
             }
         }
-
     }
 
     // arm stops
