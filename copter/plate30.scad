@@ -2,10 +2,9 @@
 // PDB sized plate
 //----------------------------------------------------------------------
 
-Wid=50;
+Wid=35;
 Ht=.5;
 
-Rad1=31.25;         // radius to outer holes
 Rad2=21;            // radius to inner holes
 
 DrillSz=7/64*25.4/2;
@@ -20,14 +19,6 @@ module plate() {
 
         // edge holes
         for (i = [0:3]) {
-            rotate(90*i+45) {
-                translate([Rad1,0,-1])
-                   cylinder(h=Ht+2,r=DrillSz);
-            }
-        }
-
-        // inner holes
-        for (i = [0:7]) {
             rotate(45*i) {
                 translate([Rad2,0,-1])
                    cylinder(h=Ht+2,r=DrillSz);
