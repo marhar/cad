@@ -56,5 +56,5 @@ module several(a,b) {
     }
 }
 
-//plate();
-several(3,2);
+plate();
+//several(3,2);
