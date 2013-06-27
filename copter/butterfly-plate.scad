@@ -9,17 +9,27 @@ PlateHeight=3;
 StickDia=10;    // for 10x10 stick
 
 HolderLen=20;   // length of stick holder
-HolderHeight=8; // height of stick holder
+HolderHeight=4; // height of stick holder
 HolderWid=2;    // width of stick holder
 
-BoltRad=3/2;   // radius of boltholes
+//BoltRad=3/2;   // radius of boltholes -- 3mm bolt
+BoltRad=.112*25.4/2;   // radius of boltholes - 4-40 bolt
+
 LightGray=[.2,.2,.9,.2];
 
-DrillOffset=1;
+DrillOffset=1; // clearance of arm stabilizer to bolt hole
+
+ArmStops=0;
 
 //----------------------------------------------------------------------
 // main plate
 //----------------------------------------------------------------------
+
+module vbolt(rad,len) {
+    cylinder(h=len,r1=rad,r2=rad);
+    translate([0,0,len-.1])
+    cylinder(h=1.5,r1=rad,r2=rad*1.5);
+}
 
 module plate() {
     difference() {
@@ -50,7 +60,7 @@ module plate() {
                 translate([StickDia/2+HolderWid*2+DrillOffset-1,PlateRadius-10,-1])
                     color("green") cylinder(h=PlateHeight+2,r=BoltRad);
 
-                // battery holders
+                // battery holder left
                 translate([28,10,-1]) {
                     hull() {
                         cylinder(10,2,2);
@@ -58,6 +68,7 @@ module plate() {
                     }
                 }
 
+                // battery holder right
                 translate([10,28,-1]) {
                     hull() {
                         cylinder(10,2,2);
@@ -66,15 +77,23 @@ module plate() {
                 }
 
 
+            } // end 90 degree 4-way stuff
+
+            rotate(90*i+45) {
+                // up holes
+                translate([sqrt(25*25+25*25),sqrt(25*25+25*25),-3])
+                    vbolt(BoltRad,5);
             }
         }
     }
 
     // arm stops
-    for (i = [0:3]) {
-        rotate(90*i) {
-            translate([StickDia/2-HolderWid,-StickDia/4,0])
-            color("green") cube([HolderWid,StickDia/2,PlateHeight+2]);
+    if (ArmStops) {
+        for (i = [0:3]) {
+            rotate(90*i) {
+                translate([StickDia/2-HolderWid,-StickDia/4,0])
+                color("green") cube([HolderWid,StickDia/2,PlateHeight+2]);
+            }
         }
     }
 }
