@@ -3,12 +3,19 @@
 //----------------------------------------------------------------------
 
 Wid=50;
-Ht=.5;
-
 Rad1=31.25;         // radius to outer holes
 Rad2=21;            // radius to inner holes
 
-DrillSz=(7/64*25.4/2)*1.3;
+// PARAMETERS
+// Ht -- how thick of a plate?
+// DrillSz -- what size of hole?
+
+Ht=2;               // fat plate
+Ht=.5;              // skinny plate
+
+DrillSz=(7/64*25.4/2)*1.3;       // 2.5mm grommet  (todo: need to measure))
+DrillSz=(7/64*25.4/2)*1.3;       // normal, easy to fit 4-40
+DrillSz=(7/64*25.4/2)*1.1;       // tight, for skinny plate only
 
 //----------------------------------------------------------------------
 
@@ -41,8 +48,8 @@ module plate() {
 // main print logic.  we can print one or several
 //----------------------------------------------------------------------
 
-BedWid=285;       // width of printer bed (x coordinate)
-BedDep=153;       // depth of printer bed (y coordinate)
+BedWid=285;       // Makerbot 2: width of printer bed (x coordinate)
+BedDep=153;       // Makerbot 2: depth of printer bed (y coordinate)
 Gap=5;            // spacing between multiple copies
 
 module several(a,b) {
@@ -56,8 +63,5 @@ module several(a,b) {
     }
 }
 
-module blobstop() {translate([-40,-30,0]) cylinder(Ht,3,3);}
-
-blobstop();
 plate();
 //several(1,1);
