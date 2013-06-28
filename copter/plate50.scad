@@ -8,7 +8,7 @@ Ht=.5;
 Rad1=31.25;         // radius to outer holes
 Rad2=21;            // radius to inner holes
 
-DrillSz=7/64*25.4/2;
+DrillSz=(7/64*25.4/2)*1.3;
 
 //----------------------------------------------------------------------
 
@@ -56,5 +56,8 @@ module several(a,b) {
     }
 }
 
+module blobstop() {translate([-40,-30,0]) cylinder(Ht,3,3);}
+
+blobstop();
 plate();
-//several(2,3);
+//several(1,1);
