@@ -1,0 +1,41 @@
+------------------------------------------------------------------------
+// let's start by drawing two spheres, offset from each other.
+
+EdgeLen=10;
+
+R=1;
+
+translate([-30,0,0]) {
+    translate([R,R,R]) {
+        cube([EdgeLen-R*2,EdgeLen-R*2,EdgeLen-R*2]);
+        sphere(R);
+    }
+}
+
+translate([-15,0,0]) {
+    minkowski() {
+        translate([R/2,R/2,R/2])
+            cube([EdgeLen-R*2,EdgeLen-R*2,EdgeLen-R*2]);
+        translate([R/2,R/2,R/2])
+            sphere(R);
+    }
+}
+
+translate([0,0,0]) {
+    cube([EdgeLen,EdgeLen,EdgeLen]);
+}
+
+translate([15,0,0]) {
+    minkowski() {
+        sphere(R);
+        cube([EdgeLen,EdgeLen,EdgeLen]);
+    }
+}
+
+translate([30,0,0]) {
+    minkowski() {
+        translate([R,R,R])
+        sphere(R);
+        cube([EdgeLen-R,EdgeLen-R,EdgeLen-R]);
+    }
+}

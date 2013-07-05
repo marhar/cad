@@ -1,0 +1,63 @@
+#!/usr/bin/python
+"""
+process an mscad (multiple scad) file.  sections in the mscad file
+are preceded by a single line of 72 hyphens.  Each section is
+broken into its own file and processed to generate an image.
+An html file pulls everything together for easy viewing.
+"""
+
+import sys
+import os
+
+SCAD='/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD'
+
+def run(opts):
+    cmd='%s %s'%(SCAD,opts)
+    print cmd
+    sys.stdout.flush()
+    os.system(cmd)
+
+def dofile(fn):
+    sep='-'*72+'\n'
+    count=1
+    base=fn.split('.')[0]
+    lines=open(fn).read()
+    chunks=lines.split(sep)
+    os.system('rm -f %s-.scad'%(base))
+    os.system('rm -f %s-.png'%(base))
+    os.system('rm -f %s.html'%(base))
+
+    hfile=open(base+'.html','w')
+    print >>hfile, '<table>'
+
+    for chunk in chunks[1:]:
+        ofpre='%s-%02d'%(base,count)
+        count+=1
+        print '--'
+        print 'processing:', ofpre
+        ofd=open(ofpre+'.scad','w')
+        ofd.write(chunk)
+        ofd.close()
+
+        run('--imgsize=300,300 --camera=100,100,100,0,0,0 -o %s.png %s.scad'%(ofpre,ofpre))
+        #run('--imgsize=300,300 --camera=100,100,100,0,0,0 -o %s.stl %s.scad'%(ofpre,ofpre))
+
+        print >>hfile, '<tr>'
+        print >>hfile, '<td>'
+        print >>hfile, '<pre>'
+        print >>hfile, chunk
+        print >>hfile, '</pre>'
+        print >>hfile, '</td>'
+        print >>hfile, '<td>'
+        print >>hfile, '<img src="%s.png">'%(ofpre)
+        print >>hfile, '</td>'
+        print >>hfile, '</tr>'
+
+    print >>hfile, '</table>'
+    hfile.close()
+
+def main():
+    for fn in sys.argv[1:]:
+        dofile(fn)
+
+main()
