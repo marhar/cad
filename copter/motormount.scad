@@ -63,6 +63,11 @@ module item() {
             translate([CenterX+m/2,CenterY,-1]) bolt2mmp();
             translate([CenterX-m/2,CenterY,-1]) bolt2mmp();
         }
+
+        // route out some excess plastic HARDCODE
+        translate([8,OverHang+Thickness+1,-1]) cube([18,StickDia-2,Thickness+2]);
+        translate([8,-1,-1]) cube([18,OverHang,Thickness+2]);
+        translate([8,OverHang+Thickness*2+StickDia+1,-1]) cube([18,OverHang,Thickness+2]);
     }
 }
 
