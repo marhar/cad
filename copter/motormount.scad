@@ -2,8 +2,12 @@
 // motor mount
 // modifiers
 //
-// measurements:  NTM35:     19, 25, 42
-//                A10,2217:  15, 19, 33
+// measurements:             bolt, bolt holes, cross plate
+//                NTM28:     M3    16, 19      34
+//                NTM35:     M3    18.9, 25    42
+//                NTM42:     M3    25          49
+//                NTM50:     M4    30          62
+//                A10,2217:  M3    15, 19      33  (check against NTM28)
 //----------------------------------------------------------------------
 
 
