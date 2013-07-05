@@ -1,16 +1,30 @@
 //----------------------------------------------------------------------
 // motor mount
+// modifiers
+//
+// measurements:  NTM35:     19, 25, 42
+//                A10,2217:  15, 19, 33
 //----------------------------------------------------------------------
 
-Thickness=3;
-Len=30;
-StickDia=10;    // for 10x10 stick
-OverHang=4;
-ArmCover=3;
+
+// Changable Parameters
+
+Thickness=2;     // thickness of the plate
+Len=34;          // length along the stick
+StickDia=10;     // stick diameter, for square stick
+OverHang=4;      // horizontal overhang, for the attaching screws
+ArmCover=3;      // how far down the arms are covered
+
+BoltRad=2/2;      // radius of bolt
+
+MotorHoles=[25];  // the set of motor hole distances
+
+
+// nothing to change under here
+
 CenterX=Len/2;
 CenterY=(OverHang*2+Thickness*2+StickDia)/2;
 
-BoltRad=1;
 
 module bolta() {
     // holding onto stick
@@ -43,8 +57,12 @@ module item() {
         translate([0,OverHang+2*Thickness+StickDia,0]) bolta();
 
         // mount holes
-        translate([CenterX-17/2,CenterY,-1]) bolt2mmp();
-        translate([CenterX+17/2,CenterY,-1]) bolt2mmp();
+        //translate([CenterX-17/2,CenterY,-1]) bolt2mmp();
+        //translate([CenterX+17/2,CenterY,-1]) bolt2mmp();
+        for (m = MotorHoles) {
+            translate([CenterX+m/2,CenterY,-1]) bolt2mmp();
+            translate([CenterX-m/2,CenterY,-1]) bolt2mmp();
+        }
     }
 }
 
