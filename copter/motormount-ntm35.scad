@@ -17,14 +17,15 @@ MotorBoltDia=3;   // motor bolt size
 
 // other customizations.  these will need to be changed less often.
 
-Thickness=2;     // thickness of the plate
+Thickness=3;     // thickness of the plate
 StickDia=10;     // stick diameter, for square stick
 OverHang=6;      // horizontal overhang, for the attaching screws
+BHLen=7;          // ?? len of bolt holder
 ArmCover=3;      // how far down the arms are covered  FIX THIS IS IGNORED
-ConBoltDia=3;    // connector bold diameter
+ConnBoltDia=3;    // connector bold diameter
 
 include <motormount.scad>
 include <multiprint.scad>
 
 item();
-several(2,2,40,30);
+//several(2,2,40,30);

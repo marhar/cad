@@ -16,8 +16,8 @@
 // derived constants
 //----------------------------------------------------------------------
 
-MotorBoltRad=MotorBoldDia/2;      // radius of motor bolt
-ConnBoltRad=ConnBoldDia/2;        // radius of connector bolt
+MotorBoltRad=MotorBoltDia/2;      // radius of motor bolt
+ConnBoltRad=ConnBoltDia/2;        // radius of connector bolt
 
 CenterX=MountLen/2;
 CenterY=(OverHang*2+Thickness*2+StickDia)/2;
@@ -26,21 +26,18 @@ CenterY=(OverHang*2+Thickness*2+StickDia)/2;
 // supporting items
 //----------------------------------------------------------------------
 
-module bolta() {
+module connbolts() {
     // holding onto stick
-    translate([4,2,-1]) bolt2mm();
-    translate([MountLen-4,2,-1]) bolt2mm();
-}
-
-module bolt2mm() {
-    cylinder(h=10,r=1,center=false);
+    translate([BHLen/2+ConnBoltRad/2,OverHang/2,-1]) cylinder(h=10,r=ConnBoltRad,center=false);
+    translate([MountLen-(BHLen/2+ConnBoltRad/2),OverHang/2,-1]) cylinder(h=10,r=ConnBoltRad,center=false);
 }
 
 module bolt2mmp() {
     union() {
-        cylinder(h=10,r=1,center=false);
+        cylinder(h=10,r=MotorBoltRad,center=false);
+        // how to paramterize h?
         translate([0,0,Thickness])
-        cylinder(h=1.5,r1=1,r2=2,center=false);
+            cylinder(h=1.5,r1=MotorBoltRad,r2=MotorBoltRad,center=false);
     }
 }
 
@@ -57,8 +54,8 @@ module item() {
         }
 
         // screw holes
-        translate([0,0,0]) bolta();
-        translate([0,OverHang+2*Thickness+StickDia,0]) bolta();
+        translate([0,0,0]) connbolts();
+        translate([0,OverHang+2*Thickness+StickDia,0]) connbolts();
 
         // mount holes
         //translate([CenterX-17/2,CenterY,-1]) bolt2mmp();
