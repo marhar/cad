@@ -1,6 +1,8 @@
 //----------------------------------------------------------------------
-// motor mount
-// modifiers
+// motor mount -- paramatized motor mount
+//
+// this file is designed to be included from another scad file.
+// see motormount-ntm35.scad as an example of how to do  this.
 //
 // measurements:             bolt, bolt holes, cross plate
 //                NTM28:     M3    16, 19      34
@@ -10,30 +12,24 @@
 //                A10,2217:  M3    15, 19      33  (check against NTM28)
 //----------------------------------------------------------------------
 
+//----------------------------------------------------------------------
+// derived constants
+//----------------------------------------------------------------------
 
-// Changable Parameters
+MotorBoltRad=MotorBoldDia/2;      // radius of motor bolt
+ConnBoltRad=ConnBoldDia/2;        // radius of connector bolt
 
-Thickness=2;     // thickness of the plate
-Len=34;          // length along the stick
-StickDia=10;     // stick diameter, for square stick
-OverHang=4;      // horizontal overhang, for the attaching screws
-ArmCover=3;      // how far down the arms are covered
-
-BoltRad=2/2;      // radius of bolt
-
-MotorHoles=[25];  // the set of motor hole distances
-
-
-// nothing to change under here
-
-CenterX=Len/2;
+CenterX=MountLen/2;
 CenterY=(OverHang*2+Thickness*2+StickDia)/2;
 
+//----------------------------------------------------------------------
+// supporting items
+//----------------------------------------------------------------------
 
 module bolta() {
     // holding onto stick
     translate([4,2,-1]) bolt2mm();
-    translate([Len-4,2,-1]) bolt2mm();
+    translate([MountLen-4,2,-1]) bolt2mm();
 }
 
 module bolt2mm() {
@@ -48,12 +44,16 @@ module bolt2mmp() {
     }
 }
 
+//----------------------------------------------------------------------
+// main item -- named in accordance with multiprint.scad
+//----------------------------------------------------------------------
+
 module item() {
     difference() {
         union() {
-            cube([Len,StickDia+2*Thickness+2*OverHang,Thickness]);
-            translate([0,OverHang,0]) cube([Len,Thickness,Thickness+OverHang]);
-            translate([0,OverHang+Thickness+StickDia,0]) cube([Len,Thickness,Thickness+OverHang]);
+            cube([MountLen,StickDia+2*Thickness+2*OverHang,Thickness]);
+            translate([0,OverHang,0]) cube([MountLen,Thickness,Thickness+OverHang]);
+            translate([0,OverHang+Thickness+StickDia,0]) cube([MountLen,Thickness,Thickness+OverHang]);
         }
 
         // screw holes
@@ -63,36 +63,13 @@ module item() {
         // mount holes
         //translate([CenterX-17/2,CenterY,-1]) bolt2mmp();
         //translate([CenterX+17/2,CenterY,-1]) bolt2mmp();
-        for (m = MotorHoles) {
-            translate([CenterX+m/2,CenterY,-1]) bolt2mmp();
-            translate([CenterX-m/2,CenterY,-1]) bolt2mmp();
-        }
+            translate([CenterX+MotorHoles/2,CenterY,-1]) bolt2mmp();
+            translate([CenterX-MotorHoles/2,CenterY,-1]) bolt2mmp();
 
         // route out some excess plastic HARDCODE
+        // FIX: base this on MotorHoles, make each side big enough
         translate([8,OverHang+Thickness+1,-1]) cube([18,StickDia-2,Thickness+2]);
         translate([8,-1,-1]) cube([18,OverHang,Thickness+2]);
         translate([8,OverHang+Thickness*2+StickDia+1,-1]) cube([18,OverHang,Thickness+2]);
     }
 }
-
-//----------------------------------------------------------------------
-// main print logic.  we can print one or several
-//----------------------------------------------------------------------
-
-BedWid=285;       // Makerbot 2: width of printer bed (x coordinate)
-BedDep=153;       // Makerbot 2: depth of printer bed (y coordinate)
-Gap=5;            // spacing between multiple copies
-
-module several(a,b,itemwd,itemht) {
-    translate([-BedWid/2,-BedDep/2,0]) {
-        for (a0=[0:a-1]) {
-            for (b0=[0:b-1]) {
-                translate([a0*(itemwd+Gap),b0*(itemht+Gap),0])
-                    item();
-            }
-        }
-    }
-}
-
-item();
-//several(2,2,30,30);
