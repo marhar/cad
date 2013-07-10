@@ -18,7 +18,8 @@
 //----------------------------------------------------------------------
 
 module several(a,b,itemwd,itemht) {
-    translate([-(a*itemwd)/2,-(b*itemht)/2,0]) {
+    // the odd math makes a single item line up with the x and y axes
+    translate([-((a-1)*itemwd)/2,-((b-1)*itemht)/2,0]) {
         for (a0=[0:a-1]) {
             for (b0=[0:b-1]) {
                 translate([a0*itemwd,b0*itemht,0])
