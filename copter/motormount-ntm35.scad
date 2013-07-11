@@ -11,18 +11,19 @@
 
 // size customizations.  for each motor size, change these parms.
 
-MountLen=34;      // length along the stick
+MountLen=44;      // length along the stick
 MotorHoles=25;  // the set of motor hole distances
 MotorBoltDia=3;   // motor bolt size
 
 // other customizations.  these will need to be changed less often.
 
-Thickness=3;     // thickness of the plate
-StickDia=10;     // stick diameter, for square stick
-OverHang=6;      // horizontal overhang, for the attaching screws
-BHLen=7;          // ?? len of bolt holder
-ArmCover=3;      // how far down the arms are covered  FIX THIS IS IGNORED
-ConnBoltDia=3;    // connector bold diameter
+Thickness=3;         // thickness of the plate
+StickDia=10;         // stick diameter, for square stick
+OverHang=6;          // horizontal overhang, for the attaching screws
+BHLen=7;             // ?? len of bolt holder
+ArmCover=3;          // how far down the arms are covered  FIX THIS IS IGNORED
+ConnBoltDia=3;       // connector bold diameter
+BoltHoleClearance=2; // how much material to leave around bolt holes
 
 include <motormount.scad>
 include <multiprint.scad>

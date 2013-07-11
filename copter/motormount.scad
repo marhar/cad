@@ -28,16 +28,18 @@ CenterY=(OverHang*2+Thickness*2+StickDia)/2;
 
 module connbolts() {
     // holding onto stick
-    translate([BHLen/2+ConnBoltRad/2,OverHang/2,-1]) cylinder(h=10,r=ConnBoltRad,center=false);
-    translate([MountLen-(BHLen/2+ConnBoltRad/2),OverHang/2,-1]) cylinder(h=10,r=ConnBoltRad,center=false);
+    translate([BoltHoleClearance+ConnBoltRad,OverHang/2,-1])
+        cylinder(h=Thickness+2,r=ConnBoltRad,center=false);
+    translate([MountLen-BoltHoleClearance-ConnBoltRad,OverHang/2,-1])
+        cylinder(h=Thickness+2,r=ConnBoltRad,center=false);
 }
 
-module bolt2mmp() {
+module motorbolts() {
     union() {
         cylinder(h=10,r=MotorBoltRad,center=false);
-        // how to paramterize h?
-        translate([0,0,Thickness])
-            cylinder(h=1.5,r1=MotorBoltRad,r2=MotorBoltRad,center=false);
+        // TODO still need to fiddle with how to countersink
+        translate([0,0,Thickness-1])
+            cylinder(h=3,r1=0,r2=MotorBoltDia*2,center=false);
     }
 }
 
@@ -48,25 +50,39 @@ module bolt2mmp() {
 module item() {
     difference() {
         union() {
+            color([.2,0,0,.1])
             cube([MountLen,StickDia+2*Thickness+2*OverHang,Thickness]);
-            translate([0,OverHang,0]) cube([MountLen,Thickness,Thickness+OverHang]);
-            translate([0,OverHang+Thickness+StickDia,0]) cube([MountLen,Thickness,Thickness+OverHang]);
+            color([0,.2,0,.1])
+                translate([0,OverHang,0])
+                    cube([MountLen,Thickness,Thickness+OverHang]);
+            color([0,.2,0,.1])
+                translate([0,OverHang+Thickness+StickDia,0])
+                    cube([MountLen,Thickness,Thickness+OverHang]);
         }
 
         // screw holes
         translate([0,0,0]) connbolts();
         translate([0,OverHang+2*Thickness+StickDia,0]) connbolts();
 
-        // mount holes
-        //translate([CenterX-17/2,CenterY,-1]) bolt2mmp();
-        //translate([CenterX+17/2,CenterY,-1]) bolt2mmp();
-            translate([CenterX+MotorHoles/2,CenterY,-1]) bolt2mmp();
-            translate([CenterX-MotorHoles/2,CenterY,-1]) bolt2mmp();
+        // motor holes
+        translate([CenterX+MotorHoles/2,CenterY,-1]) motorbolts();
+        translate([CenterX-MotorHoles/2,CenterY,-1]) motorbolts();
 
-        // route out some excess plastic HARDCODE
-        // FIX: base this on MotorHoles, make each side big enough
-        translate([8,OverHang+Thickness+1,-1]) cube([18,StickDia-2,Thickness+2]);
-        translate([8,-1,-1]) cube([18,OverHang,Thickness+2]);
-        translate([8,OverHang+Thickness*2+StickDia+1,-1]) cube([18,OverHang,Thickness+2]);
+        // route out some excess plastic
+        // middle left
+        translate([-1,OverHang+Thickness+1,-1])
+            cube([1+CenterX-MotorHoles/2-MotorBoltRad-BoltHoleClearance,StickDia-2,Thickness+2]);
+        // middle right
+        translate([CenterX+MotorHoles/2+MotorBoltRad+BoltHoleClearance,OverHang+Thickness+1,-1])
+            cube([1+CenterX-MotorHoles/2-MotorBoltRad-BoltHoleClearance,StickDia-2,Thickness+2]);
+        // middle
+        translate([CenterX-MotorHoles/2+MotorBoltRad+BoltHoleClearance,OverHang+Thickness+1,-1])
+            cube([MotorHoles-2*MotorBoltDia-BoltHoleClearance,StickDia-2,Thickness+2]);
+        // bottom
+        translate([BoltHoleClearance*2+ConnBoltDia,-1,-1])
+            cube([MountLen-BoltHoleClearance*4-ConnBoltDia*2,OverHang,Thickness+2]);
+        // top
+        translate([BoltHoleClearance*2+ConnBoltDia,OverHang+Thickness*2+StickDia+1,-1])
+            cube([MountLen-BoltHoleClearance*4-ConnBoltDia*2,OverHang,Thickness+2]);
     }
 }
