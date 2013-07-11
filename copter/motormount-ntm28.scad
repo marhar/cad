@@ -1,18 +1,16 @@
 //----------------------------------------------------------------------
-// motormount-ntm35 -- motormount sized for NTM35 motors
+// motormount-ntm28 -- motormount sized for NTM35 motors
+// also good for A10, 2217 sized motors (need to verify)
 //
 // measurements:             bolt, bolt holes, cross plate
 //                NTM28:     M3    16, 19      34
-//                NTM35:     M3    18.9, 25    42
-//                NTM42:     M3    25          49
-//                NTM50:     M4    30          62
-//                A10,2217:  M3    15, 19      33  (check against NTM28)
+//                A10,2217:  M3    15, 19      33
 //----------------------------------------------------------------------
 
 // size customizations.  for each motor size, change these parms.
 
-MountLen=46;      // length along the stick (try crossplate + 2*BoltClearance)
-MotorHoles=25;    // the set of motor hole distances
+MountLen=34;      // length along the stick
+MotorHoles=19;    // the set of motor hole distances
 MotorBoltDia=3;   // motor bolt size
 
 // other customizations.  these will need to be changed less often.
