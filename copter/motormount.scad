@@ -19,6 +19,8 @@
 MotorBoltRad=MotorBoltDia/2;      // radius of motor bolt
 ConnBoltRad=ConnBoltDia/2;        // radius of connector bolt
 
+OverHang=ConnBoltDia+2*BoltHoleClearance;
+
 CenterX=MountLen/2;
 CenterY=(OverHang*2+Thickness*2+StickDia)/2;
 
