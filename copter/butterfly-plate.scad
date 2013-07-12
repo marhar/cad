@@ -19,7 +19,7 @@ LightGray=[.2,.2,.9,.2];
 
 DrillOffset=1; // clearance of arm stabilizer to bolt hole
 
-ArmStops=0;
+ArmStops=1;
 
 //----------------------------------------------------------------------
 // main plate
@@ -45,6 +45,9 @@ module plate() {
                         cylinder(10,5,5);
                     }
                 }
+
+                // center clearance hole
+                translate([0,0,-1]) cylinder(h=PlateHeight+20,r1=12,r2=12);
 
                 // drill holes
                 // hole 1
@@ -91,8 +94,8 @@ module plate() {
     if (ArmStops) {
         for (i = [0:3]) {
             rotate(90*i) {
-                translate([StickDia/2-HolderWid,-StickDia/4,0])
-                color("green") cube([HolderWid,StickDia/2,PlateHeight+2]);
+                translate([10+StickDia/2-HolderWid,-StickDia/4,0])
+                color("green") cube([HolderWid,StickDia/2,PlateHeight+1]);
             }
         }
     }
@@ -128,10 +131,10 @@ module holders() {
                 color("blue") cube([HolderLen,HolderWid,HolderHeight]);
 
             // inside
-            translate([StickDia/2,StickDia/2,2])
+            translate([StickDia+1,StickDia/2,2])
                 color("red") cube([HolderLen,HolderWid,HolderHeight]);
 
-            translate([StickDia/2,-HolderWid-StickDia/2,2])
+            translate([StickDia+1,-HolderWid-StickDia/2,2])
                 color("blue") cube([HolderLen,HolderWid,HolderHeight]);
         }
     }
