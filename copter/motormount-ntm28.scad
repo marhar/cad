@@ -4,24 +4,25 @@
 //
 // measurements:             bolt, bolt holes, cross plate
 //                NTM28:     M3    16, 19      34
-//                A10,2217:  M3    15, 19      33
 //----------------------------------------------------------------------
-
-// size customizations.  for each motor size, change these parms.
-
-MountLen=34;      // length along the stick
-MotorHoles=19;    // the set of motor hole distances
-MotorBoltDia=3;   // motor bolt size
-
-// other customizations.  these will need to be changed less often.
-
-Thickness=3;         // thickness of the plate
-StickDia=10;         // stick diameter, for square stick
-ConnBoltDia=3;       // connector bold diameter
-
-BoltHoleClearance=2; // how much material to leave around bolt holes
 
 include <motormount.scad>
 include <multiprint.scad>
 
-several(1,1,40,30) item();
+module motormount28() {
+    motormount(
+                              // customizations for each motor size
+        MountLen=34,          // length along the stick
+                              //          (try crossplate + 2*BoltClearance)
+        MotorHoles=19,        // the set of motor hole distances
+        MotorBoltDia=3,       // motor bolt size
+        
+                              // other customizations.
+        Thickness=3,          // thickness of the plate
+        StickDia=10,          // stick diameter, for square stick
+        ConnBoltDia=3,        // connector bold diameter
+        BoltHoleClearance=2   // how much material to leave around bolt holes
+    );      
+}
+        
+//several(2,2,36,32) motormount28();

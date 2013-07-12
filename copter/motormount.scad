@@ -13,22 +13,10 @@
 //----------------------------------------------------------------------
 
 //----------------------------------------------------------------------
-// derived constants
-//----------------------------------------------------------------------
-
-MotorBoltRad=MotorBoltDia/2;      // radius of motor bolt
-ConnBoltRad=ConnBoltDia/2;        // radius of connector bolt
-
-OverHang=ConnBoltDia+2*BoltHoleClearance;
-
-CenterX=MountLen/2;
-CenterY=(OverHang*2+Thickness*2+StickDia)/2;
-
-//----------------------------------------------------------------------
 // supporting items
 //----------------------------------------------------------------------
 
-module connbolts() {
+module connbolts(BoltHoleClearance,ConnBoltRad,OverHang,Thickness,MountLen) {
     // holding onto stick
     translate([BoltHoleClearance+ConnBoltRad,OverHang/2,-1])
         cylinder(h=Thickness+2,r=ConnBoltRad,center=false);
@@ -36,20 +24,33 @@ module connbolts() {
         cylinder(h=Thickness+2,r=ConnBoltRad,center=false);
 }
 
-module motorbolts() {
+module motorbolts(MotorBoltRad,Thickness) {
     union() {
         cylinder(h=10,r=MotorBoltRad,center=false);
         // TODO still need to fiddle with how to countersink
         translate([0,0,Thickness-1])
-            cylinder(h=3,r1=0,r2=MotorBoltDia*2,center=false);
+            cylinder(h=3,r1=0,r2=MotorBoltRad*4,center=false);
     }
 }
 
-//----------------------------------------------------------------------
-// main item -- named in accordance with multiprint.scad
-//----------------------------------------------------------------------
+module motormount(
+    // size customizations.  for each motor size, change these parms.
+    MountLen,      // length along the stick (try crossplate + 2*BoltClearance)
+    MotorHoles,    // the set of motor hole distances
+    MotorBoltDia,   // motor bolt size
 
-module item() {
+    // other customizations.  these will need to be changed less often.
+    Thickness,         // thickness of the plate
+    StickDia,         // stick diameter, for square stick
+    ConnBoltDia,       // connector bold diameter
+    BoltHoleClearance)  // how much material to leave around bolt holes
+{
+    MotorBoltRad=MotorBoltDia/2;      // radius of motor bolt
+    ConnBoltRad=ConnBoltDia/2;        // radius of connector bolt
+    OverHang=ConnBoltDia+2*BoltHoleClearance;
+    CenterX=MountLen/2;
+    CenterY=(OverHang*2+Thickness*2+StickDia)/2;
+
     difference() {
         union() {
             color([.2,0,0,.1])
@@ -63,12 +64,14 @@ module item() {
         }
 
         // screw holes
-        translate([0,0,0]) connbolts();
-        translate([0,OverHang+2*Thickness+StickDia,0]) connbolts();
+        translate([0,0,0])
+            connbolts(BoltHoleClearance,ConnBoltRad,OverHang,Thickness,MountLen);
+        translate([0,OverHang+2*Thickness+StickDia,0])
+            connbolts(BoltHoleClearance,ConnBoltRad,OverHang,Thickness,MountLen);
 
         // motor holes
-        translate([CenterX+MotorHoles/2,CenterY,-1]) motorbolts();
-        translate([CenterX-MotorHoles/2,CenterY,-1]) motorbolts();
+        translate([CenterX+MotorHoles/2,CenterY,-1]) motorbolts(MotorBoltRad,Thickness);
+        translate([CenterX-MotorHoles/2,CenterY,-1]) motorbolts(MotorBoltRad,Thickness);
 
         // route out some excess plastic
         // middle left
