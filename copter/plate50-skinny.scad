@@ -1,5 +1,9 @@
 //----------------------------------------------------------------------
 // PDB sized plate
+//
+// The default settings in this file are for a "skinny" plate,
+// .5mm thick and with small holes that will hold a 4-40 riser
+// securely without a bolt.
 //----------------------------------------------------------------------
 
 Wid=50;

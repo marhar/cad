@@ -26,5 +26,4 @@ BoltHoleClearance=2; // how much material to leave around bolt holes
 include <motormount.scad>
 include <multiprint.scad>
 
-item();
-//several(2,2,40,30);
+several(1,1,50,35) item();

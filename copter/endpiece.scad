@@ -19,7 +19,8 @@ module item() {
     difference() {
         union() {
             translate([0,0,0]) {
-                cube([D3,D3,Overhang]);
+               cube([D3-.5,D3-.5,Overhang]);
+               sphere(.5);
             }
             translate([(D3-D2)/2,(D3-D2)/2,0])
                 cube([D2,D2,Len+Overhang]);
@@ -37,4 +38,4 @@ module item() {
 }
 
 include <multiprint.scad>
-several(1,1,15,15);
+several(1,1,15,15) item();
