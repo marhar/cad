@@ -1,6 +1,5 @@
-include <motormount.scad>
-
-
+//----------------------------------------------------------------------
+// print four motor mount for each of these NTM sizes
 //                NTM28:     M3    16, 19      34
 //                NTM35:     M3    18.9, 25    42
 //                NTM42:     M3    25          49
@@ -10,10 +9,10 @@ include <motormount.scad>
 
 include <motormount.scad>
 
-for (v=[[0,19,38],[1,25,46],[2,25,53],[3,30,66]]) {
+for (v=[[4,19,38],[3,25,46],[2,25,53],[1,30,66]]) {
   echo(v);
-  translate([v[0]*40,0,0])
-  rotate(60)
+  translate([v[0]*30,v[0]*-20,0])
+  rotate(50)
   motormount(
                             // customizations for each motor size
       MountLen=v[2],          // length along the stick
