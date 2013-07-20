@@ -25,4 +25,4 @@ module motormount28() {
     );      
 }
         
-//several(2,2,36,32) motormount28();
+several(1,1,36,32) motormount28();
