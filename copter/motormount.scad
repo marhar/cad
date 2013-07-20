@@ -57,10 +57,10 @@ module motormount(
             cube([MountLen,StickDia+2*Thickness+2*OverHang,Thickness]);
             color([0,.2,0,.1])
                 translate([0,OverHang,0])
-                    cube([MountLen,Thickness,Thickness+OverHang]);
+                    cube([MountLen,Thickness,Thickness*2]);
             color([0,.2,0,.1])
                 translate([0,OverHang+Thickness+StickDia,0])
-                    cube([MountLen,Thickness,Thickness+OverHang]);
+                    cube([MountLen,Thickness,Thickness*2]);
         }
 
         // screw holes
