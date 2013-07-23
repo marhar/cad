@@ -1,20 +1,20 @@
 //----------------------------------------------------------------------
-// endpiece.scad -- piece for the end of each arm
+// endpiece_curved.scad -- piece for the end of each arm
 //
 // The main purpose of this piece is to prevent chafing of the
 // motor wires against the relatively sharp edges of the fiberglass
 // arm.  A future version might incorporate a protrusion to protect
 // the exposed motor wires at the end of the arm.
+//
+// note: fix D parms in terms of thickness
+// D1        inside diam of endpiece
+// D2        inside diam of stick
+// D3        outside diam of stick +1
+// Len       length along the stick
+// Overhang  overhang around the end of the stick
 //----------------------------------------------------------------------
 
-D1 = 8;
-D2 = 9;
-D3 = 11;
-
-Len=5;
-Overhang=1;
-
-module item() {
+module endpiece_curved(D1,D2,D3,Len,Overhang) {
 
     difference() {
         union() {
@@ -39,5 +39,4 @@ module item() {
 
 }
 
-include <multiprint.scad>
-several(1,1,15,15) item();
+//endpiece_curved(8,9,11,5,1);
