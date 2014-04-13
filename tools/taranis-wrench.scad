@@ -10,6 +10,7 @@
 ht=1;
 dl=-1;
 dh=ht-dl+2;
+scale([16/6,16/6,1]) {
 difference() {
     cube([6,16.5,ht]);                            // main piece
     union() {
@@ -20,4 +21,5 @@ difference() {
         translate([1,14,dl]) cube([4,2,dh]);      // top keyhole
         translate([2,15,dl]) cube([2,4,dh]);      // top keyslice
     }
+}
 }
