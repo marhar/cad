@@ -6,13 +6,12 @@
 //                NTM50:     M4    30          62
 //----------------------------------------------------------------------
 
-
-include <motormount.scad>
+include <../motormount.scad>
 
 for (v=[[4,19,38],[3,25,46],[2,25,53],[1,30,66]]) {
   echo(v);
   translate([v[0]*30,v[0]*-20,0])
-  rotate(50)
+  rotate(30)
   motormount(
                             // customizations for each motor size
       MountLen=v[2],          // length along the stick

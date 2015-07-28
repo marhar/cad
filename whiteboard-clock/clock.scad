@@ -5,7 +5,7 @@ servo_l = 24;
 servo_w = 13;
 servo_h = 21;
 
-bolt_hole_diameter = 4.5;
+bolt_hole_diameter = 3.0;
 servo_axis_diameter = 4;
 
 magnet_hole_l = 10.5;
@@ -44,7 +44,7 @@ module servoholder(h = 8) {
 				translate([-4, -6]) cube([servo_w + 8, servo_l + 12, h]);
 				translate([0,0,-1]) cube([servo_w, servo_l, h + 2]);
 			}
-			translate([0,5/2 + servo_l + 6,0]) bolt_bracket(bolt_hole_diameter);
+			#translate([0,5/2 + servo_l + 6,0]) bolt_bracket(bolt_hole_diameter);
 		}
 		translate([0,-17,0]) bolt_bracket(servo_axis_diameter);
 	}
@@ -114,10 +114,10 @@ module eraser() {
 	ring(eraser_magnet_diameter, eraser_magnet_diameter + 2.5, 8);
 }
 
-color("yellow") translate([-50,0,0]) base();
+//color("yellow") translate([-50,0,0]) base();
 color("red") translate([0,0,4]) servoholder();
-color("green") translate([40, 30, 0]) arm(servo_axis_diameter, bolt_hole_diameter);
-color("green") translate([40, 10, 0]) arm(servo_axis_diameter, bolt_hole_diameter);
-color("green") translate([40, -10, 0]) arm(bolt_hole_diameter, bolt_hole_diameter);
-color("green") translate([40, -30, 0]) pen_arm();
-color("blue") translate([60, 60, 0]) eraser();
+//color("green") translate([40, 30, 0]) arm(servo_axis_diameter, bolt_hole_diameter);
+//color("green") translate([40, 10, 0]) arm(servo_axis_diameter, bolt_hole_diameter);
+//color("green") translate([40, -10, 0]) arm(bolt_hole_diameter, bolt_hole_diameter);
+//color("green") translate([40, -30, 0]) pen_arm();
+//color("blue") translate([60, 60, 0]) eraser();
