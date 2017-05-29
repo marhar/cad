@@ -1,57 +1,74 @@
-wall = 1;  // thickness of wall
-
-// 3s 500 zippy
-
-// 3s 1300 graphene
-
-module zippy_3s_500() {
-bxx = 33;  // battery width
-byy = 19;  // battery depth
-bzz = 20;  // battery height
-nyy = 4;  // number of rows
-nxx = 3;  // number of columns
-}
-
-module graphene_3s_1300() {
-bxx = 37;  // battery width
-byy = 29;  // battery depth
-bzz = 30;  // battery height
-nyy = 3;  // number of rows
-nxx = 2;  // number of columns
-}
+//-----------------------------------------------------------
+// batbox.scad -- parameterized lipo battery holder.
+// print with layer height = .3, infill = 40%
+// Uncomment buildplate() to see if it fits.
+//
+// usage:
+// box(battery width, battery depth, box height,
+//                columns, rows, string, comment)
+//-----------------------------------------------------------
 
 
-iota = .1;
+//box(37,33,15,3,2,"4s 1800", "nanotech");
+//box(33,19,20,4,3,"3s 500",  "zippy");
+box(37,29,30,3,2,"3s 1300", "graphene");
+//buildplate();
 
-module box() {
-}
+//-----------------------------------------------------------
+// should not have to touch anything below
+//-----------------------------------------------------------
 
-bxx = 37;  // battery width
-byy = 30;  // battery depth
-bzz = 30;  // battery height
-nyy = 3;  // number of rows
-nxx = 2;  // number of columns
+// manifest constants
+wall = 1;               // thickness of wall
+emboss_depth = .5;      // emboss_depth
+$fn=15;                 // openscad number of fragments
 
-module holes() {
+//-----------------------------------------------------------
+// holes -- cut the holes for the batteries
+module holes(nxx,nyy,bxx,byy,bzz) {
     for (i = [0:1:nxx-1]) {
         for (j = [0:1:nyy-1]) {
             translate([wall+(i*(bxx+wall)), wall+(j*(byy+wall)),wall]) {
-                color("blue") cube([bxx,byy,bzz+iota]);
+                color("blue") cube([bxx,byy,bzz]);
             }
         }
     }
 }
 
-//difference() {
-//    cube([nxx*(bxx+wall)+wall,nyy*(byy+wall)+wall,bzz+wall]);
-//    holes();
-//}
+//-----------------------------------------------------------
+// box -- main module, cut holes, decorate
+module box(bxx,byy,bzz,nxx,nyy,desc,brand) {
+    translate([wall,wall+emboss_depth,0]) {
+        minkowski() {
+            difference() {
+#                cube([nxx*(bxx+wall)+wall,nyy*(byy+wall)+wall,bzz+wall]);
+                holes(nxx, nyy,bxx,byy,bzz);
+            }
+            sphere(r=wall);
+        }
+        emboss(desc,bxx,byy);
+    }
+}
 
-$fn=15  ;
-minkowski() {
-      difference() {
-          cube([nxx*(bxx+wall)+wall,nyy*(byy+wall)+wall,bzz+wall]);
-          holes();
-      }
-      sphere(r=wall);
+//-----------------------------------------------------------
+// emboss - put description and size on the box
+module emboss(desc,bxx,byy) {
+    bstr = str(desc,"   ",bxx,",",byy);
+    rotate([90,0,0])
+        translate([4,2,1])
+            linear_extrude(emboss_depth)
+                text(bstr, size = 3.5);
+
+}
+
+//-----------------------------------------------------------
+// show the buildplate volume -- will my box fit?
+module buildplate() {
+    // size of your build plate.
+    // Monoprice mini is 140x140x140
+    buildplate_x = 140;
+    buildplate_y = 140;
+    buildplate_z = 140;
+    translate([0,0,-1])
+        #cube([buildplate_x, buildplate_y,buildplate_z]);
 }
