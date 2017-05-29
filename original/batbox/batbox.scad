@@ -26,8 +26,8 @@ iota = .1;
 module box() {
 }
 
-bxx = 35;  // battery width
-byy = 27;  // battery depth
+bxx = 37;  // battery width
+byy = 30;  // battery depth
 bzz = 30;  // battery height
 nyy = 3;  // number of rows
 nxx = 2;  // number of columns
@@ -47,7 +47,7 @@ module holes() {
 //    holes();
 //}
 
-$fn=15;
+$fn=15  ;
 minkowski() {
       difference() {
           cube([nxx*(bxx+wall)+wall,nyy*(byy+wall)+wall,bzz+wall]);
