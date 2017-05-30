@@ -9,9 +9,9 @@
 //-----------------------------------------------------------
 
 
-//box(37,33,15,3,2,"4s 1800", "nanotech");
+box(37,33,40,3,2,"4s 1800", "nanotech");
 //box(33,19,20,4,3,"3s 500",  "zippy");
-box(37,29,30,3,2,"3s 1300", "graphene");
+//box(37,29,30,3,2,"3s 1300", "graphene");
 //buildplate();
 
 //-----------------------------------------------------------
@@ -53,11 +53,13 @@ module box(bxx,byy,bzz,nxx,nyy,desc,brand) {
 //-----------------------------------------------------------
 // emboss - put description and size on the box
 module emboss(desc,bxx,byy) {
+    magnification = 1.5;
+    textsize = 7;
     bstr = str(desc,"   ",bxx,",",byy);
-    rotate([90,0,0])
+    color("blue") rotate([90,0,0])
         translate([4,2,1])
             linear_extrude(emboss_depth)
-                text(bstr, size = 3.5);
+                text(bstr, size = magnification*textsize);
 
 }
 
@@ -65,10 +67,10 @@ module emboss(desc,bxx,byy) {
 // show the buildplate volume -- will my box fit?
 module buildplate() {
     // size of your build plate.
-    // Monoprice mini is 140x140x140
-    buildplate_x = 140;
-    buildplate_y = 140;
-    buildplate_z = 140;
+    // Monoprice mini is 120x120x120
+    buildplate_x = 120;
+    buildplate_y = 120;
+    buildplate_z = 120;
     translate([0,0,-1])
         #cube([buildplate_x, buildplate_y,buildplate_z]);
 }
