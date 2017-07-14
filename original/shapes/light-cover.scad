@@ -1,5 +1,7 @@
 $fn=50;
-minkowski() {
+
+module x() {
+    minkowski() {
     hull() {
     translate([ 0,0,0]) cube([1,10, .2]);
     translate([5,2,0]) cube([1, 6, 2]);
@@ -8,3 +10,10 @@ minkowski() {
 }
 sphere(r=1);
 }
+}
+
+difference() {
+    x();
+    translate([0,0,-.5]) x();
+}
+
