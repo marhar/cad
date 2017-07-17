@@ -8,9 +8,10 @@
 //                columns, rows, string, comment)
 //----------------------------------------------------------------------
 
-//box(46,34,70,2,3,"4s 3300", "nanotech");
+box(47,34,25,2,3,"4s 3300", "nanotech");
+//box(136,35,20,1,4,"4s 3300 ", "nanotech horiz");
 //box(37,33,40,3,2,"4s 1800", "nanotech");
-box(33,19,20,4,3,"3s 500",  "zippy");
+//box(33,19,20,4,3,"3s 500",  "zippy");
 //box(37,29,30,3,2,"3s 1300", "graphene");
 //buildplate();
 
@@ -68,9 +69,10 @@ module emboss(desc,bxx,byy) {
 module buildplate() {
     // size of your build plate.
     // Monoprice mini is 120x120x120
-    buildplate_x = 120;
-    buildplate_y = 120;
-    buildplate_z = 120;
+    // Monoprice Select  is 200x200x180
+    buildplate_x = 200;
+    buildplate_y = 200;
+    buildplate_z = 180;
     translate([0,0,-1])
         #cube([buildplate_x, buildplate_y,buildplate_z]);
 }
