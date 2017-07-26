@@ -9,10 +9,11 @@
 //----------------------------------------------------------------------
 
 //box( 33,19,20,4,3,"3s  500",  "zippy");
-box( 33,19,20,3,4,"3s  500",  "zippy");
+//box( 33,19,20,3,4,"3s  500",  "zippy");
 //box( 31,28,28,2,4,"3s  850",  "nanotech");
-//box( 37,29,30,3,2,"3s 1300",  "graphene");
-//box( 36,25,35,2,4,"3s 1300",  "nanotech");
+//box( 38,29,30,3,2,"3s 1300",  "graphene");
+//box( 37,28,35,2,4,"3s 1300",  "nanotech");
+box( 37,36,30,3,2,"4s 1800",  "graphene");
 //box( 11,11,11,2,4,"3s 2200",  "nanotech TODO");
 //box( 47,34,25,2,3,"4s 3300",  "nanotech");
 //box(136,35,20,1,4,"4s 3300 ", "nanotech horiz");
@@ -24,7 +25,7 @@ box( 33,19,20,3,4,"3s  500",  "zippy");
 //----------------------------------------------------------------------
 
 // manifest constants
-wall = 1;               // thickness of wall
+wall = .5;               // thickness of wall
 emboss_depth = .5;      // emboss_depth
 $fn=20;                 // openscad number of fragments
 
@@ -42,7 +43,11 @@ module holes(nxx,nyy,bxx,byy,bzz) {
 
 //----------------------------------------------------------------------
 // box -- main module, cut holes, decorate
-module box(bxx,byy,bzz,nxx,nyy,desc,brand) {
+module box(oxx,oyy,ozz,nxx,nyy,desc,brand) {
+    correction=1.5;
+    bxx=oxx+correction;
+    byy=oyy+correction;
+    bzz=ozz+correction;
     translate([wall,wall+emboss_depth,0]) {
         minkowski() {
             difference() {
@@ -62,7 +67,7 @@ module emboss(desc,bxx,byy) {
     textsize = 7;
     bstr = str(desc," ",bxx,",",byy);
     color("blue") rotate([90,0,0])
-        translate([4,2,1])
+        translate([4,2,emboss_depth*.8])
             linear_extrude(emboss_depth)
                 text(bstr, size = magnification*textsize);
 
