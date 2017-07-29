@@ -13,7 +13,7 @@
 //box( 31,28,28,2,4,"3s  850",  "nanotech");
 //box( 38,29,30,3,2,"3s 1300",  "graphene");
 //box( 37,28,35,2,4,"3s 1300",  "nanotech");
-box( 37,36,30,3,2,"4s 1800",  "graphene");
+box(39,38,30,3,2,"4s 1800",  "graphene");
 //box( 11,11,11,2,4,"3s 2200",  "nanotech TODO");
 //box( 47,34,25,2,3,"4s 3300",  "nanotech");
 //box(136,35,20,1,4,"4s 3300 ", "nanotech horiz");
@@ -56,7 +56,7 @@ module box(oxx,oyy,ozz,nxx,nyy,desc,brand) {
             }
             sphere(r=wall);
         }
-        emboss(desc,bxx,byy);
+        emboss(desc,oxx,oyy);
     }
 }
 
