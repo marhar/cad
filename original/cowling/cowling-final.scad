@@ -17,6 +17,7 @@ module nose() {
     }
 }
 
+mirror([0,0,1])  // prints better this way
 difference() {
     translate([0,0,1]) scale([1.02,1.02,1.02]) nose();
     nose();
