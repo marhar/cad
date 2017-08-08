@@ -26,18 +26,26 @@ for line in open(cfgfile).readlines():
 api = 'http://%s/api' % (host)
 headers={'X-Api-Key': apikey}
 
+def watch1():
+    pass
+
+def do_watch():
+    while True:
+        watch1()
 
 if   sys.argv[1] == 'upload': pass
 elif sys.argv[1] == 'download': pass
 elif sys.argv[1] == 'fileinfo': pass
+elif sys.argv[1] == 'watch':
+    do_watch()
 elif sys.argv[1] == 'files':
-    url=api+"/files"
     params={'recursive': 'true'}
     r=requests.get(api+'/files', params=params, headers=headers)
     j=r.json()
     print j['total']
     print j['free']
     fnames = [f['name'] for f in j['files']]
-    #for f in sorted(fnames):
-    #    print f
-    pprint(j['files'])
+    for f in sorted(fnames):
+        print f
+    #pprint(j['files'])
+
