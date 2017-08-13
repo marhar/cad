@@ -12,4 +12,11 @@ G92 E0 ;zero the extruded length
 G1 F200 E3 ;extrude 3mm of feed stock
 G92 E0 ;zero the extruded length again
 G1 F9000
+;;;;;;;;;; test this later
+;; ; The lines below are to prep the nozzle before a print begins
+;; G1 Z0.2 F1200 ; raise nozzle 0.2mm
+;; G92 E0 ; reset extrusion distance
+;; G1 Y10 ; move Y-Axis (bed) 10mm to prep for purge
+;; G1 X100 E12 F600 ; move X-carriage 100mm while purging 12mm of filament
+;; G92 E0 ; reset extrusion distance
 M117 Printing...
