@@ -1,5 +1,12 @@
+N=4;
+SZ=25;
+WW=55;
+HH=30;
+THICKNESS=1;
 difference() {
-    cube([55,100,30]);
-    translate([1,1,1]) cube([53,48,30]);
-    translate([1,50,1]) cube([53,49,30]);
+    cube([WW, SZ*N+1, HH]);
+    for (i = [0:N-1]) {
+        translate([THICKNESS, SZ*i+THICKNESS, THICKNESS])
+            cube([WW-(THICKNESS*2), SZ-(THICKNESS*2-1), HH-THICKNESS]);
+    }
 }
