@@ -29,16 +29,18 @@ module holes() {
     }
 }
 
-BARHT=12;
+BARHT=12;   // bar height
+BARTHK=2;   // bar thickness
+TT=9;       // foam thickness
 module bars() {
     //cube([9,9,9],center=true);
-    translate([-6.5,-19.5,-HH/2]) cube([2,10,BARHT]);
-    translate([4.5,-19.5,-HH/2]) cube([2,10,BARHT]);
-    translate([-6.5,9.5,-HH/2]) cube([2,10,BARHT]);
-    translate([4.5,9.5,-HH/2]) cube([2,10,BARHT]);
+    translate([-6.5,-19.5,-HH/2]) cube([BARTHK,10,BARHT]);
+    translate([TT/2,-19.5,-HH/2]) cube([BARTHK,10,BARHT]);
+    translate([-6.5,9.5,-HH/2]) cube([BARTHK,10,BARHT]);
+    translate([TT/2,9.5,-HH/2]) cube([BARTHK,10,BARHT]);
 
-    translate([4.5,9,-HH/2]) cube([10,2,BARHT]);
-    translate([4.5,-11,-HH/2]) cube([10,2,BARHT]);
-    translate([-10.5,9,-HH/2]) cube([6,2,BARHT]);
-    #translate([-10.5,-11,-HH/2]) cube([6,2,BARHT]);
+    translate([TT/2,9,-HH/2]) cube([10,BARTHK,BARHT]);
+    translate([TT/2,-11,-HH/2]) cube([10,BARTHK,BARHT]);
+    translate([-10.5,9,-HH/2]) cube([6,BARTHK,BARHT]);
+    #translate([-10.5,-11,-HH/2]) cube([6,BARTHK,BARHT]);
 }
