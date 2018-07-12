@@ -1,4 +1,4 @@
-
+// A 68 degree template for aligning f22 vertical stabilizers.
 module angler() {
     difference() {
         cube([20,60,5]);

@@ -1,10 +1,11 @@
 // 2 bolt 19 dia 7 center hole 26 total 27 motor
+$fn=30;
 HH=3.175;
 
 DD=28;
 CENTERD=7;
 BOLTD=2;
-HOLER=9.5;
+HOLER=10;
 
 difference() {
     main();
@@ -15,16 +16,29 @@ module main() {
 cylinder(HH,d=DD,center=true);
     for (i = [0:3]) {
         translate([cos(90*i)*HOLER,sin(90*i)*HOLER,2])
-            cylinder(5,d=2,d2=0,center=true);
+            cylinder(5,d=2,d2=1,center=true);
     }
+    bars();
 }
-
-// 16 19
 
 module holes() {
     cylinder(HH,d=CENTERD,center=true);
     for (i = [0:3]) {
         translate([cos(90*i+45)*HOLER,sin(90*i+45)*HOLER,0])
-            #cylinder(HH,d=BOLTD,center=true);
+            cylinder(HH,d=BOLTD,center=true);
     }
+}
+
+BARHT=12;
+module bars() {
+    //cube([9,9,9],center=true);
+    translate([-6.5,-19.5,-HH/2]) cube([2,10,BARHT]);
+    translate([4.5,-19.5,-HH/2]) cube([2,10,BARHT]);
+    translate([-6.5,9.5,-HH/2]) cube([2,10,BARHT]);
+    translate([4.5,9.5,-HH/2]) cube([2,10,BARHT]);
+
+    translate([4.5,9,-HH/2]) cube([10,2,BARHT]);
+    translate([4.5,-11,-HH/2]) cube([10,2,BARHT]);
+    translate([-10.5,9,-HH/2]) cube([6,2,BARHT]);
+    #translate([-10.5,-11,-HH/2]) cube([6,2,BARHT]);
 }
