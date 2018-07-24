@@ -1,5 +1,10 @@
-// 2 bolt 19 dia 7 center hole 26 total 27 motor
-$fn=30;
+// This is a motor mount for the much-admired Dekan F-22.
+// Mark Harrison, marhar@gmail.com.
+// Creative Common Attribution license.  Share and Enjoy!
+// Information on the F-22 here:
+// https://www.rcgroups.com/forums/showthread.php?740049-F22-Epp-Depron-Parkjet-with-plans
+
+$fn=20;
 HH=3.175;
 
 DD=28;
@@ -13,7 +18,7 @@ difference() {
 }
 
 module main() {
-cylinder(HH,d=DD,center=true);
+    cylinder(HH,d=DD,center=true);
     for (i = [0:3]) {
         translate([cos(90*i)*HOLER,sin(90*i)*HOLER,2])
             cylinder(5,d=2,d2=1,center=true);
@@ -29,7 +34,7 @@ module holes() {
     }
 }
 
-BARHT=12;   // bar height
+BARHT=22;   // bar height
 BARTHK=2;   // bar thickness
 TT=9;       // foam thickness
 module bars() {
@@ -42,5 +47,5 @@ module bars() {
     translate([TT/2,9,-HH/2]) cube([10,BARTHK,BARHT]);
     translate([TT/2,-11,-HH/2]) cube([10,BARTHK,BARHT]);
     translate([-10.5,9,-HH/2]) cube([6,BARTHK,BARHT]);
-    #translate([-10.5,-11,-HH/2]) cube([6,BARTHK,BARHT]);
+    translate([-10.5,-11,-HH/2]) cube([6,BARTHK,BARHT]);
 }
