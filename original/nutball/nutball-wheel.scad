@@ -1,11 +1,11 @@
 $fn=50;
 
 WIDTH=4;
-DIAM=70;
-HUBDIAM=10;
-HOLEDIAM=2;
-THICKNESS_RIM=4;
-THICKNESS_SPOKE=2;
+DIAM=60;
+HUBDIAM=5;
+HOLEDIAM=1;
+THICKNESS_RIM=3;
+THICKNESS_SPOKE=1;
 HUB_HEIGHT=5;
 
 module ring(h,d,thickness) {
@@ -29,7 +29,7 @@ module spoke() {
 
 module hub() {
     cylinder(WIDTH,d=HUBDIAM,center=true);
-    cylinder(HUB_HEIGHT,d=HOLEDIAM*2);
+    //cylinder(HUB_HEIGHT,d=HOLEDIAM*2);
 }
 
 module hole() {

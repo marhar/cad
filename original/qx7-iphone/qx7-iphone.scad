@@ -1,24 +1,28 @@
-dz=3;
+// iphone 83.4mm wide  12mm deep    1000mm or more endpoints
+// 4mm bamboo 5mm rod  85mm width
+
+dz=6;
+dx=185;
+thickness=10;
+phonethickness=12;
 
 module body() {
     union() {
-        cube([70,8,dz]);
-        cube([5,25,dz]);
-        translate([20,0,0]) cube([5,25,dz]);
+        cube([dx,10,dz]);
+        cube([5,thickness+phonethickness+3,dz]);
+        #translate([-2,thickness+phonethickness,0]) cube([10,5,dz]);
+        translate([10+80,0,0]) cube([5,thickness+phonethickness,dz]);
+        #translate([10+80-3,thickness+phonethickness,0]) cube([10,5,dz]);
     }
 }
 
 module holes() {
-        translate([0,0,0]) cylinder(dz,d=3);
-        translate([0,0,0]) cylinder(dz,d=3);
-        translate([0,0,0]) cylinder(dz,d=3);
+        #translate([dx-1.8,thickness/2,0]) cylinder(dz,d=5.2);
+        translate([10,thickness/2,0]) cylinder(dz,d=4);
+        translate([95,thickness/2,0]) cylinder(dz,d=4);
 }
 difference() {
 body();
     holes();
 }
 
-// 83.4mm   12mm     1000
-
-
-// 4mm bamboo 5mm rod  85mm width

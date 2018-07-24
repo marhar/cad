@@ -1,3 +1,7 @@
+// Battery Box for my favorite batteries.
+// Mark Harrison -- marhar@gmail.com
+// Share and Enjoy!
+
 ww=1;    // wall thickness
 dz=34;   // height
 dx=176.5;  // width
