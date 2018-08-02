@@ -19,13 +19,13 @@ difference() {
 module lid() {
     difference() {
         union() {
-            cylinder(2,d=diam+5);
-            cylinder(7,d=diam-2.1);
+            #cylinder(6,d=diam+4);
+            cylinder(10,d=diam);
         }
-        translate([0,0,2]) cylinder(ht,d=diam-4);
+        translate([0,0,2]) cylinder(ht,d=diam-2);
 
     }
 }
 
-//# translate([0,0,165]) rotate([180,0,0]) box();
+// translate([0,0,165]) rotate([180,0,0]) box();
 lid();
