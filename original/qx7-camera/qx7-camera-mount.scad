@@ -1,4 +1,5 @@
 // camera tripod mount for Taranis Q X10
+// needs: 2 3mm bolts, 1 1/4 inch bolt for camera
 
 $fn=30;
 
