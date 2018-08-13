@@ -1,6 +1,6 @@
 // camera tripod mount for Taranis Q X10
 
-$fn=30;
+$fn=50;
 
 ZZ=5;            // thickness
 WW=42;           // main body width
@@ -70,7 +70,7 @@ module top_with_cutout() {
 }
 
 // main body
-module main() {
+module main_safe() {
     difference() {
         cube([WW,HH,ZZ]);
         // top and bottom
@@ -82,6 +82,26 @@ module main() {
         
         translate([WW/2,HH/2,0]) cylinder(ZZ,d=ANTENNA_DIA);
         drillholes();
+    }
+}
+// main body
+module main() {
+    difference() {
+    linear_extrude(ZZ) {
+        intersection() {
+            square([WW,HH]);
+            difference() {
+                offset(-20)offset(20) {
+                    translate([WW/2,0])  scale([1,2.5]) circle(d=WW);
+                    translate([WW/2,HH,0]) scale([1,2.5,1]) circle(d=WW);
+                }
+                translate([WW/2,0])  scale([1,2.5]) circle(d=WW-(10));
+                translate([WW/2,HH,0]) scale([1,2.5,1]) circle(d=WW-(10));
+            }
+        }
+    }
+    translate([WW/2,HH/2,0]) cylinder(ZZ,d=ANTENNA_DIA);
+    drillholes();
     }
 }
 
