@@ -1,11 +1,10 @@
 // camera tripod mount for Taranis Q X10
-// needs: 2 3mm bolts, 1 1/4 inch bolt for camera
 
 $fn=30;
 
 ZZ=5;            // thickness
 WW=42;           // main body width
-HH=97;           // main body height
+HH=107;           // main body height
 
 PADW=10;         // screw pad width
 ANTENNA_DIA=15;  // antenna hole
@@ -15,7 +14,10 @@ BOLT_LEN=20;
 
 // hole for one bolt
 module bolthole() {
-    #cylinder(h=BOLT_LEN,d=BOLT_DIA-.1);
+    cylinder(h=BOLT_LEN,d=BOLT_DIA-.1);
+}
+module fat_bolthole() {
+    cylinder(h=BOLT_LEN,d=BOLT_DIA);
 }
 
 // drill all the bolt and zip tie holes
@@ -39,12 +41,30 @@ module drillholes() {
 module top() {
     difference() {
         union() {
-            cube([WW,ZZ,ZZ]);
+            cube([WW,ZZ,ZZ+3]);
         translate([WW/2,PADW/4,0]) cylinder(ZZ,d=25.4/2);            
         }
-        translate([2.5,2.5,2.5])  bolthole();
-        translate([37+2.5,2.5,2.5]) bolthole();
-        translate([WW/2,PADW/4,0]) cylinder(ZZ,d=25.4/4);            
+        translate([2.5,2.5,0])  bolthole();
+        translate([37+2.5,2.5,0]) bolthole();
+        translate([WW/2,PADW/4,0]) cylinder(ZZ,d=25.4/4);
+    }
+}
+
+// top bar
+
+BAR_HT=ZZ+3;
+module top_with_cutout() {
+    difference() {
+        union() {
+            cube([WW,ZZ,BAR_HT]);
+            translate([WW/2,PADW/4,0]) cylinder(BAR_HT,d=25.4/2);            
+        }
+        translate([2.5,2.5,0])  fat_bolthole();
+        translate([37+2.5,2.5,0]) fat_bolthole();
+        translate([WW/2,PADW/4,0]) cylinder(BAR_HT,d=25.4/4);
+        #translate([ZZ/2,ZZ/2,BAR_HT-2.5])  cylinder(8,d=7.2);
+        #translate([37+ZZ/2,ZZ/2,BAR_HT-2.5])  cylinder(8,d=7.2);
+        
 
     }
 }
@@ -54,8 +74,8 @@ module main() {
     difference() {
         cube([WW,HH,ZZ]);
         // top and bottom
-        translate([WW/2,0,0])  scale([1,1.9,1]) cylinder(ZZ,d=WW-(PADW));
-        translate([WW/2,HH,0]) scale([1,1.9,1]) cylinder(ZZ,d=WW-(PADW));
+        translate([WW/2,0,0])  scale([1,2.5 ,1]) cylinder(ZZ,d=WW-(PADW));
+        translate([WW/2,HH,0]) scale([1,2.5,1]) cylinder(ZZ,d=WW-(PADW));
         // sides
         translate([0,HH/2,0]) scale([1,1.8,1]) cylinder(ZZ,r=WW-(2*ANTENNA_DIA));
         translate([WW,HH/2,0]) scale([1,1.8,1]) cylinder(ZZ,r=WW-(2*ANTENNA_DIA));
@@ -67,7 +87,7 @@ module main() {
 
 module all() {
     translate([0,10,0]) main();
-    top();
+    //top_with_cutout();
 }
 
 all();
