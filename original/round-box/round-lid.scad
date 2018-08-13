@@ -19,8 +19,8 @@ difference() {
 module lid() {
     difference() {
         union() {
-            #cylinder(6,d=diam+4);
-            cylinder(10,d=diam);
+            cylinder(6,d=diam+4);
+            #cylinder(10,d=diam-.2);
         }
         translate([0,0,2]) cylinder(ht,d=diam-2);
 
