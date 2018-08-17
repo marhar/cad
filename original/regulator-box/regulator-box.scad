@@ -1,3 +1,5 @@
+// Case for LM 2596 Adjustable Voltage Power Supply LED Step Down Converter.
+
 $fn=50;
 IW=62;      // interior width
 IH=34.5;      // interior height
@@ -6,7 +8,7 @@ ZZ=12;
 ZZX=3;      // extra zz
 CURVE_D=2;
 
-module RoundedCube(x,y,z,d) {
+module rounded_cube(x,y,z,d) {
     translate([d/2,d/2,d/2]) {
         minkowski() {
             cube([x-d,y-d,z-d]);
@@ -15,9 +17,9 @@ module RoundedCube(x,y,z,d) {
     }
 }
 
-module mainbox() {
+module main_box() {
     difference() {
-        RoundedCube(IW+WALL*2,IH+WALL*2,ZZ+WALL+ZZX,CURVE_D);
+        rounded_cube(IW+WALL*2,IH+WALL*2,ZZ+WALL+ZZX,CURVE_D);
         translate([WALL,WALL,WALL]) cube([IW,IH,ZZ+ZZX]);
     }
 }
@@ -31,6 +33,7 @@ module onebolt() {
         translate([BOLTSZ/2,BOLTSZ/2,0]) cylinder(ZZ+ZZX,d=BOLTDIA);
     }
 }
+
 module boltz() {
     translate([WALL,WALL,WALL]) onebolt();
     translate([WALL+IW-BOLTSZ,WALL,WALL]) onebolt();
@@ -62,10 +65,10 @@ module pokeholes() {
     translate([WALL+POKE_XXB,WALL+POKE_YY,0]) cylinder(WALL,d=POKE_DIA);
 }
 
-module main() {
+module body() {
     difference() {
         union() {
-            mainbox();
+            main_box();
             boltz();
         }
         wireholes();
@@ -74,4 +77,13 @@ module main() {
     }
 }
 
-main();
+module back() {
+    cube([IW,IH,WALL]);
+}
+
+module all() {
+    body();
+    translate([WALL,IH+10,0]) back();
+}
+
+all();
