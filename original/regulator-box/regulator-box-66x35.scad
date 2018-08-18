@@ -1,10 +1,10 @@
 // Case for LM 2596 Adjustable Voltage Power Supply LED Step Down Converter.
 
 $fn=50;
-IW=62;      // interior width
-IH=34.5;      // interior height
+IW=66.3;      // interior width
+IH=35.5;      // interior height
 WALL=2;     // wall
-ZZ=12;
+ZZ=14.3;
 ZZX=3;      // extra zz
 ZZX2=3;
 CURVE_D=6;
@@ -63,7 +63,7 @@ POKE_XXB=49;
 POKE_YY=3;
 module pokeholes() {
     translate([WALL+POKE_XXA,WALL+POKE_YY,0]) cylinder(WALL,d=POKE_DIA);
-    translate([WALL+POKE_XXB,WALL+POKE_YY,0]) cylinder(WALL,d=POKE_DIA);
+    //translate([WALL+POKE_XXB,WALL+POKE_YY,0]) cylinder(WALL,d=POKE_DIA);
 }
 
 module body() {
