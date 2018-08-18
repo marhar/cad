@@ -3,10 +3,11 @@
 $fn=50;
 IW=62;      // interior width
 IH=34.5;      // interior height
-WALL=1;     // wall
+WALL=2;     // wall
 ZZ=12;
 ZZX=3;      // extra zz
-CURVE_D=2;
+ZZX2=3;
+CURVE_D=6;
 
 module rounded_cube(x,y,z,d) {
     translate([d/2,d/2,d/2]) {
@@ -19,12 +20,12 @@ module rounded_cube(x,y,z,d) {
 
 module main_box() {
     difference() {
-        rounded_cube(IW+WALL*2,IH+WALL*2,ZZ+WALL+ZZX,CURVE_D);
-        translate([WALL,WALL,WALL]) cube([IW,IH,ZZ+ZZX]);
+        rounded_cube(IW+WALL*2,IH+WALL*2,ZZ+WALL+ZZX+ZZX2,CURVE_D);
+        translate([WALL,WALL,WALL]) cube([IW,IH,ZZ+ZZX+ZZX2]);
     }
 }
 
-BOLTSZ=5;
+BOLTSZ=6;
 BOLTCLEAR=2;
 BOLTDIA=3;
 module onebolt() {
@@ -56,7 +57,7 @@ module ledhole() {
     translate([WALL+LED_XX,WALL+LED_YY,0]) cube([LED_WW,LED_HT,WALL]);
 }
 
-POKE_DIA=2;
+POKE_DIA=3;
 POKE_XXA=9.5;
 POKE_XXB=49;
 POKE_YY=3;
@@ -78,7 +79,24 @@ module body() {
 }
 
 module back() {
-    cube([IW,IH,WALL]);
+    difference() {
+        translate([.1,.1,0]) cube([IW-.1,IH-.1,WALL]);
+        translate([BOLTSZ/2,BOLTSZ/2,0]) cylinder(WALL,d=BOLTDIA+.1);
+        translate([BOLTSZ/2,IH-BOLTSZ/2,0]) cylinder(WALL,d=BOLTDIA+.1);
+        translate([IW-BOLTSZ/2,BOLTSZ/2,0]) cylinder(WALL,d=BOLTDIA+.1);
+        translate([IW-BOLTSZ/2,IH-BOLTSZ/2,0]) cylinder(WALL,d=BOLTDIA+.1);
+
+        // TODO: fix hard coded numbers
+        translate([BOLTSZ/2,BOLTSZ/2,1]) cylinder(WALL,d=7);
+        translate([BOLTSZ/2,IH-BOLTSZ/2,1]) cylinder(WALL,d=7);
+        translate([IW-BOLTSZ/2,BOLTSZ/2,1]) cylinder(WALL,d=7);
+        translate([IW-BOLTSZ/2,IH-BOLTSZ/2,1]) cylinder(WALL,d=7);
+
+        #translate([0,0,1]) cube([3,3,WALL]);
+        #translate([IW-3,IH-3,1]) cube([3,3,WALL]);
+        #translate([0,IH-3,1]) cube([3,3,WALL]);
+        #translate([IW-3,0,1]) cube([3,3,WALL]);
+    }
 }
 
 module all() {
