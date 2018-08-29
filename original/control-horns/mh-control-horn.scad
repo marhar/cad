@@ -13,6 +13,7 @@ module bottom() {
 }
 
 module holes_in_bottom() {
+     rotate([0,0,90]) translate([3,-16,-1]) c8();
 }
 
 module top() {
@@ -44,11 +45,23 @@ module wing() {
 }
 
 module holes_in_wing() {
+    translate([1,2.9,-1.8]) rotate([20,0,0]) rotate([0,0,90]) translate([7,-16,3.5]) c8();
 }
 
 module main() {
     body();
     difference() { wing(); holes_in_wing(); }
+}
+
+module c4() {
+    for (i = [0:3]) {
+        #translate([0,i*4,0]) rotate([0,-30,0]) cylinder(7,d=1.8);
+
+    }
+}
+module c8() {
+    c4();
+    translate([2,2,0]) c4();
 }
 
 main();
