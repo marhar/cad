@@ -59,9 +59,11 @@ module c4() {
 
     }
 }
+
 module c8() {
     c4();
     translate([2,2,0]) c4();
 }
 
 main();
+translate([0,-2,0]) mirror([0,-1,0]) main();
