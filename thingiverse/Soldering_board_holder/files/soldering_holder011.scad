@@ -3,6 +3,10 @@
 // Version: 1.1
 // Licence: CC-SA
 //
+// Version 1.2 by Mark Harrison
+// made a main() module to make it easier to print a matched pair.
+// Same license.
+//
 
 // CUSTOMIZE PARAMETERS:
 
@@ -31,27 +35,35 @@ module pusher() {
     polygon(push);
 }
 
+module main() {
+    difference() {
+        union() {
+            linear_extrude(ht)
+                polygon(poly);
+            linear_extrude(ht)
+                translate([15,-5,0]) pie_slice(35,90);
+        }
 
-difference() {
-    union() {
-        linear_extrude(ht)
-            polygon(poly);
-        linear_extrude(ht)
-            translate([15,-5,0]) pie_slice(35,90);
+        for(a=[0:90/5:90]) {
+            translate([15,0,ht-3])
+                rotate([0,0,-a])
+                translate([-0.5,0,0])
+                    cube([2,50,4.1]);
+        }
+
+        translate([14.5,-1.5,ht-3]) {
+            linear_extrude(4.1) pie_slice(10,90);
+            translate([.5,0.5,0]) cylinder(r=1.6,h=4.1,$fn=40);
+        }
     }
 
-    for(a=[0:90/5:90]) {
-        translate([15,0,ht-3])
-            rotate([0,0,-a])
-            translate([-0.5,0,0])
-                cube([2,50,4.1]);
-    }
-
-    translate([14.5,-1.5,ht-3]) {
-        linear_extrude(4.1) pie_slice(10,90);
-        translate([.5,0.5,0]) cylinder(r=1.6,h=4.1,$fn=40);
-    }
+    translate([-4-tt,0,0]) pusher();
 }
 
-translate([-4-tt,0,0]) pusher();
+module pair() {
+    main();
+    translate([0,-30,0]) rotate([0,0,180]) mirror([1,0,0]) main();
+}
 
+// main();
+pair();
