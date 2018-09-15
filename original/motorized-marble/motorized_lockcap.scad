@@ -3,27 +3,37 @@
 $fn=100;
 
 // TODO: eliminate import
-module chopped_lockcap() {
+module chopped_lockcap0() {
   difference() {
     translate([0,0,-110]) import("Lockcap.stl");
     //translate([0,0,-5]) cylinder(5, d=100);
   }
 }
 
+module chopped_lockcap() {
+    ZZ=10;
+    D1=40;
+    D3=15.7;
+    difference() {
+        cylinder(ZZ,d=D1);
+        cylinder(ZZ,d=D3);
+    }
+}
+
 module screw_holes() {
   for (i=[-1,1]) {
-    translate([i*35/2,-8,-10]) cylinder(20,d=2.9);
+    translate([i*35/2,-8,-10]) cylinder(30,d=2.9);
   }
 }
 
 module extensions() {
   difference() {
     cylinder(1,d=40);
-    #cylinder(1,d=15.7);
+    cylinder(1,d=15.7);
   }
   for (i=[-1,1]) {
-    translate([i*35/2,-8,0]) cylinder(3,d=5);
-    translate([i*35/2,-8,3]) cylinder(6,d1=5,d2=0);
+    translate([i*35/2,-8,0]) cylinder(7,d=5);
+    translate([i*35/2,-8,7]) cylinder(6,d1=5,d2=0);
   }
 }
 
@@ -37,5 +47,15 @@ module lockcap() {
   }
 }
 
-//extensions();
+module lockcap0() {
+  difference() {
+    union() {
+      chopped_lockcap0();
+      extensions();
+    }
+    screw_holes();
+  }
+}
+
 lockcap();
+translate([50,0,0]) lockcap0();
