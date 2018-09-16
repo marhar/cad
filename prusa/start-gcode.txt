@@ -5,16 +5,24 @@ M204 S1250 T1250 ; sets acceleration (S) and retract acceleration (T)
 M205 X10 Y10 Z0.4 E2.5 ; sets the jerk limits, mm/sec
 M205 S0 T0 ; sets the minimum extruding and travel feed rate, mm/sec
 M83  ; extruder relative mode
+;
 M104 S[first_layer_temperature] ; set extruder temp
 M140 S[first_layer_bed_temperature] ; set bed temp
+;
+G1 Z30
+G1 X230 Y-3.0 Z50 F1000.0 ; go outside print area to wait for drip
+;
 M190 S[first_layer_bed_temperature] ; wait for bed temp
 M109 S[first_layer_temperature] ; wait for extruder temp
-G28 W ; home all without mesh bed level
+;
 ;
 ; try 230 to 200 for first wipe
-G1 X230 Y-3.0 F1000.0 ; go outside print area MH
+G1 X230 Y-3.0 Z0 F1000.0 ; go outside print area MH
 G92 E0.0 ; MH
 G1 X200.0 E12.5  F1000.0 ; intro line MH
+;
+G1 Z30
+G28 W ; home all without mesh bed level
 ;
 G80 ; mesh bed leveling
 G1 Y-3.0 F1000.0 ; go outside print area
