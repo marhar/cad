@@ -1,5 +1,5 @@
 $fn=40;
-ZZ=2.5;
+ZZ=1.5;
 ZZ2=9;
 
 module bottom() {
@@ -45,7 +45,7 @@ module wing() {
 }
 
 module holes_in_wing() {
-    translate([1,2.9,-1.8]) rotate([20,0,0]) rotate([0,0,90]) translate([7,-16,3.5]) c8();
+    translate([1,2.9,-2.1]) rotate([20,0,0]) rotate([0,0,90]) translate([7,-16,3.5]) c8();
 }
 
 module main() {
@@ -65,5 +65,10 @@ module c8() {
     translate([2,2,0]) c4();
 }
 
+module reversed() {
+    main();
+    translate([0,-2,0]) mirror([0,-1,0]) main();
+}
+
 main();
-translate([0,-2,0]) mirror([0,-1,0]) main();
+reversed();
