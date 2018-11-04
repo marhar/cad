@@ -1,6 +1,8 @@
+// wheel_rear_pt1
 //translate([100,100,0]) import("../rover/wheel_rear_pt1.stl");
 
 include <constants.scad>
+include <wheel_constants.scad>
 $fn=50;
 wheelDiam=18;
 innerDiam=7;
