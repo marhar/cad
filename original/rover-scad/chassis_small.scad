@@ -37,9 +37,13 @@ module axle() {
 mmWid=44;
 mmLen=5;
 mmHt=14;
+zzBoltHole=2;
 
 module motorMount() {
-    cube([mmWid,mmLen,mmHt]);
+    difference() {
+        cube([mmWid,mmLen,mmHt]);
+        #translate([0,mmLen/2,mmHt/2+chasHt-zzBoltHole/2])rotate([0,90,0]) cylinder(mmWid,d=zzBoltHole);
+    }
 }
 
 module hexnut() {
@@ -69,7 +73,7 @@ module chassis_small() {
         }
         translate([chasWid/2,0,0]) cylinder(chasHt,d=2.5);
         translate([chasWid/2,0,1]) hexnut();
-        #translate([0,-1,chasHt]) underbody();
+        translate([0,-1,chasHt]) underbody();
     }
 }
 

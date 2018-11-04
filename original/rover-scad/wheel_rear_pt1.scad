@@ -1,11 +1,9 @@
-// wheel_rear_pt1
 //translate([100,100,0]) import("../rover/wheel_rear_pt1.stl");
 
 include <constants.scad>
-include <wheel_constants.scad>
 $fn=50;
 wheelDiam=18;
-innerDiam=7;
+innerDiam=8;
 pegDiam=3;
 pegHt=13;
 wheelHt=4.5;
@@ -32,8 +30,8 @@ module wheel_rear_pt1() {
         cylinder(wheelHt,d=innerDiam);
         translate([0,0,innerHt]) cutout();
     }
-    translate([0,pegOffset,0]) cylinder(pegHt,d=pegDiam);
-    translate([0,-pegOffset,0]) cylinder(pegHt,d=pegDiam);
+    translate([0,pegOffset,0]) cylinder(pegHt,d=pegDiam-iota);
+    translate([0,-pegOffset,0]) cylinder(pegHt,d=pegDiam-iota);
 }
 
 wheel_rear_pt1();
