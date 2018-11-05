@@ -10,7 +10,6 @@ module holder() {
 module axle() {
 }
 
-module main() {
+module chassis_large() {
     base();
 }
-main();

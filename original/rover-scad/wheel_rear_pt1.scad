@@ -1,4 +1,4 @@
-//translate([100,100,0]) import("../rover/wheel_rear_pt1.stl");
+// wheel_rear_pt1
 
 include <constants.scad>
 include <wheel_constants.scad>
@@ -28,5 +28,3 @@ module wheel_rear_pt1() {
     translate([0,pegOffset,0]) cylinder(pegHt,d=pegDiam-iota);
     translate([0,-pegOffset,0]) cylinder(pegHt,d=pegDiam-iota);
 }
-
-wheel_rear_pt1();

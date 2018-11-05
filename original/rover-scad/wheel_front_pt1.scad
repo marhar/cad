@@ -17,5 +17,3 @@ module wheel_front_pt1() {
         }
     }
 }
-
-wheel_front_pt1();

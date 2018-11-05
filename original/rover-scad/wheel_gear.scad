@@ -25,6 +25,3 @@ module wheel_gear() {
         }
     }
 }
-
-//translate([100,-50,0]) import("../rover/wheel_rear_pt2.stl");
-//wheel_gear();

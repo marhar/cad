@@ -15,6 +15,3 @@ module wheel_rear_pt2() {
         translate([0,-pegOffset,0]) cylinder(pegHt,d=pegDiam+iota);
     }
 }
-
-//translate([100,-50,0]) import("../rover/wheel_rear_pt2.stl");
-wheel_rear_pt2();

@@ -16,6 +16,3 @@ module wheel_front_pt2() {
         cylinder(12.5,d=screwholeDiam);
     }
 }
-
-//translate([100,0,0]) import("../rover/wheel_front.stl");
-wheel_front_pt2();

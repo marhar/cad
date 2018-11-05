@@ -1,7 +1,5 @@
 // chassis_small
 
-//translate([80,104,0]) import("../rover/chassis_small.stl");
-
 include <constants.scad>
 
 chasHt=3;
@@ -76,5 +74,3 @@ module chassis_small() {
         translate([0,-1,chasHt]) underbody();
     }
 }
-
-chassis_small();
