@@ -4,8 +4,6 @@ include <constants.scad>
 include <wheel_constants.scad>
 include <wheel_gear.scad>
 
-screwholeDiam=2;
-
 module wheel_front() {
     difference() {
         union() {
