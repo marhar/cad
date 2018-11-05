@@ -1,9 +1,8 @@
 //translate([100,100,0]) import("../rover/wheel_rear_pt1.stl");
 
 include <constants.scad>
-$fn=50;
 wheelDiam=18;
-innerDiam=8;
+innerDiam=7.3;
 pegDiam=3;
 pegHt=13;
 wheelHt=4.5;

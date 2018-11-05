@@ -1,5 +1,4 @@
 // wheel_front
-//translate([100,0,0]) import("../rover/wheel_front.stl");
 
 include <constants.scad>
 include <wheel_constants.scad>
@@ -18,4 +17,5 @@ module wheel_front() {
     }
 }
 
+//translate([100,0,0]) import("../rover/wheel_front.stl");
 wheel_front();

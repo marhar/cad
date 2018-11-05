@@ -1,10 +1,9 @@
-// wheel_rear_pt2:  done, needs gear
-//translate([100,-20,0]) import("../rover/wheel_rear_pt2.stl");
+// wheel_rear_pt2
 
 include <constants.scad>
 include <wheel_constants.scad>
-
 include <wheel_gear.scad>
+
 innerDiam=7;
 pegHt=13;
 innerHt=2.7;
@@ -25,4 +24,5 @@ module wheel_rear_pt2() {
     }
 }
 
+//translate([100,-50,0]) import("../rover/wheel_rear_pt2.stl");
 wheel_rear_pt2();
