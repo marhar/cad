@@ -31,7 +31,7 @@ module front_wedge(dtop,width,height) {
 //### dont make a wedge, make a cube and rotate it in
 //### have another cube that hold screw holes 
 
-
+//**** can nuke dtop
 module body(dbase,dtop,width,height,radius,wall) {
   difference() {
     bod0(dbase,width,height,radius,wall);
@@ -47,11 +47,12 @@ difference() {
   cutterDepth=50;
   fakeOffset=20;
   body(dbase,dtop,width,height,radius,wall);
-  #rotate([-angle,0,0])translate([0,-cutterDepth,0])
+  rotate([-angle,0,0])translate([0,-cutterDepth,0])
     cube([width,cutterDepth,height+fakeOffset/*height*cos(angle)*/]);
 // now make cube with screwhole outies to merge into main
 }
 }
 
-sliced_body(65,35,90,85,5,3,20);
+sliced_body(30,30,40,25,5,3,20);
+//sliced_body(65,35,90,85,5,3,20);
 //rotate([90,0,90]) import("Case.STL");
