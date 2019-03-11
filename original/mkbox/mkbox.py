@@ -7,7 +7,8 @@ can_y = 142
 can_z = 173
 can_gap = 1    # leave this gap between the box and can walls
 
-wall=1;        # thickness of wall being printed
+wall=1         # thickness of wall being printed
+floor = wall   # thickness of floor being printed
 
 # internal maximum box
 box_max_x = can_x - 2 * can_gap
@@ -32,10 +33,7 @@ def x_generic(txt, n_x, n_y, bat_x, bat_y, box_z, hole_offset=None, box_x=None, 
 
     print 'difference() {'
     print '  cube([%f,%f,%f]);' % (box_x,box_y,box_z);
-
-    # if n_y is odd
-    # if n_y is even
-    #   leave gap in middle
+    print '  #translate([%f,%f,0]) rotate([0,0,180]) translate([1,1,0]) emboss_text(text="%s",size=5,height=.5);' % (box_x,box_y,txt)
 
     for rr in range(n_x):
         for cc in range(n_y):
@@ -52,11 +50,27 @@ def x_generic(txt, n_x, n_y, bat_x, bat_y, box_z, hole_offset=None, box_x=None, 
 
 #-----------------------------------------------------------------------
 def x_3s_500():
-    x_generic("3s500", n_x = 2, n_y = 7, bat_x = 32.5, bat_y = 17.5, box_z=20, hole_offset=5)
+    x_generic("3s500", n_x = 2, n_y = 7, bat_x = 32.5, bat_y = 17.5, box_z=30, hole_offset=5)
+
+#-----------------------------------------------------------------------
+def x_3s_2100():
+    x_generic("3s2100", n_x = 3, n_y = 4, bat_x = 35, bat_y = 31, box_z=30, hole_offset=5)
+
+#-----------------------------------------------------------------------
+def x_2s_300():
+    x_generic("2s300", n_x = 2, n_y = 9, bat_x = 20.5, bat_y = 13.5, box_z=30, hole_offset=5)
 
 #-----------------------------------------------------------------------
 def prelude():
-    pass
+    print """
+
+module emboss_text(text="",size=10,height=.5, vbump=0) {
+    linear_extrude(height)
+        mirror()
+            translate([0,vbump,0])
+                text(text,size,valign="bottom",halign="right");
+}
+"""
 
 #-----------------------------------------------------------------------
 def postlude():
@@ -65,7 +79,10 @@ def postlude():
 #-----------------------------------------------------------------------
 def main():
     prelude()
-    x_3s_500()
+    #x_3s_500()
+    #x_4s_1800()
+    #x_3s_2100()
+    x_2s_300()
     postlude()
 main()
 
