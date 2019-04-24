@@ -3,10 +3,9 @@ include <wheel_front.scad>
 include <wheel_rear_pt1.scad>
 include <wheel_rear_pt2.scad>
 
-translate([0,0,0]) chassis_small();
-translate([100,0,0]) wheel_front();
-translate([100,30,0]) wheel_rear_pt1();
-translate([100,60,0]) wheel_rear_pt2();
-translate([130,0,0]) wheel_front();
-translate([130,30,0]) wheel_rear_pt1();
-translate([130,60,0]) wheel_rear_pt2();
+translate([-25,0,0]) chassis_small();
+for (x=[-45,45]) {
+    translate([x,25,0]) wheel_front();
+    translate([x,53,0]) wheel_rear_pt1();
+    translate([x,80,0]) wheel_rear_pt2();
+}

@@ -12,47 +12,55 @@ module hplate(dd,ww,rr) {
   }
 }
 
-module bod0(dbase,ww,ht,rr,wall) {
+module bod0(depth,ww,ht,rr,wall) {
   hull() {
-    linear_extrude(1) hplate(dbase,ww,rr,wall);
-    translate([0,0,ht]) linear_extrude(1) hplate(dbase,ww,rr);
+    linear_extrude(1) hplate(depth,ww,rr,wall);
+    translate([0,0,ht]) linear_extrude(1) hplate(depth,ww,rr);
   }
 }
 
-module front_wedge(dtop,width,height) {
-  hull() {
-    translate([0,0,height])
-      linear_extrude(1) square([width,dtop]);
-    linear_extrude(iota) square([width,iota]);
-  }
-}
-
-
-//### dont make a wedge, make a cube and rotate it in
-//### have another cube that hold screw holes 
-
-//**** can nuke dtop
-module body(dbase,dtop,width,height,radius,wall) {
+module body(depth,width,height,radius,wall) {
   difference() {
-    bod0(dbase,width,height,radius,wall);
+    bod0(depth,width,height,radius,wall);
     translate([wall,0,wall])
-      bod0(dbase-wall,,width-wall*2,height-wall,
+      bod0(depth-wall,width-wall*2,height-wall,
            radius-wall,wall);
-    //front_wedge(dtop,width,height);
   }
 }
 
-module sliced_body(dbase,dtop,width,height,radius,wall,angle) {
-difference() {
-  cutterDepth=50;
-  fakeOffset=20;
-  body(dbase,dtop,width,height,radius,wall);
-  rotate([-angle,0,0])translate([0,-cutterDepth,0])
-    cube([width,cutterDepth,height+fakeOffset/*height*cos(angle)*/]);
-// now make cube with screwhole outies to merge into main
-}
+module holething(width,height,angle,offsets) {
+  CYHT=6;
+  CYRAD=5;
+  rotate([90-angle,0,0])
+  mirror([0,0,1])
+  difference() {
+    union() {
+      //cube([width,height,1]);
+      for (offset=offsets) {
+        translate([CYRAD,CYRAD+offset,0]) cylinder(CYHT,r=CYRAD);
+        translate([width-CYRAD,CYRAD+offset,0]) cylinder(CYHT,r=CYRAD);
+      }
+    }
+    for (offset=offsets) {
+      translate([CYRAD,CYRAD+offset,0]) cylinder(CYHT,r=2);
+      translate([width-CYRAD,CYRAD+offset,0]) cylinder(CYHT,r=2);
+    }
+  }
 }
 
-sliced_body(30,30,40,25,5,3,20);
-//sliced_body(65,35,90,85,5,3,20);
+module sliced_body(depth,width,height,radius,wall,angle) {
+  holething(width,height,angle,[10,70]);
+  difference() {
+    cutterDepth=30;
+    body(depth,width,height,radius,wall);
+    //TODO: figure out cutterDepth as fn of angle
+    //TODO: figure out cube Z as fn of angle
+    rotate([-angle,0,0])translate([0,-cutterDepth,0])
+      cube([width,cutterDepth,wall+height/cos(angle)]);
+  // now make cube with screwhole outies to merge into main
+  }
+}
+
+//sliced_body(30,40,25,5,3,20);
+sliced_body(65,90,85,5,3,20);
 //rotate([90,0,90]) import("Case.STL");

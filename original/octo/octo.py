@@ -34,6 +34,8 @@ def do_watch():
         watch1()
 
 if   sys.argv[1] == 'upload': pass
+if   sys.argv[1] == 'upload': pass
+elif sys.argv[1] == 'print': pass
 elif sys.argv[1] == 'download': pass
 elif sys.argv[1] == 'fileinfo': pass
 elif sys.argv[1] == 'watch':

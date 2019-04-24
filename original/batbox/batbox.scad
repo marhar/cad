@@ -8,13 +8,27 @@
 //                columns, rows, string, comment)
 //----------------------------------------------------------------------
 
+// big box 145w 280h 160 tall
+// 31w 56h 19d chl 3s 500
+
+//box( 33,19,30,2,6,"3s  500",  "zippy and chl");
+//box(36,38,60,3,2,"4s 1800",  "chl");
+//box( 35,30,60,2,4,"3s 2200",  "chl");
+//box(36,29,45,2,4,"3s 1300",  "chl");
+box(36,29,45,4,2,"3s 1300",  "chl");
+//box(17,14,30,2,5,"2s 300", "nonotech");
+
+// with cutout for one eflight 2s 300
+*difference() {
+    box(17,14,30,2,5,"2s 300", "nonotech");
+    #translate([8.5,1.9,1]) cube([17,14.7,50]);
+}
+
 //box( 33,19,20,4,3,"3s  500",  "zippy");
 //box( 33,19,20,3,4,"3s  500",  "zippy");
 //box( 31,28,28,2,4,"3s  850",  "nanotech");
-//box( 38,29,30,3,2,"3s 1300",  "graphene");
 //box( 37,28,35,2,4,"3s 1300",  "nanotech");
-box(39,38,30,3,2,"4s 1800",  "graphene");
-//box( 11,11,11,2,4,"3s 2200",  "nanotech TODO");
+//box(39,38,30,3,2,"4s 1800",  "graphene");
 //box( 47,34,25,2,3,"4s 3300",  "nanotech");
 //box(136,35,20,1,4,"4s 3300 ", "nanotech horiz");
 //box( 37,33,40,3,2,"4s 1800",  "nanotech");
@@ -56,7 +70,7 @@ module box(oxx,oyy,ozz,nxx,nyy,desc,brand) {
             }
             sphere(r=wall);
         }
-        emboss(desc,oxx,oyy);
+        //emboss(desc,oxx,oyy);
     }
 }
 

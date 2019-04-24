@@ -40,7 +40,8 @@ zzBoltHole=2;
 module motorMount() {
     difference() {
         cube([mmWid,mmLen,mmHt]);
-        #translate([0,mmLen/2,mmHt/2+chasHt-zzBoltHole/2])rotate([0,90,0]) cylinder(mmWid,d=zzBoltHole);
+        translate([0,mmLen/2,mmHt/2+chasHt-zzBoltHole/2])
+            rotate([0,90,0]) cylinder(mmWid,d=zzBoltHole);
     }
 }
 
@@ -59,6 +60,11 @@ module underbody() {
     translate([15,0,0]) cube([20,chasLen+2,20]);
 }
 
+
+module logo() {
+        text("arrbot.org",size=7,font="Arial Rounded MT Bold");
+}
+
 module chassis_small() {
     difference() {
         union() {
@@ -72,5 +78,7 @@ module chassis_small() {
         translate([chasWid/2,0,0]) cylinder(chasHt,d=2.5);
         translate([chasWid/2,0,1]) hexnut();
         translate([0,-1,chasHt]) underbody();
+        #translate([28,5,2]) rotate([0,0,90]) 
+            linear_extrude(2) logo();
     }
 }

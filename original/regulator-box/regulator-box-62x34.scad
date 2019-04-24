@@ -42,11 +42,19 @@ module boltz() {
     translate([WALL+IW-BOLTSZ,WALL+IH-BOLTSZ,WALL]) onebolt();
 }
 
-
-WH_ZZ=4;
-WH_WID=10;
+FULL_CUTOUT=   1;
+if (FULL_CUTOUT == 1) {
+    WH_ZZ=14;
+    WH_EXTRA=10;
+    WH_WID=10;
+}
+else {
+    WH_ZZ=4;
+    WH_EXTRA=0;
+    WH_WID=10;
+}
 module wireholes() {
-#    translate([0,(IH+2*WALL-WH_WID)/2,WALL+ZZ-WH_ZZ]) cube([WALL*2+IW,WH_WID,WH_ZZ]);
+#    translate([0,(IH+2*WALL-WH_WID)/2,WALL+ZZ-WH_ZZ+WH_EXTRA]) cube([WALL*2+IW,WH_WID,WH_ZZ]);
 }
 
 LED_WW=22;
