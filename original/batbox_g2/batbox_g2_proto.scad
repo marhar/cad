@@ -56,13 +56,11 @@ module battery_inset(bat_x, bat_y, box_z, wall, hole_offset) {
         cube([bat_x-hole_offset+1,bat_y-hole_offset+1,box_z]);
 }
 
-// .1160/.0254 is for #4-40 bolt
-module lift_hole(box_x, box_y, box_z,d1=.1160/.0254,d2=.1160/.0127,h1=5) {
+bolt_diam=3.1;
+module lift_hole(box_x, box_y, box_z) {
     translate([box_x/2,box_y/2,0]) {
         translate([0,0,box_z/2])
-            #cylinder(h=box_z,d=d1,center=true);
-        translate([0,0,h1/2])
-            #cylinder(h=h1,d=d2,center=true);
+            #cylinder(h=box_z,d=bolt_diam,center=true);
     }
 }
 
@@ -115,7 +113,6 @@ module cxbox(txt,n_x,n_y,bat_x,bat_y,
         //    emboss_text(text=txt,size=5 ,height=.5);
         for (rr=[0:n_x-1]) {
             for (cc=[0:n_y/2]) {
-                echo(rr,cc);
                 translate([(wall+bat_x)*rr+wall,(wall+bat_y)*cc*wall+wall,wall])
                     battery_inset(bat_x, bat_y, box_z, wall, hole_offset);
                 translate([(wall+bat_x)*rr+wall,box_y-(wall+bat_y)*(cc+1),wall])
@@ -125,9 +122,10 @@ module cxbox(txt,n_x,n_y,bat_x,bat_y,
     }
 }
 
-cxbox("3s500",n_x=2,n_y=4,bat_x=32.5,bat_y=17.5,box_z=30);
+//cxbox("3s850",n_x=2,n_y=3,bat_x=31,bat_y=29.5,box_z=60);
+//cxbox("3s500",n_x=2,n_y=4,bat_x=32.5,bat_y=19.5,box_z=60);
 //box("3s500",n_x=2,n_y=7,bat_x=32.5,bat_y=17.5,box_z=30);
-//box("3s2100",n_x=3,n_y=4,bat_x=35,bat_y=31,box_z=30);
+box("3s2100",n_x=2,n_y=4,bat_x=35,bat_y=31,box_z=30);
 //box("2s300",n_x=2,n_y=9,bat_x=20.5,bat_y=13.5,box_z=30);
 //box("3s4000",n_x=1,n_y=5,bat_x=49,bat_y=23,box_z=60);
 //box("2s500",n_x=2,n_y=9,bat_x=31,bat_y=14,box_z=25);

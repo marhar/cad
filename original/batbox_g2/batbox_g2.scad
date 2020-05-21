@@ -63,4 +63,7 @@ module b1(nx, ny, batx, baty, cubex=-1, cubey=box_max_y, cubez=30) {
     }
 }
 
-b0(2,7,32.5,17.5);
+//b0(2,7,32.5,17.5);
+
+b0(1,2,36,70,cubez=30);
+
