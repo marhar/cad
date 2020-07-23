@@ -33,7 +33,7 @@ module speakerholes() {
 module screws() {
      translate([0,8,0]) cylinder(10,d=2);
      for (q = [-1,1]) {
-     translate([14*q,8,0]) cylinder(10,d=2);
+        translate([14*q,8,0]) cylinder(10,d=2);
      }
 }
 
@@ -49,15 +49,26 @@ module solid() {
 }
 
 
-module main() {
-    difference() {
-        solid(); 
-        translate([-20,-3,H]) cube([40,40,10]);
-    }
-    translate([50,0,-H]) difference() {
+module top() {
+    translate([0,0,-H]) difference() {
         solid(); 
         translate([-20,-3,0]) cube([40,40,H]);
     }
+}
+module middle() {
+    translate([0,0,-1]) difference() {
+        solid(); 
+        translate([-20,-3,H]) cube([40,40,10]);
+        translate([-20,-3,0]) cube([40,40,1]);
+    }
+}
+module bottom() {
+}
+
+module main() {
+    translate([0,0,0]) top();
+    translate([50,0,0]) middle();
+    translate([100,0,0]) top();
 }
 
 main();
