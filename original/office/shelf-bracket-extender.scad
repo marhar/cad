@@ -1,14 +1,19 @@
 // Shelf bracket extender.
 // Mark Harrison, marhar@gmail.com
 
-// One block should be half the total gap between shelf and cabinet.
-function inch(x) = x * 25.4;
-function block(x) = inch(3/4*x);
+// gap is how much wider the cabinet is than the shelf.
+gap = 1.5;
 
-// Sized to fit Knape & Vogt 256-ZC shelf clip.
+// Pocket is sized to fit Knape & Vogt 256-ZC shelf clip.
 pocket_width = 16.3;
 pocket_height = 6.3;
 pocket_depth = 17;
+
+// One block should be half the total gap between shelf and cabinet.
+
+
+function inch(x) = x * 25.4;
+function block(x) = inch(gap/2*x);
 
 dd=pocket_width*2;
 
