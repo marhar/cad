@@ -1,36 +1,26 @@
-M115 U3.2.1 ; tell printer latest fw version
-M201 X1000 Y1000 Z200 E5000 ; sets maximum accelerations, mm/sec^2
-M203 X200 Y200 Z12 E120 ; sets maximum feedrates, mm/sec
-M204 S1250 T1250 ; sets acceleration (S) and retract acceleration (T)
-M205 X10 Y10 Z0.4 E2.5 ; sets the jerk limits, mm/sec
-M205 S0 T0 ; sets the minimum extruding and travel feed rate, mm/sec
-M83  ; extruder relative mode
-;
+M862.3 P "[printer_model]" ; printer model check
+M862.1 P[nozzle_diameter] ; nozzle diameter check
+M115 U3.9.2 ; tell printer latest fw version
+G90 ; use absolute coordinates
+M83 ; extruder relative mode
 M104 S[first_layer_temperature] ; set extruder temp
 M140 S[first_layer_bed_temperature] ; set bed temp
-;
-G1 Z30
-G1 X230 Y-3.0 Z50 F1000.0 ; go outside print area to wait for drip
-;
-M190 S[first_layer_bed_temperature] ; wait for bed temp
+G1 X-3 Y-3 Z35  ; MH Move head to  convenient drip location
+G1 X-3 Y-3 Z30  ; MH Move head to  convenient drip location
+OCTO21  ; MH Turn on LED
 M109 S[first_layer_temperature] ; wait for extruder temp
-;
-;
-; try 230 to 200 for first wipe
-G1 X230 Y-3.0 Z0 F1000.0 ; go outside print area MH
-G92 E0.0 ; MH
-G1 X200.0 E12.5  F1000.0 ; intro line MH
-;
-G1 Z30
+M300 S100 P10 ; Beep
+M190 S[first_layer_bed_temperature] ; wait for bed temp
+OCTO22 ; MH Turn off LED
 G28 W ; home all without mesh bed level
-;
 G80 ; mesh bed leveling
 G1 Y-3.0 F1000.0 ; go outside print area
 G92 E0.0
-G1 X60.0 E9.0  F1000.0 ; intro line
-G1 X100.0 E12.5  F1000.0 ; intro line
-;
-G1 X140.0 E12.5  F1000.0 ; intro line MH
-;
+G1 X60.0 E9.0 F1000.0 ; intro line
+G1 X100.0 E12.5 F1000.0 ; intro line
 G92 E0.0
-M221 S{if layer_height==0.05}100{else}95{endif}
+M221 S{if layer_height<0.075}100{else}95{endif}
+
+; Don't change E values below. Excessive value can damage the printer.
+{if print_settings_id=~/.*(DETAIL @MK3|QUALITY @MK3).*/}M907 E430 ; set extruder motor current{endif}
+{if print_settings_id=~/.*(SPEED @MK3|DRAFT @MK3).*/}M907 E538 ; set extruder motor current{endif}
