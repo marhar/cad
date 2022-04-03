@@ -1,0 +1,16 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "$fn": "100",
+            "BAT_X": "93",
+            "BAT_Y": "78",
+            "CYL_DIAM": "95",
+            "FLOOR": "5",
+            "OVAL_SCALE": "2",
+            "POST_DIAM": "32",
+            "SCREW_HOLES": "[15, 80]",
+            "bottom_piece": "true"
+        }
+    }
+}
