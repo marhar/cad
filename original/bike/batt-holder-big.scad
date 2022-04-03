@@ -10,93 +10,79 @@ use <bracket.scad>
 
 $fn=100;
 
-//DD=59;
-//DX=70;
-//DY=40;
-DX=93;
-DY=78;
-DD=95;
+//CYL_DIAM=59;
+//BAT_X=70;
+//BAT_Y=40;
 
-oval_scale=2;
+BAT_X=93;
+BAT_Y=78;
+CYL_DIAM=95;
+OVAL_SCALE=2;
 
-ADX=DX-7;
-ADY=DY-7;
+FLOOR=5; // Depth of floor
+SCREW_HOLES=[15,80];
 
-FLOOR=5;
-
-xstat = false;
-if (xstat) {
-  vv=12;
-cube([vv,vv,vv]);
-}
+POST_DIAM=32;
 
 bottom_piece = true;
 HH = bottom_piece ? 90 : 30;
 wire_hole = bottom_piece ? true : false;
 
-// bottom piece
-//HH=90;
-//wire_hole=true;
-
-// top piece
-//HH=30;
-//wire_hole=false;
-
-
-
-
-module screwmount() {
-  cd=20;
-  ch=5;
-  difference() {
-    cylinder(ch,d=cd);
-    translate([-cd,3,0]) cube([cd*2,cd*2,ch]);
-    translate([0,-cd/4,0]) cylinder(300,d=5.5);
-  }
+module cencube(A) {
+  // centered cube, like cylinder
+  translate([-A.x/2,-A.y/2,0]) cube(A);
 }
 
-module main() {
+module bikebatbox() {
   difference() {
-      scale([oval_scale,1,1]) cylinder(HH,d=DD);
-      // main battery
-      translate([-DX/2,-DY/2,FLOOR]) cube([DX,DY,HH]);
-      // side pockets
-      rotate([0,0,90]) translate([-(DX-20)/2,-(DY-5)/2,FLOOR]) cube([DX-20,DY-5,HH]);
+      // main case
+      union () {
+        scale([OVAL_SCALE,1,1]) cylinder(HH,d=CYL_DIAM);
+        // mounts
+        //for (pos=SCREW_HOLES) {
+        //  zht=10;
+        //  translate([0,BAT_Y/2+10,pos-zht/2])
+        //        cencube([50,20,zht]);
+        //}
+        #translate([0,BAT_Y/2+15,0]) cencube([50,20,HH]);
+      }
+      
+      // battery hole
+      translate([0,0,FLOOR]) cencube([BAT_X,BAT_Y,HH]);
 
+      // post cutout
+      translate([0,BAT_Y/2+20,0]) cylinder(HH,d=POST_DIAM);
+      
       // wire hole
       if (wire_hole) {
-        #translate([DX/2-40,-DY/2,0]) cube([40,DY,HH]);
+        cencube([BAT_X*.8,BAT_Y*.8,FLOOR]);
       }
-      
+
       // screw relief
-      translate([-10,DY/2,FLOOR]) cube([20,3,HH]);
-      
-      // screw holes TODO put into loop
-      translate([0,50,15])rotate([90,0,0]) cylinder(100,d=4);
-      translate([0,50,80])rotate([90,0,0]) cylinder(100,d=4);
-      
-      translate([0,0,15])rotate([90,0,0]) cylinder(100,d=10);
-      translate([0,0,80])rotate([90,0,0]) cylinder(100,d=10);
-    
+      //translate([-10,BAT_Y/2,FLOOR]) cube([20,3,HH]);
+ 
+      // screw holes
+      for (pos=SCREW_HOLES) {
+        //translate([0,50,pos])rotate([90,0,0]) cylinder(100,d=4);
+        //translate([0,0,pos])rotate([90,0,0]) cylinder(100,d=10);
+        #translate([0,0,pos])rotate([-90,0,0]) cylinder(100,d=10);
+        for (qq=[-1,1]) {
+          translate([qq*20,0,pos])rotate([-90,0,0]) cylinder(100,d=6);
+          #translate([qq*20,BAT_Y/2+1,FLOOR]) cencube([10,3,HH]);
+
+        }
+      }
+
       // side choppers
-      translate([60,-40,0]) cube([50,80,HH]);
-      translate([-60-50,-40,0]) cube([50,80,HH]);
-      
-      //tall holes
-      for (i = [-1,1]) {
-          #translate([i*53,0,0]) cylinder(HH,d=5.5);
+      for (qq=[-1,1]) {
+        translate([106*qq,0,0]) cencube([CYL_DIAM,CYL_DIAM,HH]);
+      }
+
+      // bolt holes
+      for (qq = [-1,1]) {
+          translate([qq*53,0,0]) cylinder(HH,d=5.5);
       }
   }
-  //translate([0,-DY+30,0]) screwmount();
-  //translate([0,DY/2+25,0]) halfbracket(30,32,10,2);
-  //translate([0,DY/2,0]) {
-  //  difference() {
-  //    translate([-10,0,0]) cube([30,20,30]);
-  //    #cylinder(30,d=32);
-  //  }
-  //}
-
 }
 
-//screwmount();
-main();
+bikebatbox();
