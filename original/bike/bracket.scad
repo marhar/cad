@@ -18,15 +18,16 @@ module bracket(ht, id, button_diam, button_ht) {
       }
     }
     // slice
-    totwid=100;
-    translate([-totwid/2,-.5,0]) cube([totwid,1,ht]);
+    slice_wid = 100;
+    slice_thickness=.5;
+    translate([-slice_wid/2,-slice_thickness/2,0]) cube([slice_wid,slice_thickness,ht]);
     
     // tail holes
     for (qq=[-1,1]) {
       translate([qq*23,33,ht/2]) rotate([90,0,0]) cylinder(100,d=4);
     }
     
-    // big hole
+    // stud hole
     #translate([0,0,ht/2]) rotate([90,0,0]) cylinder((id+thickness)/2,d=button_diam);
   }
 }
@@ -38,4 +39,4 @@ module halfbracket(ht, id, button_diam, button_ht) {
   }
 }
 
-bracket(15, 32,10,2);
+bracket(30,32,10,2);

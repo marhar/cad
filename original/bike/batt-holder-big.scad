@@ -1,6 +1,13 @@
 // 100 65 37
 // 93 78 big batt
 
+// TODO
+// -- parameterize everything
+// -- big opening top and bottom
+// -- just enough to hold battery in
+
+use <bracket.scad>
+
 $fn=100;
 
 //DD=59;
@@ -17,13 +24,23 @@ ADY=DY-7;
 
 FLOOR=5;
 
+xstat = false;
+if (xstat) {
+  vv=12;
+cube([vv,vv,vv]);
+}
+
+bottom_piece = true;
+HH = bottom_piece ? 90 : 30;
+wire_hole = bottom_piece ? true : false;
+
 // bottom piece
 //HH=90;
 //wire_hole=true;
 
 // top piece
-HH=30;
-wire_hole=false;
+//HH=30;
+//wire_hole=false;
 
 
 
@@ -70,7 +87,15 @@ module main() {
           #translate([i*53,0,0]) cylinder(HH,d=5.5);
       }
   }
-  translate([0,-DY+30,0]) screwmount();
+  //translate([0,-DY+30,0]) screwmount();
+  //translate([0,DY/2+25,0]) halfbracket(30,32,10,2);
+  //translate([0,DY/2,0]) {
+  //  difference() {
+  //    translate([-10,0,0]) cube([30,20,30]);
+  //    #cylinder(30,d=32);
+  //  }
+  //}
+
 }
 
 //screwmount();
