@@ -19,14 +19,21 @@ BAT_Y=78;
 CYL_DIAM=95;
 OVAL_SCALE=2;
 
-FLOOR=5; // Depth of floor
+B10_DIAM=11.1; // #10 bolt diameter with $fn=6
+
+FLOOR=3; // Depth of floor
 SCREW_HOLES=[15,80];
 
-POST_DIAM=32;
+// per-bike parameters
+//POST_DIAM=32;    // xander diagonal
+POST_DIAM=29;    // xander vertical
+
+
+// per-battery parameters
 
 bottom_piece = true;
 HH = bottom_piece ? 90 : 30;
-wire_hole = bottom_piece ? true : false;
+wire_hole = bottom_piece ? true : true;
 
 module cencube(A) {
   // centered cube, like cylinder
@@ -78,9 +85,13 @@ module bikebatbox() {
         translate([106*qq,0,0]) cencube([CYL_DIAM,CYL_DIAM,HH]);
       }
 
-      // bolt holes
+      // vertical bolt holes
       for (qq = [-1,1]) {
-          translate([qq*53,0,0]) cylinder(HH,d=5.5);
+          translate([qq*52,0,0]) {
+            cylinder(HH,d=5.5);
+            rotate([0,0,30]) cylinder(5, d=B10_DIAM, $fn=6);
+          }
+
       }
   }
 }

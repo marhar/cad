@@ -2,7 +2,7 @@
 
 $fn=50;
 
-module bracket(ht, id, button_diam, button_ht) {
+module bracket(ht, id, button_diam, button_ht, offset) {
   thickness=4;
   difference() {
     union() {
@@ -14,13 +14,13 @@ module bracket(ht, id, button_diam, button_ht) {
       hang=12;
       for (qq=[-1,1]) {
         translate([qq*(id/2+hang/2),0,0])
-          translate([-hang/2,-thickness/2,0]) cube([hang,thickness,ht]);
+          translate([-hang/2,-thickness/2+offset,0]) cube([hang,thickness,ht]);
       }
     }
     // slice
     slice_wid = 100;
     slice_thickness=.5;
-    translate([-slice_wid/2,-slice_thickness/2,0]) cube([slice_wid,slice_thickness,ht]);
+    #translate([-slice_wid/2,-slice_thickness/2+offset,0]) cube([slice_wid,slice_thickness,ht]);
     
     // tail holes
     for (qq=[-1,1]) {
@@ -28,15 +28,15 @@ module bracket(ht, id, button_diam, button_ht) {
     }
     
     // stud hole
-    #translate([0,0,ht/2]) rotate([90,0,0]) cylinder((id+thickness)/2,d=button_diam);
+    //translate([0,0,ht/2]) rotate([90,0,0]) cylinder((id+thickness)/2,d=button_diam);
   }
 }
 
-module halfbracket(ht, id, button_diam, button_ht) {
+module halfbracket(ht, id, button_diam, button_ht, offset) {
   difference() {
-    bracket(ht, id, button_diam, button_ht);
-    translate([-id,0,0]) cube([id*2,id*2,ht]);
+    bracket(ht, id, button_diam, button_ht, offset);
+    translate([-id,offset,0]) cube([id*2,id*2,ht]);
   }
 }
 
-bracket(30,32,10,2);
+halfbracket(20,30,10,2,-5);
