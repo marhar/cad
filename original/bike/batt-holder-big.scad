@@ -1,40 +1,33 @@
-// 100 65 37
-// 93 78 big batt
-
-// TODO
-// -- parameterize everything
-// -- big opening top and bottom
-// -- just enough to hold battery in
-
+// tube mounted battery holder.
 
 $fn=50;
-
-//CYL_DIAM=59;
-//BAT_X=70;
-//BAT_Y=40;
-
-BAT_X=93;
-BAT_Y=78;
-CYL_DIAM=95;
-OVAL_SCALE=2;
-
-B10_DIAM=11.1; // #10 bolt diameter with $fn=6
-zzzzz=5.5;
-
-FLOOR=3; // Depth of floor
-SCREW_HOLES=[15,80];
 
 // per-bike parameters
 //POST_DIAM=32;    // xander diagonal
 POST_DIAM=29;    // xander vertical
-STUD_DIAM=12;    // 10 normal?
-
+STUD_DIAM=12;    // 10 is normal? vertical is bigger?
+SCREW_HOLES=[15,80]; // stud hole positions
+// TODO: fix one stud hole at +15, so every piece has at least one
+//       then specify additional stud holes?  also rename to STUD_HOLES
 
 // per-battery parameters
 
+//BAT_X=70;           // small one
+//BAT_Y=40;
+//CYL_DIAM=59;
+//OVAL_SCALE=2;
+
+BAT_X=93;             // big one
+BAT_Y=78;
+CYL_DIAM=95;
+OVAL_SCALE=2;
+
+B10_DIAM=11.1; // #10-24 hex bolt diameter with $fn=6
+B10_HOLE=6;    // #10-24 threaded rod diameter
+FLOOR=3;             // Depth of floor
+
 bottom_piece = true;
 HH = bottom_piece ? 90 : 30;
-wire_hole = bottom_piece ? true : true;
 
 module cencube(A) {
   // centered cube, like cylinder
@@ -46,49 +39,26 @@ module postmount(hh, post_diam) {
   difference() {
     translate([0,-5,0]) cencube([50,15+post_diam,hh]);
     translate([0,0,0]) cylinder(HH,d=POST_DIAM);
+    #translate([0,post_diam*3/5-14,0]) cencube([50,1,hh]);
   }
 }
-
-module postmount1(hh, post_diam) {
-  // bigger part of postmount
-  difference() {
-    postmount(hh, post_diam);
-    translate([0,5+POST_DIAM*3/5,0]) cencube([50,10+POST_DIAM,HH]);
-  }
-}
-
-module postmount2(hh, post_diam) {
-  // smaller part of postmount
-  difference() {
-    postmount(hh, post_diam);
-    translate([0,-5-POST_DIAM*2/5,0]) cencube([50,10+POST_DIAM,HH]);
-  }
-}
-//postmount1(HH,POST_DIAM,B10_HOLE);
-//translate([0,2,0]) postmount2(HH,POST_DIAM,B10_HOLE);
-
 
 module bikebatbox() {
+  // tube-mounted battery holder.
   difference() {
       // main case
       union () {
+        // main body
         scale([OVAL_SCALE,1,1]) cylinder(HH,d=CYL_DIAM);
-        translate([0,BAT_Y-14,0]) postmount1(HH,POST_DIAM);
-        translate([0,BAT_Y-14+1,0]) postmount2(HH,POST_DIAM);
+        // post mounts
+        translate([0,BAT_Y-14,0]) postmount(HH,POST_DIAM);
       }
       
-      // battery hole
+      // battery well
       translate([0,0,FLOOR]) cencube([BAT_X,BAT_Y,HH]);
-
-      // post cutout
-      // TODO: combine the cutout with the cube piece, to make it
-      //       more parameterizable with the bracket.
-      ///////#translate([0,BAT_Y/2+20,0]) cylinder(HH,d=POST_DIAM);
       
       // wire hole -- top and bottom opening
-      if (wire_hole) {
-        cencube([BAT_X*.8,BAT_Y*.8,FLOOR]);
-      }
+      cencube([BAT_X*.8,BAT_Y*.8,FLOOR]);
 
       for (pos=SCREW_HOLES) {
         // stud hole and screwdrive hole opposite
@@ -110,10 +80,11 @@ module bikebatbox() {
       // vertical bolt holes
       for (qq = [-1,1]) {
           translate([qq*52,0,0]) {
+            // long threaded rod
             cylinder(HH,d=5.5);
+            // bolt in base
             rotate([0,0,30]) cylinder(7, d=B10_DIAM, $fn=6);
           }
-
       }
   }
 }
