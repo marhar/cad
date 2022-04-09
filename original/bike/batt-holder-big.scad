@@ -19,6 +19,7 @@ CYL_DIAM=95;
 OVAL_SCALE=2;
 
 B10_DIAM=11.1; // #10 bolt diameter with $fn=6
+zzzzz=5.5;
 
 FLOOR=3; // Depth of floor
 SCREW_HOLES=[15,80];

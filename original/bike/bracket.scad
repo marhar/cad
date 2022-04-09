@@ -11,7 +11,7 @@ module bracket(ht, id, button_diam, button_ht, offset) {
         cylinder(ht, d=id);
       }
       // tail
-      hang=12;
+      hang=14;
       for (qq=[-1,1]) {
         translate([qq*(id/2+hang/2),0,0])
           translate([-hang/2,-thickness/2+offset,0]) cube([hang,thickness,ht]);
@@ -39,4 +39,4 @@ module halfbracket(ht, id, button_diam, button_ht, offset) {
   }
 }
 
-halfbracket(20,30,10,2,-5);
+halfbracket(20,28,10,2,-4);
