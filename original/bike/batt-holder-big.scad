@@ -27,6 +27,7 @@ SCREW_HOLES=[15,80];
 // per-bike parameters
 //POST_DIAM=32;    // xander diagonal
 POST_DIAM=29;    // xander vertical
+STUD_DIAM=12;    // 10 normal?
 
 
 // per-battery parameters
@@ -40,12 +41,40 @@ module cencube(A) {
   translate([-A.x/2,-A.y/2,0]) cube(A);
 }
 
+module postmount(hh, post_diam) {
+  // base postmount
+  difference() {
+    translate([0,-5,0]) cencube([50,15+post_diam,hh]);
+    translate([0,0,0]) cylinder(HH,d=POST_DIAM);
+  }
+}
+
+module postmount1(hh, post_diam) {
+  // bigger part of postmount
+  difference() {
+    postmount(hh, post_diam);
+    translate([0,5+POST_DIAM*3/5,0]) cencube([50,10+POST_DIAM,HH]);
+  }
+}
+
+module postmount2(hh, post_diam) {
+  // smaller part of postmount
+  difference() {
+    postmount(hh, post_diam);
+    translate([0,-5-POST_DIAM*2/5,0]) cencube([50,10+POST_DIAM,HH]);
+  }
+}
+//postmount1(HH,POST_DIAM,B10_HOLE);
+//translate([0,2,0]) postmount2(HH,POST_DIAM,B10_HOLE);
+
+
 module bikebatbox() {
   difference() {
       // main case
       union () {
         scale([OVAL_SCALE,1,1]) cylinder(HH,d=CYL_DIAM);
-        translate([0,BAT_Y/2+15,0]) cencube([50,20,HH]);
+        translate([0,BAT_Y-14,0]) postmount1(HH,POST_DIAM);
+        translate([0,BAT_Y-14+1,0]) postmount2(HH,POST_DIAM);
       }
       
       // battery hole
@@ -54,21 +83,20 @@ module bikebatbox() {
       // post cutout
       // TODO: combine the cutout with the cube piece, to make it
       //       more parameterizable with the bracket.
-      translate([0,BAT_Y/2+20,0]) cylinder(HH,d=POST_DIAM);
+      ///////#translate([0,BAT_Y/2+20,0]) cylinder(HH,d=POST_DIAM);
       
       // wire hole -- top and bottom opening
       if (wire_hole) {
         cencube([BAT_X*.8,BAT_Y*.8,FLOOR]);
       }
 
-      // screw relief
-      //translate([-10,BAT_Y/2,FLOOR]) cube([20,3,HH]);
- 
-      // screw holes
       for (pos=SCREW_HOLES) {
-        translate([0,0,pos])rotate([-90,0,0]) cylinder(100,d=10);
+        // stud hole and screwdrive hole opposite
+        translate([0,-70,pos])rotate([-90,0,0]) cylinder(200,d=STUD_DIAM);
         for (qq=[-1,1]) {
+          // horiz bolt hole
           translate([qq*20,0,pos])rotate([-90,0,0]) cylinder(100,d=6);
+          // bolt head relief
           translate([qq*20,BAT_Y/2+2,FLOOR]) cencube([10,5,HH]);
 
         }
