@@ -6,7 +6,6 @@
             "BAT_X": "93",
             "BAT_Y": "78",
             "CYL_DIAM": "95",
-            "OVAL_SCALE": "2",
             "POST_DIAM": "32",
             "SCREW_HOLES": "[15, 80]"
         },
@@ -15,7 +14,6 @@
             "BAT_X": "93",
             "BAT_Y": "78",
             "CYL_DIAM": "95",
-            "OVAL_SCALE": "2",
             "POST_DIAM": "29",
             "SCREW_HOLES": "[15, 80]"
         },
@@ -24,9 +22,25 @@
             "BAT_X": "93",
             "BAT_Y": "78",
             "CYL_DIAM": "95",
-            "OVAL_SCALE": "2",
             "POST_DIAM": "29",
             "SCREW_HOLES": "[15, 80]"
+        },
+        "New set 4": {
+            "$fn": "50",
+            "B10_DIAM": "11.1",
+            "B10_HOLE": "6",
+            "BAT_X": "78",
+            "BAT_X_EXTRA": "13",
+            "BAT_Y": "93",
+            "BAT_Y_EXTRA": "13",
+            "CYL_DIAM": "95",
+            "FLOOR": "3",
+            "OVAL_SCALE_X": "1.2",
+            "OVAL_SCALE_Y": "1.5",
+            "POST_DIAM": "29",
+            "SCREW_HOLES": "[15, 80]",
+            "STUD_DIAM": "12",
+            "bottom_piece": "false"
         }
     }
 }

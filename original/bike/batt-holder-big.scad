@@ -14,19 +14,29 @@ SCREW_HOLES=[15,80];  // stud hole positions
 
 // per-battery parameters
 
-BAT_X=70;           // small one
-BAT_Y=40;
-CYL_DIAM=59;
-OVAL_SCALE=2;
-BAT_X_EXTRA=6;
+//BAT_X=70;           // small one
+//BAT_Y=40;
+//CYL_DIAM=59;
+//OVAL_SCALE_X=2;
+//OVAL_SCALE_Y=1;
+//BAT_X_EXTRA=6;
+//BAT_Y_EXTRA=999;
 
 //BAT_X=93;             // big one
 //BAT_Y=78;
 //CYL_DIAM=95;
-//OVAL_SCALE=2;
+//OVAL_SCALE_X=2;
+//OVAL_SCALE_Y=1;
 //BAT_X_EXTRA=13;
+//BAT_Y_EXTRA=999;
 
-echo(BAT_X);
+BAT_X=78;             // big one, flat
+BAT_Y=93;
+CYL_DIAM=95;
+OVAL_SCALE_X=1.2;
+OVAL_SCALE_Y=1.5;
+BAT_X_EXTRA=13;
+BAT_Y_EXTRA=13;
 
 B10_DIAM=11.1; // #10-24 hex bolt diameter with $fn=6
 B10_HOLE=6;    // #10-24 threaded rod diameter
@@ -43,9 +53,12 @@ module cencube(A) {
 module postmount(hh, post_diam) {
   // base postmount
   difference() {
+    // base
     translate([0,-5,0]) cencube([50,15+post_diam,hh]);
+    // post hole
     translate([0,0,0]) cylinder(HH,d=POST_DIAM);
-    #translate([0,post_diam*3/5-14,0]) cencube([50,1,hh]);
+    // slice in two
+    translate([0,post_diam*3/5-14,0]) cencube([50,1,hh]);
   }
 }
 
@@ -55,9 +68,10 @@ module bikebatbox() {
       // main case
       union () {
         // main body
-        scale([OVAL_SCALE,1,1]) cylinder(HH,d=CYL_DIAM);
-        // post mounts
-        translate([0,BAT_Y-14,0]) postmount(HH,POST_DIAM);
+        scale([OVAL_SCALE_X,OVAL_SCALE_Y,1]) cylinder(HH,d=CYL_DIAM);
+        // post mount
+        // TODO: unhard 20
+        translate([0,BAT_Y-20+BAT_Y_EXTRA,0]) postmount(HH,POST_DIAM);
       }
       
       // battery well
@@ -68,23 +82,29 @@ module bikebatbox() {
 
       for (pos=SCREW_HOLES) {
         // stud hole and screwdrive hole opposite
-        translate([0,-70,pos])rotate([-90,0,0]) cylinder(200,d=STUD_DIAM);
+        translate([0,-70,pos])rotate([-90,0,0])
+                                            cylinder(200,d=STUD_DIAM);
         for (qq=[-1,1]) {
           // horiz bolt hole
-          translate([qq*20,0,pos])rotate([-90,0,0]) cylinder(100,d=6);
+          // TODO: dehard
+          #translate([qq*20,-70,pos])rotate([-90,0,0]) cylinder(200,d=6);
           // bolt head relief
           translate([qq*20,BAT_Y/2+2,FLOOR]) cencube([10,5,HH]);
 
         }
       }
 
-      // side choppers
+      // choppers
       for (qq=[-1,1]) {
-        translate([(BAT_X+BAT_X_EXTRA)*qq,0,0]) cencube([CYL_DIAM,CYL_DIAM,HH]);
+        // side choppers
+        translate([(BAT_X+BAT_X_EXTRA)*qq,0,0])
+           cencube([CYL_DIAM,CYL_DIAM,HH]);
       }
+      // front chopper
+       translate([0,-BAT_Y-BAT_Y_EXTRA,0])cencube([200, 100,HH])
 
       // vertical bolt holes
-      #for (qq = [-1,1]) {
+      for (qq = [-1,1]) {
           translate([qq*(BAT_X/2+6),0,0]) {
             // long threaded rod
             cylinder(HH,d=5.5);
