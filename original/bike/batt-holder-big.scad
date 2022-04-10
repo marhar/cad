@@ -3,24 +3,30 @@
 $fn=50;
 
 // per-bike parameters
-//POST_DIAM=32;    // xander diagonal
-POST_DIAM=29;    // xander vertical
-STUD_DIAM=12;    // 10 is normal? vertical is bigger?
-SCREW_HOLES=[15,80]; // stud hole positions
-// TODO: fix one stud hole at +15, so every piece has at least one
-//       then specify additional stud holes?  also rename to STUD_HOLES
+
+//POST_DIAM=32;       // xander diagonal
+POST_DIAM=29;         // xander vertical
+STUD_DIAM=12;         // 10 is normal? vertical is bigger?
+SCREW_HOLES=[15,80];  // stud hole positions
+                      // TODO: fix one stud hole at +15, so every
+                      // piece has at least one then specify additional
+                      // stud holes?  also rename to STUD_HOLES.
 
 // per-battery parameters
 
-//BAT_X=70;           // small one
-//BAT_Y=40;
-//CYL_DIAM=59;
-//OVAL_SCALE=2;
-
-BAT_X=93;             // big one
-BAT_Y=78;
-CYL_DIAM=95;
+BAT_X=70;           // small one
+BAT_Y=40;
+CYL_DIAM=59;
 OVAL_SCALE=2;
+BAT_X_EXTRA=6;
+
+//BAT_X=93;             // big one
+//BAT_Y=78;
+//CYL_DIAM=95;
+//OVAL_SCALE=2;
+//BAT_X_EXTRA=13;
+
+echo(BAT_X);
 
 B10_DIAM=11.1; // #10-24 hex bolt diameter with $fn=6
 B10_HOLE=6;    // #10-24 threaded rod diameter
@@ -74,12 +80,12 @@ module bikebatbox() {
 
       // side choppers
       for (qq=[-1,1]) {
-        translate([106*qq,0,0]) cencube([CYL_DIAM,CYL_DIAM,HH]);
+        translate([(BAT_X+BAT_X_EXTRA)*qq,0,0]) cencube([CYL_DIAM,CYL_DIAM,HH]);
       }
 
       // vertical bolt holes
-      for (qq = [-1,1]) {
-          translate([qq*52,0,0]) {
+      #for (qq = [-1,1]) {
+          translate([qq*(BAT_X/2+6),0,0]) {
             // long threaded rod
             cylinder(HH,d=5.5);
             // bolt in base
