@@ -46,7 +46,7 @@ BAT_Y=93;
 CYL_DIAM=95;
 OVAL_SCALE_X=1.2;
 OVAL_SCALE_Y=1.5;
-EXTRA_SIDE=13;
+EXTRA_SIDE=22;
 EXTRA_FRONT=13;
 EXTRA_BACK=-22;
 
@@ -96,11 +96,11 @@ module bikebatbox_nodrill() {
     // choppers
     for (qq=[-1,1]) {
       // side choppers
-      #translate([(BAT_X+EXTRA_SIDE)*qq,0,0])
+      translate([(BAT_X+EXTRA_SIDE)*qq,0,0])
                                      cencube([CYL_DIAM,CYL_DIAM*2,HH]);
     }
     // front chopper
-    translate([0,-BAT_Y-EXTRA_FRONT,0])cencube([200, 100,HH])
+    translate([0,-BAT_Y-EXTRA_FRONT,0])cencube([200, 100,HH]);
 
     // vertical bolt holes
     for (qq = [-1,1]) {
@@ -125,7 +125,7 @@ module bikebatbox() {
       for (qq=[-1,1]) {
         // horiz bolt hole
         // TODO: dehard
-        #translate([qq*20,-70,pos])rotate([-90,0,0]) cylinder(200,d=6);
+        translate([qq*20,-70,pos])rotate([-90,0,0]) cylinder(200,d=6);
         // bolt head relief
         translate([qq*20,BAT_Y/2+2,FLOOR]) cencube([10,5,HH]);
       }
