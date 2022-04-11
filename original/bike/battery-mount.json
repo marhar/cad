@@ -1,0 +1,23 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "$fn": "50",
+            "B10_DIAM": "11.1",
+            "B10_HOLE": "6",
+            "BAT_X": "70",
+            "BAT_Y": "40",
+            "CYL_DIAM": "59",
+            "EXTRA_BACK": "0",
+            "EXTRA_FRONT": "999",
+            "EXTRA_SIDE": "6",
+            "FLOOR": "3",
+            "OVAL_SCALE_X": "2",
+            "OVAL_SCALE_Y": "1",
+            "POST_DIAM": "32",
+            "SCREW_HOLES": "[15, 80]",
+            "STUD_DIAM": "12",
+            "bottom_piece": "false"
+        }
+    }
+}
