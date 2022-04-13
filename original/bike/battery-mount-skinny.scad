@@ -23,7 +23,7 @@ SCREW_HOLES=[15,80];  // stud hole positions
 //EXTRA_FRONT=999;
 //EXTRA_BACK=0;
 
-BAT_X=40;           // small one, long BRACKET TOO WIDE?
+BAT_X=40;           // small one, long
 BAT_Y=70;
 CYL_DIAM=70;
 OVAL_SCALE_X=1;
