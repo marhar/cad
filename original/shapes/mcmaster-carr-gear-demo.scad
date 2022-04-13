@@ -1,4 +1,4 @@
-module gear() { import("2662N420_PLASTIC GEAR - 20 DEGREE PRESSURE ANGLE.stl"); }
+module gear() { import("2662N420_PLASTIC-GEAR-20-DEGREE-PRESSURE-ANGLE.stl"); }
 
 
 
