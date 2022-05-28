@@ -1,4 +1,4 @@
-module bottom_brace(height) {
+module bottom_brace_square(height) {
   width=46;
   bar_height=2.8;
   depth=18;
@@ -27,6 +27,86 @@ module bottom_brace(height) {
     
     // bar slots
     translate([22-wire_gap/2,front_hang-wire_gap,height]) cube([wire_gap*2,wire_gap,10]);
+  }
+}
+
+module bottom_brace_round_offset(height) {
+  bar_diam=6.5;
+  bar_offset=4;
+  width=46;
+  depth=18;
+  screw_d1=4;
+  screw_d2=8;
+  screw_head=12;
+  
+  total_height = bar_diam+height;
+  difference() {
+    cube([width,depth,total_height]);
+    #translate([0,depth-bar_diam-bar_offset,height]) cube([width,bar_diam,bar_diam]);
+
+    // screw
+    translate([width/2,depth/2,0]) cylinder(total_height, d=screw_d1);
+    translate([width/2,depth/2,total_height-screw_head]) cylinder(height, d=screw_d2);
+  }
+}
+
+module bottom_brace_round_centered(width,height,depth,offset=0) {
+  bar_diam=6.5;
+  screw_d1=4;
+  screw_d2=8;
+  screw_head=12;
+  
+  total_height = bar_diam+height;
+  difference() {
+    cube([width,depth,total_height]);
+    #translate([0,(depth-bar_diam)/2+offset,height])
+      cube([width,bar_diam,bar_diam]);
+
+    // screw
+    translate([width/2,depth/2,0]) cylinder(total_height, d=screw_d1);
+    #translate([width/2,depth/2,total_height-1.5*INCH])
+      cylinder(height, d=screw_d2);
+  }
+}
+
+module side_brace_round1(width,height,depth,offset=0) {
+  bar_diam=6.5;
+  screw_d1=4;
+  screw_d2=8;
+  screw_head=12;
+  
+  total_height = bar_diam+height;
+  difference() {
+    cube([width,depth,total_height]);
+    #translate([0,(depth-bar_diam)/2+offset,height])
+      cube([width,bar_diam,bar_diam]);
+
+    // screw
+    #translate([width/2,0,screw_d1]) rotate([-90,0,0])
+    cylinder(depth, d=screw_d1);
+    //translate([width/2,depth/2,total_height-screw_head])
+    //  cylinder(height, d=screw_d2);
+  }
+}
+
+module side_brace_round(width,height,depth,offset=0) {
+  bar_diam=6.5;
+  screw_d1=4;
+  screw_d2=8;
+  screw_head=12;
+  depth=2*bar_diam;
+  
+  total_height = bar_diam+height;
+  difference() {
+    cube([width,depth,total_height]);
+    #translate([0,0,height])
+      cube([width,bar_diam,bar_diam]);
+
+    // screw
+    #translate([width/2,0,screw_d1]) rotate([-90,0,0])
+    cylinder(depth, d=screw_d1);
+    //translate([width/2,depth/2,total_height-screw_head])
+    //  cylinder(height, d=screw_d2);
   }
 }
 
@@ -64,7 +144,12 @@ module two_unit_clip() {
   }
 }
 
-$fn=20;
+$fn=50;
 INCH=25.4;
-bottom_brace(1.5*INCH);
+
+//bottom_brace_square(1.5*INCH);
+//bottom_brace_round_offset(height=1.5*INCH);
+bottom_brace_round_centered(width=1*INCH,height=2.5*INCH,depth=3/4*INCH);
+translate([0,1.5*INCH,0]) bottom_brace_round_centered(width=1*INCH,height=2.25*INCH,depth=3/4*INCH);
+//side_brace_round(width=26,height=12,depth=3/4*INCH);
 //two_unit_clip();

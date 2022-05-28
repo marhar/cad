@@ -1,11 +1,17 @@
-$fn=20;
-module wall_brace() {
+// Spacer for boaxel parts.
+
+GAP=18;
+
+module boaxel_spacer() {
   difference() {
-    cube([40,10,18]);
-    #translate([5,5,0]) cylinder(18,d=3);
-    #translate([33,5,0]) cylinder(18,d=4);
-    #translate([33,5,10]) cylinder(18,d=8);
+    cube([40,10,GAP]);
+    // 3mm bolt to boaxel hole.
+    #translate([5,5,0]) cylinder(GAP,d=3);
+    // sized for small screw.
+    #translate([33,5,0]) cylinder(GAP,d=4);
+    #translate([33,5,10]) cylinder(GAP,d=8);
   }
 }
 
-wall_brace();
+$fn=50;
+boaxel_spacer();
