@@ -193,21 +193,23 @@ module notch_thing() {
 }
 
 module axlemount() {
-    AM_HH=26;
+    AM_HH1=23;
     AM_WW1=11;
+    AM_HH2=13;
     AM_WW2=60;
+    AM_DEPTH=18;
     difference() {
         union() {
-            translate([-11/2,0,0]) cube([11,16,26]);
-            translate([0,15,13]) translate([-60/2,0,-13/2]) cube([60,5,13]);
+            translate([-AM_WW1/2,0,0]) cube([AM_WW1,AM_DEPTH,AM_HH1]);
+            translate([0,15,13]) translate([-AM_WW2/2,0,-AM_HH2/2]) cube([AM_WW2,5,AM_HH2]);
         }
         // body holes
         for (qq=[-1,1]) {
-            translate([0,20,qq*9+AM_HH/2]) rotate([90,0,0]) cylinder(100,d=4);
+            translate([0,20,qq*9+AM_HH1/2]) rotate([90,0,0]) cylinder(100,d=4);
         }
         //axle holes
         for (qq=[-1,1]) {
-            #translate([qq*20,0,0]) translate([0,20,AM_HH/2]) rotate([90,0,0]) cylinder(100,d=4);
+            #translate([qq*20,0,0]) translate([0,20,AM_HH1/2]) rotate([90,0,0]) cylinder(100,d=4);
         }
     }
 }
@@ -220,5 +222,5 @@ module axlemount() {
 
 //translate([0,40,0]) body();
 //sidecover();
-//axlemount();
-idler_wheel();
+axlemount();
+//idler_wheel();
