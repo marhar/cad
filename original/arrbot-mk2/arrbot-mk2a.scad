@@ -16,7 +16,6 @@ MD=25;
 
 CUTWID=1;
 
-
 module body1() {
     // main body external
     hull() {
@@ -139,24 +138,87 @@ module sidecover() {
     }
 }
 
-module right_drivewheel() { rotate(180,[1,0,0]) mirror([0,0,1]) left_drivewheel(); }
-module right_idler()      { rotate(180,[1,0,0]) mirror([0,0,1]) left_idler();      }
-module right_axlemount()  { rotate(180,[1,0,0]) mirror([0,0,1]) left_axlemount();  }
+DW_NTEETH=14;
+DW_OD=30.5;
+DW_ID=27;
+DW_HH=11;
 
-module left_drivewheel() {
+module basic_wheel_1() {
+    difference() {
+        cylinder(DW_HH,d=DW_OD);
+        cylinder(DW_HH,d=DW_ID);
+    }
+    //spokes
+    translate([0,0,1]) cylinder(1,d=DW_ID);
+    for (i=[0:DW_NTEETH-1]) {
+        a =(360/DW_NTEETH)*i;
+        #translate([(DW_OD-1)/2*cos(a),(DW_OD-1)/2*sin(a),0]) translate([0,0,1]) cylinder(DW_HH-2,d=3);
+    }
 }
 
-module left_idler() {
+module basic_wheel_2() {
+    cylinder(5,d=13);
 }
 
+module basic_wheel() {
+    difference() {
+        union() {
+            basic_wheel_1();
+            basic_wheel_2();
+        }
+        for (i=[0:6-1]) {
+            a=(360/6)*i;
+            echo(i);
+            #translate([10*cos(a),10*sin(a),0]) cylinder(5,d=5);
+        }
+    }
+}
+
+module drive_wheel() {
+}
+
+module idler_wheel() {
+    difference() {
+        union() {
+            basic_wheel();
+            cylinder(8,d1=13,d2=4);
+        }
+        // inside hub
+        cylinder(10,d=3);
+    }
+}
 
 module notch_thing() {
+    // this is needed so that the main axlemount can print flat on the bed.
 }
 
-module left_axlemount() {
+module axlemount() {
+    AM_HH=26;
+    AM_WW1=11;
+    AM_WW2=60;
+    difference() {
+        union() {
+            translate([-11/2,0,0]) cube([11,16,26]);
+            translate([0,15,13]) translate([-60/2,0,-13/2]) cube([60,5,13]);
+        }
+        // body holes
+        for (qq=[-1,1]) {
+            translate([0,20,qq*9+AM_HH/2]) rotate([90,0,0]) cylinder(100,d=4);
+        }
+        //axle holes
+        for (qq=[-1,1]) {
+            #translate([qq*20,0,0]) translate([0,20,AM_HH/2]) rotate([90,0,0]) cylinder(100,d=4);
+        }
+    }
 }
 
+
+// TODO axlemount
+// TODO notch_thing
+// TODO idler_wheel
+// TODO drive_wheel
 
 //translate([0,40,0]) body();
-//translate([0,-40,0])
-sidecover();
+//sidecover();
+//axlemount();
+idler_wheel();
