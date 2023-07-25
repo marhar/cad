@@ -2,7 +2,7 @@
 
 $fn=50;
 
-HH=48;
+HH=60;//HH=48;
 
 // if sizing
 // HH=10;
@@ -28,6 +28,10 @@ module body1() {
     for (qq=[-1,1]) {
         // TODO const 1.6
         translate([qq*MD*1.6,0,0]) translate([-SBLEN/2,-SBHT/2,0]) cube([SBLEN,SBHT,HH]);
+    }
+    // topside
+    for (qq=[-1,1]) {
+        #translate([qq*18-5/2,4,0]) translate([3/2,20/2,0]) cube([3,18,HH]);
     }
 }
 
@@ -106,7 +110,6 @@ module hexnut(d, h) {
 }
 
 
-
 SIDECOVER_HH=2.5;
 module sidecover() {
     // TODO: make module for this hull, so all pieces fit nicely
@@ -149,7 +152,8 @@ module basic_wheel_1() {
         cylinder(DW_HH,d=DW_ID);
     }
     //spokes
-    translate([0,0,1]) cylinder(1,d=DW_ID);
+    translate([0,0,0]) cylinder(1,d=DW_ID);
+    // teeth
     for (i=[0:DW_NTEETH-1]) {
         a =(360/DW_NTEETH)*i;
         #translate([(DW_OD-1)/2*cos(a),(DW_OD-1)/2*sin(a),0]) translate([0,0,1]) cylinder(DW_HH-2,d=3);
@@ -166,15 +170,27 @@ module basic_wheel() {
             basic_wheel_1();
             basic_wheel_2();
         }
-        for (i=[0:6-1]) {
-            a=(360/6)*i;
+        NHOLES=8;
+        for (i=[0:NHOLES-1]) {
+            a=(360/NHOLES)*i;
             echo(i);
-            #translate([10*cos(a),10*sin(a),0]) cylinder(5,d=5);
+            translate([10*cos(a),10*sin(a),0]) cylinder(5,d=6);
         }
     }
 }
 
 module drive_wheel() {
+    // TODO: add up all heights on wheel system
+    difference() {
+        union() {
+            basic_wheel();
+            cylinder(8,d=8);
+        }
+        // inside hub
+        cylinder(10,d=3); // make this D hole
+    }
+    // fill in D part
+    # translate([0,2,0]) translate([-3/2,-3/2,0]) cube([3,3,20]);
 }
 
 module idler_wheel() {
@@ -217,10 +233,11 @@ module axlemount() {
 
 // TODO axlemount
 // TODO notch_thing
-// TODO idler_wheel
+// TODO ready for testing -- idler_wheel
 // TODO drive_wheel
 
-//translate([0,40,0]) body();
+//drive_wheel();
+body();
 //sidecover();
-axlemount();
+//axlemount();
 //idler_wheel();
