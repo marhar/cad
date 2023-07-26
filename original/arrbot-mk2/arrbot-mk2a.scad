@@ -16,6 +16,11 @@ MD=25;
 
 CUTWID=1;
 
+module normcube(c) {
+    // normalize a cube to be positioned around the origin, like a cylinder.
+    translate([-c.x/2,-c.y/2,0]) cube(c);
+}
+
 module body1() {
     // main body external
     hull() {
@@ -24,14 +29,11 @@ module body1() {
                 cylinder(HH, d=MD+WALL*2);
         }
     }
-    // front and back screw hole extensions
+    // topside gripper and carrier
+    // TODO: reverse and make symmetrical
     for (qq=[-1,1]) {
-        // TODO const 1.6
-        translate([qq*MD*1.6,0,0]) translate([-SBLEN/2,-SBHT/2,0]) cube([SBLEN,SBHT,HH]);
-    }
-    // topside
-    for (qq=[-1,1]) {
-        #translate([qq*18-5/2,4,0]) translate([3/2,20/2,0]) cube([3,18,HH]);
+        translate([qq*BOX/2-CUTWID,4,0]) translate([3/2,20/2,0]) cube([3,18,HH]);
+        translate([qq*BOX/2-CUTWID,WALL+10,0]) rotate([0,0,90]) normcube([MD,CUTWID,HH]);
     }
 }
 
@@ -40,13 +42,16 @@ module body2() {
     for (qq=[-1,1]) {
         translate([qq*BOX/2,0,0]) cylinder(HH, d=MD);
         translate([0,0,0]) translate([-((MD-5)/2),-((MD)/2),0]) cube([MD-5,MD,HH]);
-        // cutter
-        translate([qq*40,0,0]) translate([-10,-CUTWID/2,0]) cube([20,CUTWID,HH]);
         
-        // screw holes
+        // gripper cutter
+        translate([qq*BOX/2,WALL,0]) rotate([0,0,90]) normcube([MD,CUTWID,HH]);
+        
+        // gripper screw holes
+        // TODO: fix sloppy x translation, make work with small cylinder
         for (zz=[-1,0,1]) {
-        #translate([qq*(MD*1.6+3),0,HH/2+HH/3*zz])
-            translate([0,20,3/2]) rotate([90,0,0]) cylinder(44,d=3);
+            translate([0,5,zz*HH/3])
+                translate([qq*30-10,MD/2+WALL,HH/2])
+                  rotate([0,90,0]) cylinder(24,d=3);
         }
     }
     // notches for motor wires. front motor is left pointing, so notch on right.
@@ -132,7 +137,7 @@ module sidecover() {
         translate([BOX/2,0,4.25]) hexnut(7,3);
    
         // bracket indentation
-        #translate([0,-1,SIDECOVER_HH/2])
+        #translate([0,-1,SIDECOVER_HH/2+1])
             translate([-14/2,-25/2,0]) cube([14,25,SIDECOVER_HH]);
 
         // top, bottom body screw holes
@@ -237,7 +242,7 @@ module axlemount() {
 // TODO drive_wheel
 
 //drive_wheel();
-body();
-//sidecover();
+//body();
+sidecover();
 //axlemount();
 //idler_wheel();
