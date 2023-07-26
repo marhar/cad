@@ -137,7 +137,9 @@ module sidecover() {
         translate([BOX/2,0,4.25]) hexnut(7,3);
    
         // bracket indentation
-        #translate([0,-1,SIDECOVER_HH/2+1])
+        // this offset is correct, it must be 1.5mm.
+        //TODO maybe chop out all cover,and add in 1.5mm tall cube?
+        #translate([0,-1,SIDECOVER_HH/2+.25])
             translate([-14/2,-25/2,0]) cube([14,25,SIDECOVER_HH]);
 
         // top, bottom body screw holes
