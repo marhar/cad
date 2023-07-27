@@ -10,3 +10,5 @@ module tread_screwing_jig() {
     }
     translate([60,0,0]) normcube([5,15,12]);
 }
+
+tread_screwing_jig();
