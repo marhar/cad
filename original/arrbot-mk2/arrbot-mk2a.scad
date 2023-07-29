@@ -32,8 +32,9 @@ module body1() {
     // topside gripper and carrier
     BAT_HT=15;
     for (qq=[-1,1]) {
-       //translate([qq*(BOX/2-CUTWID*2),4,0]) translate([-3/2,20/2,0]) cube([3,BAT_HT,HH]);
+       // thick inner carrier
        translate([qq*(BOX/2-CUTWID*2),WALL+15,0]) normcube([3,BAT_HT,HH]);
+       // thin gripper part
        translate([qq*(BOX/2+CUTWID),WALL+10,0]) normcube([CUTWID,MD,HH]);
     }
 }
@@ -59,8 +60,10 @@ module body2() {
     translate([10,0,HH-3]) translate([-5/2,-7/2,0]) cube([5,7,3]);
     translate([-10,0,0]) translate([-5/2,-7/2,0]) cube([5,7,3]);
     
-    // top wire notch. move to center?
+    // top left wire notch
     # translate([-6,MD/2,HH-3]) translate([-7/2,-5/2,0]) cube([7,5,3]);
+    // centered wire notch
+    # translate([-6,MD/2,HH/2-3]) translate([-7/2,-5/2,0]) cube([7,5,6]);
 }
 
 module body3() {
