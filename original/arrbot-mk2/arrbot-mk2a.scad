@@ -31,8 +31,9 @@ module body1() {
     }
     // topside gripper and carrier
     // TODO: reverse and make symmetrical
+    BAT_HT=25;
     for (qq=[-1,1]) {
-        translate([qq*BOX/2-CUTWID,4,0]) translate([3/2,20/2,0]) cube([3,18,HH]);
+        translate([qq*BOX/2-CUTWID,4,0]) translate([3/2,20/2,0]) cube([3,BAT_HT,HH]);
         translate([qq*BOX/2-CUTWID,WALL+10,0]) rotate([0,0,90]) normcube([MD,CUTWID,HH]);
     }
 }
@@ -237,6 +238,22 @@ module axlemount() {
     }
 }
 
+module board_mount() {
+    BOARD_CLEARANCE=25;
+    BOARD_GAP=20;
+    HOLE_HT=20;
+    normcube([BOX,5,2]);
+    for (qq=[-1,1]) {
+        translate([qq*BOARD_GAP/2,0,0]) {
+            normcube([5,30,2]);
+            difference() {
+                normcube([2,10,BOARD_CLEARANCE]);
+                # translate([-10,0,2+HOLE_HT]) rotate([0,90,0]) cylinder(40,d=3);
+            }
+        }
+    }
+}
+
 
 // TODO axlemount
 // TODO notch_thing
@@ -245,6 +262,7 @@ module axlemount() {
 
 //drive_wheel();
 //body();
-sidecover();
+//sidecover();
 //axlemount();
 //idler_wheel();
+board_mount();
