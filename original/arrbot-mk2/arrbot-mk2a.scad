@@ -242,6 +242,24 @@ module axlemount() {
 }
 
 module board_mount() {
+    BOX=40;
+    BOXWALL=2;
+    BOXWALLX=4;
+    BOXWID=15;
+    BOXHT=21;
+    normcube([BOX,BOXWID,BOXWALL]);
+    normcube([10,50,BOXWALL]);
+    for (qq=[-1,1]) {
+        difference() {
+            // fat legs
+            translate([qq*(BOX-BOXWALL-2)/2,0,0]) normcube([BOXWALL+2,BOXWID,BOXHT]);
+            // cutouts for nut
+            translate([qq*(BOX-BOXWALL-4)/2,0,0]) normcube([BOXWALL,5,BOXHT]);
+            // bolt holes
+            translate([0,0,BOXHT-5]) rotate([0,qq*90,0]) cylinder(25,d=3);
+        }
+    }
+    /*
     BOARD_CLEARANCE=25;
     BOARD_GAP=20;
     HOLE_HT=20;
@@ -255,6 +273,7 @@ module board_mount() {
             }
         }
     }
+*/
 }
 
 
@@ -264,8 +283,8 @@ module board_mount() {
 // TODO drive_wheel
 
 //drive_wheel();
-body();
+//body();
 //sidecover();
 //axlemount();
 //idler_wheel();
-//board_mount();
+board_mount();
