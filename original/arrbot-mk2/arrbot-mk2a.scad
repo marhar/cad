@@ -61,9 +61,9 @@ module body2() {
     translate([-10,0,0]) translate([-5/2,-7/2,0]) cube([5,7,3]);
     
     // top left wire notch
-    # translate([-6,MD/2,HH-3]) translate([-7/2,-5/2,0]) cube([7,5,3]);
+    translate([-6,MD/2,HH-3]) translate([-7/2,-5/2,0]) cube([7,5,3]);
     // centered wire notch
-    # translate([-6,MD/2,HH/2-3]) translate([-7/2,-5/2,0]) cube([7,5,6]);
+    translate([-6,MD/2,HH/2-3]) translate([-7/2,-5/2,0]) cube([7,5,6]);
 }
 
 module body3() {
@@ -145,7 +145,7 @@ module sidecover() {
         // bracket indentation
         // this offset is correct, it must be 1.5mm.
         //TODO maybe chop out all cover,and add in 1.5mm tall cube?
-        #translate([0,-1,1.5]) normcube([14,25,SIDECOVER_HH]);
+        translate([0,-1,1.5]) normcube([14,25,SIDECOVER_HH]);
 
         // top, bottom body screw holes
         translate([0,MD/2-WALL-2,0]) cylinder(HH,d=3);
@@ -168,7 +168,7 @@ module basic_wheel_1() {
     // teeth
     for (i=[0:DW_NTEETH-1]) {
         a =(360/DW_NTEETH)*i;
-        #translate([(DW_OD-1)/2*cos(a),(DW_OD-1)/2*sin(a),0]) translate([0,0,1]) cylinder(DW_HH-2,d=3);
+        translate([(DW_OD-1)/2*cos(a),(DW_OD-1)/2*sin(a),0]) translate([0,0,1]) cylinder(DW_HH-2,d=3);
     }
 }
 
@@ -202,7 +202,7 @@ module drive_wheel() {
         cylinder(10,d=3); // make this D hole
     }
     // fill in D part
-    # translate([0,2,0]) translate([-3/2,-3/2,0]) cube([3,3,20]);
+    translate([0,2,0]) translate([-3/2,-3/2,0]) cube([3,3,20]);
 }
 
 module idler_wheel() {
@@ -216,10 +216,6 @@ module idler_wheel() {
     }
 }
 
-module notch_thing() {
-    // this is needed so that the main axlemount can print flat on the bed.
-}
-
 module axlemount_long() {
     difference() {
         union() {
@@ -229,25 +225,12 @@ module axlemount_long() {
                 }
             }
             for (qq=[-1,1]) {
-                translate([qq*24,0,0]) cylinder(3,d=6);
+                translate([qq*24,0,-1]) cylinder(3,d=6);
             }
         }
         for (qq=[-1,1]) {
-            translate([qq*24,0,0]) cylinder(3,d=5);
+            translate([qq*24,0,-1]) cylinder(3,d=5);
         }
-    }
-}
-
-module axlemount_saf() {
-    difference() {
-        union() {
-            // mount piece
-            translate([0,13/2,0]) normcube([11,13,13]);
-            translate([0,8/2,0]) normcube([11,8,18]);
-            translate([0,8+2,0]) translate([0,6/2,13/2]) rotate([90,0,0]) axlemount_long();
-        }
-        // bolt hole
-        #translate([0,10,15.5]) rotate([90,0,0]) cylinder(20,d=3.5);
     }
 }
 
@@ -255,37 +238,39 @@ module axlemount() {
     difference() {
         union() {
             // mount piece
-            translate([0,13/2,0]) normcube([11,13,13]);
-            translate([0,13/2,0]) normcube([11,13,18]);
-            translate([0,8+2,0]) translate([0,6/2,13/2]) rotate([90,0,0]) axlemount_long();
+            normcube([11,23,16.5]);
+            translate([0,0,14.5]) axlemount_long();
         }
         // bolt hole
-        #translate([0,20,15.5]) rotate([90,0,0]) cylinder(30,d=3.5);
+        for (qq=[-1,1]) {
+            translate([0,qq*18/2,0]) cylinder(30,d=3.5);
+        }
     }
 }
-    
-/*
-    AM_HH1=23;
-    AM_WW1=11;
-    AM_HH2=13;
-    AM_WW2=60;
-    AM_DEPTH=18;
+
+module alt_axlemount_holes() {
+    for (qq=[-1,1]) {
+        translate([0,qq*3,0]) cylinder(25,d=2);
+    }
+}
+
+module alt_axlemount_long() {
     difference() {
-        union() {
-            translate([-AM_WW1/2,0,0]) cube([AM_WW1,AM_DEPTH,AM_HH1]);
-            translate([0,15,13]) translate([-AM_WW2/2,0,-AM_HH2/2]) cube([AM_WW2,5,AM_HH2]);
-        }
-        // body holes
+        axlemount_long();
+        alt_axlemount_holes();
+    }
+}
+
+module alt_axlemount() {
+    difference() {
+        axlemount();
+        alt_axlemount_holes();
+        translate([0,0,14.5]) axlemount_long();
         for (qq=[-1,1]) {
-            translate([0,20,qq*9+AM_HH1/2]) rotate([90,0,0]) cylinder(100,d=4);
-        }
-        //axle holes
-        for (qq=[-1,1]) {
-            #translate([qq*20,0,0]) translate([0,20,AM_HH1/2]) rotate([90,0,0]) cylinder(100,d=4);
+            translate([0,qq*9,5]) normcube([11,11/2,20]);
         }
     }
 }
-*/
 
 module board_mount() {
     BOX=40;
@@ -307,14 +292,28 @@ module board_mount() {
     }
 }
 
-// TODO axlemount
-// TODO notch_thing
+module all_parts() {
+    DX=65;
+    DY=35;
+    translate([0*DX,0*DY,0]) alt_axlemount();
+    translate([0*DX,1*DY,0]) board_mount();
+    translate([0*DX,2*DY,0]) idler_wheel();
+    translate([0*DX,3*DY,0]) drive_wheel();
+    translate([1*DX,0*DY,0]) alt_axlemount_long();  // TODO: FLIP
+    translate([1*DX,1*DY,0]) axlemount();           // TODO: FLIP
+    translate([1*DX,2*DY,0]) sidecover();
+    translate([1*DX,3*DY,0]) body();
+}
+
 // TODO ready for testing -- idler_wheel
 // TODO drive_wheel
 
 //drive_wheel();
 //body();
 //sidecover();
-axlemount();
+//alt_axlemount();
+//alt_axlemount_long();
 //idler_wheel();
 //board_mount();
+all_parts();
+
