@@ -182,6 +182,9 @@ module basic_wheel() {
             basic_wheel_1();
             basic_wheel_2();
         }
+        // re-ream, in order to eliminate internal tread bumps
+        translate([0,0,1]) cylinder(DW_HH,d=DW_ID);
+        // hubcap holes
         NHOLES=8;
         for (i=[0:NHOLES-1]) {
             a=(360/NHOLES)*i;
@@ -199,10 +202,11 @@ module drive_wheel() {
             cylinder(8,d=8);
         }
         // inside hub
-        cylinder(10,d=3); // make this D hole
+        cylinder(10,d=4.5); // make this D hole
     }
     // fill in D part
-    translate([0,2,0]) translate([-3/2,-3/2,0]) cube([3,3,20]);
+    //translate([0,2.5,0]) normcube([3.5,2.5,8]);
+    translate([0,2.5,0]) normcube([3.5,1.8,8]);
 }
 
 module idler_wheel() {
@@ -212,7 +216,7 @@ module idler_wheel() {
             cylinder(8,d1=13,d2=4);
         }
         // inside hub
-        cylinder(10,d=3);
+        cylinder(10,d=3.2);
     }
 }
 
@@ -311,9 +315,11 @@ module all_parts() {
 //drive_wheel();
 //body();
 //sidecover();
+//axlemount();
 //alt_axlemount();
 //alt_axlemount_long();
 //idler_wheel();
+//drive_wheel();
 //board_mount();
-all_parts();
+//all_parts();
 
