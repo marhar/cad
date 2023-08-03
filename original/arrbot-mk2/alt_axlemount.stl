@@ -1623,20 +1623,6 @@ solid OpenSCAD_Model
       vertex -0.535827 3.84433 0
     endloop
   endfacet
-  facet normal 0.368129 -0.929775 0
-    outer loop
-      vertex -0.425778 3.90483 0
-      vertex -0.309016 3.95106 14.5
-      vertex -0.425778 3.90483 14.5
-    endloop
-  endfacet
-  facet normal 0.368129 -0.929775 0
-    outer loop
-      vertex -0.309016 3.95106 14.5
-      vertex -0.425778 3.90483 0
-      vertex -0.309016 3.95106 0
-    endloop
-  endfacet
   facet normal -0.770513 0.637425 0
     outer loop
       vertex 0.728969 2.31545 0
@@ -2043,20 +2029,6 @@ solid OpenSCAD_Model
       vertex 0.968583 3.24869 14.5
     endloop
   endfacet
-  facet normal 0.68452 -0.728994 0
-    outer loop
-      vertex -0.728969 3.68455 0
-      vertex -0.637424 3.77051 14.5
-      vertex -0.728969 3.68455 14.5
-    endloop
-  endfacet
-  facet normal 0.68452 -0.728994 0
-    outer loop
-      vertex -0.637424 3.77051 14.5
-      vertex -0.728969 3.68455 0
-      vertex -0.637424 3.77051 0
-    endloop
-  endfacet
   facet normal 0.481754 0.876307 -0
     outer loop
       vertex -0.425778 2.09517 0
@@ -2069,6 +2041,34 @@ solid OpenSCAD_Model
       vertex -0.535827 2.15567 14.5
       vertex -0.425778 2.09517 0
       vertex -0.535827 2.15567 0
+    endloop
+  endfacet
+  facet normal 0.368129 -0.929775 0
+    outer loop
+      vertex -0.425778 3.90483 0
+      vertex -0.309016 3.95106 14.5
+      vertex -0.425778 3.90483 14.5
+    endloop
+  endfacet
+  facet normal 0.368129 -0.929775 0
+    outer loop
+      vertex -0.309016 3.95106 14.5
+      vertex -0.425778 3.90483 0
+      vertex -0.309016 3.95106 0
+    endloop
+  endfacet
+  facet normal 0.68452 -0.728994 0
+    outer loop
+      vertex -0.728969 3.68455 0
+      vertex -0.637424 3.77051 14.5
+      vertex -0.728969 3.68455 14.5
+    endloop
+  endfacet
+  facet normal 0.68452 -0.728994 0
+    outer loop
+      vertex -0.637424 3.77051 14.5
+      vertex -0.728969 3.68455 0
+      vertex -0.637424 3.77051 0
     endloop
   endfacet
   facet normal 0.125337 -0.992114 0

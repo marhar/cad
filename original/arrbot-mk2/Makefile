@@ -1,14 +1,23 @@
 OPENSCAD=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
+MK_CAT=$(HOME)/g/sundries/stl-utils/mk-stl-catalog $(STL)
 
-#%.stl: %.scad
-%.stl: arrbot-mk2a.scad
-	(cat $<; echo 'echo("$*"); $*();') | $(OPENSCAD) -o $@ -
-%.png: arrbot-mk2a.scad
-	(cat $<; echo 'echo("$*"); $*();') | $(OPENSCAD) -o $@ -
+STL=\
+alt_axlemount.stl		\
+alt_axlemount_long.stl	\
+axlemount.stl			\
+board_mount.stl			\
+body.stl				\
+drive_wheel.stl			\
+idler_wheel.stl			\
+robot_holder.stl		\
+sidecover.stl			\
+tread_screw_jig.stl		\
 
-all: body.stl sidecover.stl drive_wheel.stl idler_wheel.stl axlemount.stl alt_axlemount_long.stl alt_axlemount.stl \
-     body.png sidecover.png drive_wheel.png idler_wheel.png axlemount.png alt_axlemount_long.png alt_axlemount.png
-	echo done
+all: $(STL)
+	$(MK_CAT) $(STL)
 
-#idler_wheel: arrbot-mk2a.scad
-#	(cat arrbot-mk2a.scad; echo 'echo("idler_wheel"); idler_wheel();') |$(OPENSCAD) -o idler_wheel.stl -o idler_wheel.png -
+clean:
+	rm -rf *.stl 00-catalog.html catalog
+
+$(STL): %.stl: %.scad
+	$(OPENSCAD) -o $@ $<
