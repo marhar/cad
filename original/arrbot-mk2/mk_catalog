@@ -1,0 +1,41 @@
+#!/bin/sh
+# recursively generates a catalog of all STL files under the current dir.
+# usage: find . -name '*.stl'|sort|xargs mk-stl-catalog
+n=-1
+H=00-catalog.html
+echo >$H '<!DOCTYPE html>'
+echo >>$H '<html>'
+echo >>$H '<head>'
+echo >>$H '<style>'
+echo >>$H 'th, td {'
+echo >>$H '  border-style:solid;'
+echo >>$H '  border-color: #96D4D4;'
+echo >>$H '}'
+echo >>$H '</style>'
+echo >>$H '</head>'
+echo >>$H '<body>'
+echo >>$H '<table>'
+echo >>$H '  <tr>'
+for i in "$@"; do
+  n=`expr $n + 1`
+  if test $n = 4; then
+      n=0
+      echo >>$H '  </tr>'
+      echo >>$H '  <tr>'
+  fi
+  echo $i
+  T=__tmp__.scad
+  B=`basename $i .stl`
+  echo import\(\"$i\"\)\; >$T
+  cat $T
+  D=$(dirname $i)/catalog
+  mkdir -p $D
+  /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD -o "$D/$B.png" --imgsize=200,200 $T
+  echo >>$H '    <td>'$i'<br><img src="'"$D/$B"'.png"></td>'
+
+  rm $T
+done
+echo >>$H '  </tr>'
+echo >>$H '</table>'
+echo >>$H '</body>'
+echo >>$H '</html>'
