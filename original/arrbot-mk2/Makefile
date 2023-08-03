@@ -14,6 +14,7 @@ drive_wheel.stl			\
 idler_wheel.stl			\
 robot_holder.stl		\
 sidecover.stl			\
+tread_link.stl			\
 tread_screw_jig.stl		\
 
 all: $(STL)
