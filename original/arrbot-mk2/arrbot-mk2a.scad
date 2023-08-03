@@ -143,7 +143,7 @@ module sidecover() {
         translate([BOX/2,0,4]) hexnut(7,3);
    
         // bracket indentation
-        // this offset is correct, it must be 1.5mm.
+        // HC: 1.5mm
         //TODO maybe chop out all cover,and add in 1.5mm tall cube?
         translate([0,-1,1.5]) normcube([14,25,SIDECOVER_HH]);
 
@@ -227,11 +227,11 @@ module axlemount_long() {
                 }
             }
             for (qq=[-1,1]) {
-                translate([qq*24,0,-1]) cylinder(3,d=6);
+                translate([qq*24,0,0]) cylinder(3,d=6);
             }
         }
         for (qq=[-1,1]) {
-            translate([qq*24,0,-1]) cylinder(3,d=5);
+            translate([qq*24,0,0]) cylinder(3,d=5);
         }
     }
 }
@@ -241,7 +241,7 @@ module axlemount() {
         union() {
             // mount piece
             normcube([11,23,16.5]);
-            translate([0,0,14.5]) axlemount_long();
+            axlemount_long();
         }
         // bolt hole
         for (qq=[-1,1]) {
@@ -265,9 +265,8 @@ module alt_axlemount_long() {
 
 module alt_axlemount() {
     difference() {
-        axlemount();
+        normcube([11,23,16.5-2]);
         alt_axlemount_holes();
-        translate([0,0,14.5]) axlemount_long();
         for (qq=[-1,1]) {
             translate([0,qq*9,5]) normcube([11,11/2,20]);
         }
@@ -306,9 +305,6 @@ module all_parts() {
     translate([1*DX,2*DY,0]) sidecover();
     translate([1*DX,3*DY,0]) body();
 }
-
-// TODO ready for testing -- idler_wheel
-// TODO drive_wheel
 
 //drive_wheel();
 //body();
