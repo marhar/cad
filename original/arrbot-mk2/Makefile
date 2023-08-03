@@ -1,3 +1,6 @@
+# Makefile for arrbot pieces
+
+# TODO: put link into mk-catalog
 OPENSCAD=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
 MK_CAT=$(HOME)/g/sundries/stl-utils/mk-stl-catalog $(STL)
 
