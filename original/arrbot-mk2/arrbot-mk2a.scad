@@ -213,7 +213,7 @@ module idler_wheel() {
     difference() {
         union() {
             basic_wheel();
-            cylinder(8,d1=13,d2=4);
+            cylinder(8,d1=13,d2=6);
         }
         // inside hub
         cylinder(10,d=3.2);
