@@ -188,7 +188,6 @@ module basic_wheel() {
         NHOLES=8;
         for (i=[0:NHOLES-1]) {
             a=(360/NHOLES)*i;
-            echo(i);
             translate([10*cos(a),10*sin(a),0]) cylinder(5,d=6);
         }
     }
@@ -205,7 +204,6 @@ module drive_wheel() {
         cylinder(10,d=4.5); // make this D hole
     }
     // fill in D part
-    //translate([0,2.5,0]) normcube([3.5,2.5,8]);
     translate([0,2.5,0]) normcube([3.5,1.8,8]);
 }
 
