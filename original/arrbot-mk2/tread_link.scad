@@ -13,7 +13,7 @@ module normcube(c) {
 }
 
 
-module  tread_link() {
+module  tread_top() {
     WID=11;
     //offs= 3, 8
     LINK_DIA=2.25*2;
@@ -58,5 +58,30 @@ module  tread_link() {
     }
 }
 
-%translate([20,-8,0]) old_tread_link();
+// bbox: 17 x 12 x 5
+
+module tread_bottom() {
+    TB_WIDTH=17;
+    TB_HEIGHT=12;
+    TB_DIAM=2;
+    TB_HH=2;
+    hull() {
+        for (qq=[-1,1]) {
+            // bottom
+            #translate([qq*6.5,-.5,0]) cylinder(TB_HH,d1=0,d2=TB_DIAM);
+            // top
+            translate([qq*(TB_WIDTH-TB_DIAM)/2,5.8,0]) cylinder(TB_HH,d1=0,d2=TB_DIAM);
+        }
+    }
+}
+
+module tread_link() {
+    translate([-11/2,2,4]) tread_top();
+    tread_bottom();
+}
+
+translate([20,-8,0]) 
+translate([-8.5,-2,0])
+%old_tread_link();
 tread_link();
+//tread_bottom();
