@@ -15,6 +15,7 @@ idler_wheel.stl			\
 robot_holder.stl		\
 sidecover.stl			\
 tread_link.stl			\
+tread3.stl				\
 tread_screw_jig.stl		\
 
 PNG_FILES = $(addprefix catalog/, $(STL_FILES:.stl=.png))
@@ -27,7 +28,7 @@ all: $(STL_FILES) $(PNG_FILES) 00-catalog.html
 clean:
 	rm -rf *.stl 00-catalog.html catalog
 
-00-catalog.html:
+00-catalog.html: arrbot-mk2a.scad
 	./mk_catalog $(STL_FILES)
 
 $(PNG_FILES): catalog/%.png: %.scad
@@ -35,5 +36,5 @@ $(PNG_FILES): catalog/%.png: %.scad
 	$(OPENSCAD) -q --imgsize=200,200 -o $@ $<
 	#$(OPENSCAD) -q --camera=200,200,200,0,0,0 --view=axes,scales --imgsize=200,200 -o $@ $<
 
-$(STL_FILES): %.stl: %.scad
+$(STL_FILES): %.stl: %.scad arrbot-mk2a.scad
 	$(OPENSCAD) -q -o $@ $<

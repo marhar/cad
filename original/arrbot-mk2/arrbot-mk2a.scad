@@ -153,12 +153,19 @@ module sidecover() {
     }
 }
 
+
+module gear_mesh(length, gap, depth) {
+  rotate([0,90,0]) linear_extrude(length) polygon([[0,0],[0,gap],[depth,gap/2]]);
+}
+
+
 DW_NTEETH=14;
 DW_OD=30.5;
 DW_ID=27;
 DW_HH=11;
 
 module basic_wheel_1() {
+    module rgear_mesh(length,gap,depth) { linear_extrude(length) polygon([[0,-gap/2],[0,gap/2],[depth,0]]); }
     difference() {
         cylinder(DW_HH,d=DW_OD);
         cylinder(DW_HH,d=DW_ID);
@@ -168,7 +175,8 @@ module basic_wheel_1() {
     // teeth
     for (i=[0:DW_NTEETH-1]) {
         a =(360/DW_NTEETH)*i;
-        translate([(DW_OD-1)/2*cos(a),(DW_OD-1)/2*sin(a),0]) translate([0,0,1]) cylinder(DW_HH-2,d=3);
+        // Mesh of gap=1,depth=3 seems wrong, but slicer truncates to a good value.
+        #translate([(DW_OD-.5)/2*cos(a),(DW_OD-.5)/2*sin(a),0]) translate([0,0,2]) rotate([0,0,a]) rgear_mesh(DW_HH-4,2,3);
     }
 }
 
@@ -182,8 +190,6 @@ module basic_wheel() {
             basic_wheel_1();
             basic_wheel_2();
         }
-        // re-ream, in order to eliminate internal tread bumps
-        translate([0,0,1]) cylinder(DW_HH,d=DW_ID);
         // hubcap holes
         NHOLES=8;
         for (i=[0:NHOLES-1]) {
@@ -306,7 +312,7 @@ module all_parts() {
     translate([1*DX,3*DY,0]) body();
 }
 
-//drive_wheel();
+//difference() {basic_wheel_1(); cylinder(10,d=25); }
 //body();
 //sidecover();
 //axlemount();
