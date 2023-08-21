@@ -19,8 +19,8 @@ module top() {
     }
 
     // botton flap chop()
-    # translate([-3,-8/2,2.5]) rotate([0,90,0]) cylinder(3,d=4);
-    # translate([11,-8/2,2.5]) rotate([0,90,0]) cylinder(3,d=4);
+    # translate([-5,-8/2,2.5]) rotate([0,90,0]) cylinder(5,d=4);
+    # translate([11,-8/2,2.5]) rotate([0,90,0]) cylinder(5,d=4);
 
     // top flap chop()
     # translate([-3,8/2,2.5]) rotate([0,90,0]) cylinder(3,d=5);
@@ -51,14 +51,14 @@ module top() {
 
 module bottom() {
   // TODO copy sizes from previous
-  module b0() { translate([0,0,0]) cylinder(2,d1=.1,d2=2); }
+  module b0(x) { translate([0,0,0]) cylinder(2,d1=.1,d2=x); }
   hull() {
     // bottom
-    translate([0,0,0]) b0();
-    translate([15,0,0]) b0();
+    translate([0,0,0]) b0(5);
+    translate([15,0,0]) b0(5);
     // top
-    translate([2,6,0]) b0();
-    translate([12,6,0]) b0();
+    translate([2,6,0]) b0(2);
+    translate([12,6,0]) b0(2);
   }
 }
 
