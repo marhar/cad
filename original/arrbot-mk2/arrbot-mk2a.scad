@@ -140,7 +140,7 @@ module sidecover() {
         // axle hole
         translate([BOX/2,0,0]) cylinder(6, d=3);
         // axle nut hole
-        translate([BOX/2,0,4]) hexnut(7,3);
+        #translate([BOX/2,0,3]) hexnut(7,3);
    
         // bracket indentation
         // HC: 1.5mm
