@@ -299,6 +299,28 @@ module board_mount() {
     }
 }
 
+module board_mount_big() {
+  YY=40;
+  XX=55;
+  ZZ=40;
+  topwall=1;
+  sidewall=5;
+  frontwall=2;
+  dx=40;
+
+  difference() {
+    normcube([XX,YY,ZZ]);
+    translate([0,0,topwall]) normcube([XX-sidewall,YY-frontwall,ZZ-topwall]);
+    // front-back chops
+    #translate([0,0,topwall]) normcube([XX,YY-25,ZZ-topwall]);
+    // side chops
+    translate([0,0,topwall]) normcube([XX-25,YY,ZZ-topwall]);    
+    for (qq=[-1,0,1]) {
+      #translate([dx/2*qq,25,ZZ-4.5]) rotate([90,0,0]) cylinder(50,d=3.2);
+    }
+  }
+}
+
 module all_parts() {
     DX=65;
     DY=35;
@@ -322,4 +344,4 @@ module all_parts() {
 //drive_wheel();
 //board_mount();
 //all_parts();
-
+//board_mount_big();

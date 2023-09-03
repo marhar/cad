@@ -9,6 +9,7 @@ alt_axlemount.stl		\
 alt_axlemount_long.stl	\
 axlemount.stl			\
 board_mount.stl			\
+board_mount_big.stl		\
 body.stl				\
 drive_wheel.stl			\
 idler_wheel.stl			\
@@ -33,8 +34,8 @@ clean:
 
 $(PNG_FILES): catalog/%.png: %.scad
 	mkdir -p catalog
-	$(OPENSCAD) -q --imgsize=200,200 -o $@ $<
-	#$(OPENSCAD) -q --camera=200,200,200,0,0,0 --view=axes,scales --imgsize=200,200 -o $@ $<
+	$(OPENSCAD) --enable predictible-output -q --imgsize=200,200 -o $@ $<
+	#$(OPENSCAD) --enable predictible-output -q --camera=200,200,200,0,0,0 --view=axes,scales --imgsize=200,200 -o $@ $<
 
 $(STL_FILES): %.stl: %.scad arrbot-mk2a.scad
-	$(OPENSCAD) -q -o $@ $<
+	$(OPENSCAD) --enable predictible-output -q -o $@ $<
