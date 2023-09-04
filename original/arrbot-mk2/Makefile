@@ -1,8 +1,6 @@
 # Makefile for arrbot pieces
 
-# TODO: put link into mk-catalog
 OPENSCAD=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
-###MK_CAT=$(HOME)/g/sundries/stl-utils/mk-stl-catalog $(STL_FILES)
 
 STL_FILES=\
 alt_axlemount.stl		\
@@ -24,7 +22,6 @@ PNG_FILES = $(addprefix catalog/, $(STL_FILES:.stl=.png))
 
 all: $(STL_FILES) $(PNG_FILES) 00-catalog.html
 	echo done
-	###$(MK_CAT) $(STL_FILES)
 
 clean:
 	rm -rf *.stl 00-catalog.html catalog
@@ -34,8 +31,8 @@ clean:
 
 $(PNG_FILES): catalog/%.png: %.scad
 	mkdir -p catalog
+	# TODO figure out why mk_catalog produces correct output and this doesn't.
 	$(OPENSCAD) --enable predictible-output -q --imgsize=200,200 -o $@ $<
-	#$(OPENSCAD) --enable predictible-output -q --camera=200,200,200,0,0,0 --view=axes,scales --imgsize=200,200 -o $@ $<
 
 $(STL_FILES): %.stl: %.scad arrbot-mk2a.scad
 	$(OPENSCAD) --enable predictible-output -q -o $@ $<
