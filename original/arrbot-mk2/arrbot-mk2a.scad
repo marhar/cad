@@ -32,11 +32,14 @@ module body1() {
     // topside gripper and carrier
     BAT_HT=15;
     for (qq=[-1,1]) {
-       // thick inner carrier
+       // thick gripper part
        translate([qq*(BOX/2-CUTWID*2),WALL+15,0]) normcube([3,BAT_HT,HH]);
        // thin gripper part
        translate([qq*(BOX/2+CUTWID),WALL+10,0]) normcube([CUTWID,MD,HH]);
+
     }
+    // battery box mount
+    translate([0,WALL+15,0]) normcube([7,BAT_HT,HH]);
 }
 
 module body2() {
@@ -64,6 +67,11 @@ module body2() {
     translate([-6,MD/2,HH-3]) translate([-7/2,-5/2,0]) cube([7,5,3]);
     // centered wire notch
     translate([-6,MD/2,HH/2-3]) translate([-7/2,-5/2,0]) cube([7,5,6]);
+
+    // screw holes for battery box
+    for (qq=[-1,0,1]) {
+        #translate([0,0,HH/2+15*qq]) rotate([-90,0,0]) cylinder(100,d=3);
+    }
 }
 
 module body3() {
