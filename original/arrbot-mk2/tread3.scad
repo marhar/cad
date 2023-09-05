@@ -23,12 +23,12 @@ module top() {
     }
 
     // botton flap chop()
-    # translate([-5,-8/2,2.5]) rotate([0,90,0]) cylinder(5,d=4);
-    # translate([11,-8/2,2.5]) rotate([0,90,0]) cylinder(5,d=4);
+    translate([-5,-8/2,2.5]) rotate([0,90,0]) cylinder(5,d=4);
+    translate([11,-8/2,2.5]) rotate([0,90,0]) cylinder(5,d=4);
 
     // top flap chop()
-    # translate([-3,8/2,2.5]) rotate([0,90,0]) cylinder(3,d=5);
-    # translate([11,8/2,2.5]) rotate([0,90,0]) cylinder(3,d=5);
+    translate([-3,8/2,2.5]) rotate([0,90,0]) cylinder(3,d=5);
+    translate([11,8/2,2.5]) rotate([0,90,0]) cylinder(3,d=5);
     
     // straight chop -- reduce friction
     for (qq=[0,11]) {
@@ -46,9 +46,9 @@ module top() {
 
     // top chops - round
     for (offsets=[0,8]) {
-      #translate([offsets,4,5/2]) rotate([0,90,0]) cylinder(3,d=5);
+      translate([offsets,4,5/2]) rotate([0,90,0]) cylinder(3,d=5);
       // trim off a bit of the top so the overhang is not messy
-      #translate([offsets,4,6/2]) rotate([0,90,0]) cylinder(3,d=5);
+      translate([offsets,4,6/2]) rotate([0,90,0]) cylinder(3,d=5);
     }
 
     // bottom chop - square
