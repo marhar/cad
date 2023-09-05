@@ -1,5 +1,9 @@
 $fn=50;
 
+module normcube(c) {
+    // normalize a cube to be positioned around the origin, like a cylinder.
+    translate([-c.x/2,-c.y/2,0]) cube(c);
+}
 
 module gear_mesh(length, gap, depth) {
   rotate([0,90,0]) linear_extrude(length) polygon([[0,0],[0,gap],[depth,gap/2]]);
@@ -25,13 +29,20 @@ module top() {
     // top flap chop()
     # translate([-3,8/2,2.5]) rotate([0,90,0]) cylinder(3,d=5);
     # translate([11,8/2,2.5]) rotate([0,90,0]) cylinder(3,d=5);
+    
+    // straight chop -- reduce friction
+    for (qq=[0,11]) {
+        translate([qq,8/2,0]) normcube([6,5,2.5]);
+    }
 
-    // top screw hole
+    // top screw hole -- drill to 2.5mm
     translate([0,8/2,5/2]) rotate([0,90,0]) cylinder(11,d=2);
     
-    // bottom screw hole and screw head recess
-    translate([0,-8/2,5/2]) rotate([0,90,0]) cylinder(1,d=4);
+    // bottom screw hole -- drill to 1.5mm
     translate([0,-8/2,5/2]) rotate([0,90,0]) cylinder(11,d=1.5);
+
+    // bottom screw head recess -- TODO: add to opposite side also
+    translate([0,-8/2,5/2]) rotate([0,90,0]) cylinder(1,d=4);
 
     // top chops - round
     for (offsets=[0,8]) {
