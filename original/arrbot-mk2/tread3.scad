@@ -41,7 +41,8 @@ module top() {
     // bottom screw hole -- drill to 1.5mm
     translate([0,-8/2,5/2]) rotate([0,90,0]) cylinder(11,d=1.5);
 
-    // bottom screw head recess -- TODO: add to opposite side also
+    // bottom screw head recess.
+    // One side only, as the print is better without it.
     translate([0,-8/2,5/2]) rotate([0,90,0]) cylinder(1,d=4);
 
     // top chops - round
