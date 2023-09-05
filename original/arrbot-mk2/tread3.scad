@@ -61,12 +61,11 @@ module top() {
 }
 
 module bottom() {
-  // TODO copy sizes from previous
   module b0(x) { translate([0,0,0]) cylinder(2,d1=.1,d2=x); }
   hull() {
     // bottom
-    translate([0,0,0]) b0(5);
-    translate([15,0,0]) b0(5);
+    translate([0,0,0])  b0(2);
+    translate([15,0,0]) b0(2);
     // top
     translate([2,6,0]) b0(2);
     translate([12,6,0]) b0(2);
