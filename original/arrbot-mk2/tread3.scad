@@ -54,7 +54,6 @@ module top() {
 
     // bottom chop - square
     translate([2.9,-6.5,0]) cube([5.2,5,5]);
-    //translate([3,-6.5,0]) cube([5,5,5]);
 
     // gear catcher
     translate([1,-1,5]) gear_mesh(9,3,3);
@@ -80,4 +79,3 @@ module testlink() {
 
 //testlink();
 top();
-//bottom();
