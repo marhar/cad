@@ -56,7 +56,7 @@ module top() {
     translate([2.9,-6.5,0]) cube([5.2,5,5]);
 
     // gear catcher
-    translate([1,-1,5]) gear_mesh(9,3,3);
+    translate([1,-1.5,5]) gear_mesh(9,3.5,3);
   }
 }
 
