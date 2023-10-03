@@ -61,7 +61,13 @@ module top() {
 }
 
 module bottom() {
-  module b0(x) { translate([0,0,0]) cylinder(2,d1=.1,d2=x); }
+
+  // d1=.1 for angled treads
+  //module b0(x) { translate([0,0,0]) cylinder(2,d1=.1,d2=x); }
+
+  // d1=x for straight-up treads, height=1 for short
+  module b0(x) { translate([0,0,0]) cylinder(1,d1=x,d2=x); }
+
   hull() {
     // bottom
     translate([0,0,0])  b0(2);
