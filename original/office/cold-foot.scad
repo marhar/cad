@@ -14,9 +14,9 @@ module main() {
     // box
     HA=12;
     DA=24;
-    // plate
-    HB=2.5;
-    DB=19;
+    // plate -- verified this experimentally
+    HB=2.3;
+    DB=18.6;
     // cutout
     HC=2;
     DC=10;
