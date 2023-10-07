@@ -25,7 +25,7 @@ all: $(STL_FILES) $(PNG_FILES) 00-catalog.html
 clean:
 	rm -rf *.stl 00-catalog.html catalog
 
-00-catalog.html: arrbot-mk2a.scad
+00-catalog.html: arrbot-mk2a.scad tread3.scad
 	./mk_catalog $(STL_FILES)
 
 $(PNG_FILES): catalog/%.png: %.scad

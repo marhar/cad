@@ -14,7 +14,7 @@ module top() {
   difference() {
 
     union() {
-      translate([-2,-3,0]) bottom();
+      translate([-2,-5,0]) bottom();
       hull() {
         for (qq=[-1,1]) {
           translate([0,qq*8/2,5/2]) rotate([0,90,0]) cylinder(11,d=5);
@@ -66,15 +66,15 @@ module bottom() {
   //module b0(x) { translate([0,0,0]) cylinder(2,d1=.1,d2=x); }
 
   // d1=x for straight-up treads, height=1 for short
-  module b0(x) { translate([0,0,0]) cylinder(1,d1=x,d2=x); }
+  module b0(x) { translate([0,0,0]) cylinder(.4,d1=x,d2=x); }
 
   hull() {
     // bottom
     translate([0,0,0])  b0(2);
     translate([15,0,0]) b0(2);
     // top
-    translate([2,6,0]) b0(2);
-    translate([12,6,0]) b0(2);
+    #translate([1,7,0]) b0(2);
+    translate([14,7,0]) b0(2);
   }
 }
 
