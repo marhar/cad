@@ -15,6 +15,18 @@ module borehole() {
 }
 
 
+module attachment_holes(n) {
+  for (i=[0:n-1]) {
+    translate([0,i*(BDIAM+WALL),0]) {
+      // upper sidecover attachment
+      translate([0,BDIAM/2+WALL,BDIAM-WALL-0]) rotate([0,90,0]) cylinder(totlen,d=3);
+      // lower sidecover attachment
+      translate([0,BDIAM/2+WALL,WALL+1]) rotate([0,90,0]) cylinder(totlen,d=3);
+    }
+  }
+}
+
+
 module basebox(n) {
   for (i=[0:n-1]) {
     translate([0,i*(BDIAM+WALL),0]) {
@@ -63,15 +75,49 @@ module box(n) {
             translate([totlen/2+qq*totlen/3,(BDIAM+WALL+WALL/2),0]) borehole();
           }
         }
-        }
+      }
     }
-
-  
   }
 }
 
+
+module sidecover(n) {
+  yy=n*(BDIAM+WALL)+WALL;
+  xx=10;
+  zz=BDIAM+WALL;
+  w1=1;
+  w2=2*w1;
+  difference() {
+    union() {
+      difference() {
+        cube([xx,yy,zz]);
+        translate([0,1,1]) cube([xx-w2,yy-w2,zz-w2]);
+      }
+      for (i=[0:n-1]) {
+        #translate([0,i*(BDIAM+WALL)+BDIAM/2,w1])  cube([xx,4,4]);
+        #translate([0,i*(BDIAM+WALL)+BDIAM/2,zz-w1-5])  cube([xx,4,5]);
+      }
+    }
+    attachment_holes(n);
+  }  
+}
+
+module sidecover0(n) {
+  yy=n*(BDIAM+WALL)+WALL;
+  xx=10;
+  zz=BDIAM+WALL;
+  w1=1;
+  w2=2*w1;
+  difference() {
+    cube([xx,yy,zz]);
+    translate([0,1,1]) cube([xx-w2,yy-w2,zz-w2]);
+    attachment_holes(n);
+  }  
+}
+
 module main() {
-  box(2);
+  //translate([25,0,0]) box(2);
+  sidecover(2);
 }
 
 
