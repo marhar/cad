@@ -1,3 +1,12 @@
+// n-Cell 18650 battery box
+
+// TODO: make wall=1
+// TODO: combine sidecover bolt hole logic
+// TODO: get rid of extra holes
+// TODO: figure out attachment to arrbot2 and breadboard
+// TODO: move cover attachment to four corners, independent of cells.
+// TODO: put insulation block on main unit for corner attachment.
+
 $fn=50;
 
 WALL=2;
@@ -83,7 +92,7 @@ module box(n) {
 
 module sidecover(n) {
   yy=n*(BDIAM+WALL)+WALL;
-  xx=10;
+  xx=20;
   zz=BDIAM+WALL;
   w1=1;
   w2=2*w1;
@@ -94,29 +103,16 @@ module sidecover(n) {
         translate([0,1,1]) cube([xx-w2,yy-w2,zz-w2]);
       }
       for (i=[0:n-1]) {
-        #translate([0,i*(BDIAM+WALL)+BDIAM/2,w1])  cube([xx,4,4]);
-        #translate([0,i*(BDIAM+WALL)+BDIAM/2,zz-w1-5])  cube([xx,4,5]);
+        //#translate([0,i*(BDIAM+WALL)+BDIAM/2,w1])  cube([xx,4,4]);
+        //#translate([0,i*(BDIAM+WALL)+BDIAM/2,zz-w1-5])  cube([xx,4,5]);
       }
     }
     attachment_holes(n);
   }  
 }
 
-module sidecover0(n) {
-  yy=n*(BDIAM+WALL)+WALL;
-  xx=10;
-  zz=BDIAM+WALL;
-  w1=1;
-  w2=2*w1;
-  difference() {
-    cube([xx,yy,zz]);
-    translate([0,1,1]) cube([xx-w2,yy-w2,zz-w2]);
-    attachment_holes(n);
-  }  
-}
-
 module main() {
-  //translate([25,0,0]) box(2);
+  //box(2);
   sidecover(2);
 }
 
