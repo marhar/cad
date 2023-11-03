@@ -1,0 +1,9 @@
+#!/bin/bash
+
+SCAD=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
+
+trap 'rm -f tmp.scad' 0
+rm -f tmp.scad
+(cat cubes.scad;echo;echo;echo $2) >tmp.scad
+
+$SCAD -o $1.stl tmp.scad

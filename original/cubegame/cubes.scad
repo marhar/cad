@@ -10,6 +10,8 @@ $fn=100;
 // problem: too stable
 //             make top pieces heaveier?
 //             change circle to be smaller D?
+//
+// n.b. putting the rocker on the base solves the bistability problem.
 // Base:
 // Rocker:
 // Shapes:
@@ -45,6 +47,14 @@ module X() {
 module _() {}
 
 // TODO: add parm for x,y array of blocks to print use cleverness to make one func
+
+/*
+
+zblock("""\
+XX.
+.XX""")
+
+*/
 
 module zblock() {
   { translate([0*U,U,0]) X(); translate([1*U,U,0]) X(); translate([2*U,U,0]) _(); }
@@ -132,12 +142,43 @@ module stabilizer() {
 
 module all_cubes() {
   translate([0*BX,BY,0]) zblock(); translate([1*BX,BY,0]) jblock(); translate([2*BX,BY,0]) iblock();
-  translate([0*BX, 0,0]) oblock(); translate([1*BX, 0,0]) tblock(); translate([2*BX ,0,0]) corner();
+  translate([0*BX, 0,0]) oblock(); translate([1*BX, 0,0]) tblock(); /*translate([2*BX ,0,0]) corner();*/
 }
 
-all_cubes();
+module v1many(numx, numy, sizex, sizey) {
+  for (i = [0 : numx - 1]) {
+    for (j = [0 : numy - 1]) {
+      translate([i * sizex, j * sizey, 0])
+        children(); // This will invoke the child module
+    }
+  }
+}
+
+module shiftz_many(numx, numy, sizex, sizey, shiftz) {
+  for (i = [0 : numx - 1]) {
+    for (j = [0 : numy - 1]) {
+      translate([i * sizex, j * sizey, i * shiftz])
+        children(); // This will invoke the child module
+    }
+  }
+}
+
+module many(numx, numy, sizex, sizey, shifty) {
+  for (i = [0 : numx - 1]) {
+    for (j = [0 : numy - 1]) {
+      translate([i * sizex, j * sizey + i * shifty, 0])
+        children(); // This will invoke the child module
+    }
+  }
+}
+
+
+
+//all_cubes();
 //base();
 //translate([0,50,0]) rocker_original();
 //rocker_open();
 //corner();
 //zblock();
+
+//many(4,1,U*2.2,U*2.3,U*.2) { zblock(); }
