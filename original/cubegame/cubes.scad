@@ -16,6 +16,13 @@ $fn=100;
 // Rocker:
 // Shapes:
 //
+// 42g 6 pieces
+// 230g 142g rocker (hollow)
+//
+// 16mm = 5/8 inch
+// 3/8 inch magnet fits inside 15mm cube
+//
+//
 //   [][]        []
 //     [][]      [][][]        [][][][]
 //   Z-block     J-block       I-block
@@ -92,6 +99,18 @@ module corner() {
   { translate([0*U,0,0]) X(); translate([1*U,0,0]) X(); translate([2*U,0,0]) _(); }
   { translate([0*U,0,U]) X(); }
 
+}
+
+module magblock() {
+  difference() {
+    cube([U,U,U-WALL]);
+    translate([WALL,WALL,WALL]) cube([U-WALL*2,U-WALL*2,U-WALL*2]);
+  }
+}
+
+module magblock_cover() {
+  cube([U,U,2]);
+  translate([WALL,WALL,WALL]) cube([U-WALL*2,U-WALL*2,WALL]);
 }
 
 module base() {
@@ -182,3 +201,10 @@ module many(numx, numy, sizex, sizey, shifty) {
 //zblock();
 
 //many(4,1,U*2.2,U*2.3,U*.2) { zblock(); }
+//many(4,1,U*3.2,U*2.3,U*.0) { jblock(); }
+//many(1,4,U*2.2,U*1.2,U*.2) { iblock(); }
+//many(4,1,U*2.2,U*2.3,U*.0) { oblock(); }
+//many(4,1,U*3.2,U*2.3,U*.0) { tblock(); }
+//many(4,1,U*2.2,U*1.3,U*.0) { corner(); }
+magblock();
+translate([20,0,0]) magblock_cover();
