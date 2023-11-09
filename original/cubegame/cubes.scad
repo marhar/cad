@@ -40,6 +40,12 @@ BY=(U*2.5);
 WALL=2;
 
 
+
+module normcube(c) {
+    // normalize a cube to be positioned around the origin, like a cylinder.
+    translate([-c.x/2,-c.y/2,0]) cube(c);
+}
+
 module C() {
     cube([U,U,U]);
 }
@@ -114,50 +120,45 @@ module magblock_cover() {
 }
 
 module base() {
-  translate([5,5,0]) cube([60,45,6]);
-                       cube([70,55,3]);
-}
-
-
-module rocker_open() {
-  //module rcube() { rotate([0,0,45]) cube([U,U,U]); }
-  module rcube() { rotate([0,0,45]) X(); }
-  df=sqrt(U*U+U*U);
-  ncubes=7;
-  for (i=[0:ncubes-1]) {
-    translate([i*df,0,0]) rcube();
-  }
+  EDGE=5;
+  WW=70;
+  DD=55;
+  HT=11;
+  MAG_WW=11;
+  MAG_DD=11;
   difference() {
-    cube([(ncubes-1)*df,df/2,U]);
-    translate([1,1,0]) cube([(ncubes-1)*df-2,df/2-2,U]);
-  }
-  
-  difference() {
-    translate([(ncubes-1)*df/2,((ncubes-1)*df)/3,0]) scale([1.3,1,1]) cylinder(U,d=(ncubes-1)*df);
-    translate([(ncubes-1)*df/2,((ncubes-1)*df+5)/3,0]) scale([1.3,1,1]) cylinder(U,d=(ncubes-1)*df);
-    translate([-df,0,0]) cube([(ncubes)*df*2,200,U]);
-    translate([(ncubes-1)*df/2-U/2,-18,0]) cube([U,U,U]);
+    union() {
+      normcube([WW,DD,2]);
+      normcube([WW-EDGE*2,DD-EDGE*2,HT]);
+    }
+    normcube([MAG_WW,MAG_DD,HT-1]);
   }
 }
 
-module rocker_original() {
+module rocker() {
+  //#translate([-5,-40,0]) cube([3,60,U*5]);
   module rcube() { rotate([0,0,45]) cube([U,U,U]); }
   df=sqrt(U*U+U*U);
   ncubes=7;
-  for (i=[0:ncubes-1]) {
-    translate([i*df,0,0]) rcube();
+  translate([-ncubes*(df-3)/2,0,0]) {
+    for (i=[0:ncubes-1]) {
+      translate([i*df,0,0]) rcube();
+    }
+    cube([(ncubes-1)*df,df/2,U]);
   }
-  cube([(ncubes-1)*df,df/2,U]);
-  
-  difference() {
-    translate([(ncubes-1)*df/2,((ncubes-1)*df)/3,0]) scale([1.3,1,1]) cylinder(U,d=(ncubes-1)*df);
-    translate([-df,0,0]) cube([(ncubes)*df*2,200,U]);
-    translate([(ncubes-1)*df/2-U/2,-18,0]) cube([U,U,U]);
-  }
+  // gap filler
+  #translate([0,-5,0]) normcube([128,15,U]);
+  translate([0,15,0]) difference() {
+    // base, chord=105, perpendicular=20, diam=112
+    DIAM=110;
+    scale([1.1,1,1]) cylinder(U,d=DIAM);
+    translate([0,20,0]) scale([1.1,1,1]) normcube([DIAM,DIAM-20,U]);
+    // timecube cutout
+    V=U+1;
+    #translate([0,-46,0]) normcube([V,V,U]);
+    }
 }
 
-module stabilizer() {
-}
 
 module all_cubes() {
   translate([0*BX,BY,0]) zblock(); translate([1*BX,BY,0]) jblock(); translate([2*BX,BY,0]) iblock();
@@ -196,7 +197,7 @@ module many(numx, numy, sizex, sizey, shifty) {
 //all_cubes();
 //base();
 //translate([0,50,0]) rocker_original();
-//rocker_open();
+//rocker();
 //corner();
 //zblock();
 
@@ -206,5 +207,9 @@ module many(numx, numy, sizex, sizey, shifty) {
 //many(4,1,U*2.2,U*2.3,U*.0) { oblock(); }
 //many(4,1,U*3.2,U*2.3,U*.0) { tblock(); }
 //many(4,1,U*2.2,U*1.3,U*.0) { corner(); }
-magblock();
-translate([20,0,0]) magblock_cover();
+//magblock();
+//translate([20,0,0]) magblock_cover();
+
+//base();
+translate([30,0,0]) magblock();
+translate([60,0,0]) magblock_cover();
