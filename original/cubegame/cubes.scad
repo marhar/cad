@@ -110,7 +110,7 @@ module corner() {
 module magblock() {
   difference() {
     cube([U,U,U-WALL]);
-    translate([WALL,WALL,WALL]) cube([U-WALL*2,U-WALL*2,U-WALL*2]);
+    translate([WALL,WALL,1]) cube([U-WALL*2,U-WALL*2,U-WALL*2+1]);
   }
 }
 
