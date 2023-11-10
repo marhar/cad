@@ -26,13 +26,24 @@ $fn=100;
 //   [][]        []
 //     [][]      [][][]        [][][][]
 //   Z-block     J-block       I-block
-//   blue        yellow        green
 //
-//   [][]          []          []      
-//   [][]        [][][]        {}[]      <-- {} is two cubes tall
-//   O-block     T-block       Corner
-//   green       yellow        red
+//   [][]          []      
+//   [][]        [][][]
+//   O-block     T-block
 //
+//   []          {}            []
+//   {}[]        [][]          []{}          <-- {} is two cubes tall
+//   B-block     D-block       F-block
+//   "branch"    "right screw" "left screw"
+//
+
+
+
+//  L-block = J-block
+//  S-block = Z-block
+//  B-block = Corner (branch)
+//  D-block (right screw)
+//  F-block (left screw)
 
 U=15;
 BX=(U*3.5);
@@ -93,18 +104,22 @@ module tblock() {
   { translate([0*U,0,0]) X(); translate([1*U,0,0]) X(); translate([2*U,0,0]) X(); }
 }
 
-module corner_filled() {
-  { translate([0*U,U,0]) C(); translate([1*U,U,0]) _(); translate([2*U,U,0]) _(); }
-  { translate([0*U,0,0]) C(); translate([1*U,0,0]) C(); translate([2*U,0,0]) _(); }
-  { translate([0*U,0,U]) C(); }
-
+module bblock() {
+  { translate([0*U,0*U,0*U]) X(); translate([1*U,0*U,0*U]) X(); translate([2*U,0*U,0*U]) _(); }
+  { translate([0*U,1*U,0*U]) X(); translate([1*U,1*U,0*U]) _(); translate([2*U,1*U,0*U]) _(); }
+  { translate([0*U,0*U,1*U]) X(); }
 }
 
-module corner() {
-  { translate([0*U,U,0]) X(); translate([1*U,U,0]) _(); translate([2*U,U,0]) _(); }
-  { translate([0*U,0,0]) X(); translate([1*U,0,0]) X(); translate([2*U,0,0]) _(); }
-  { translate([0*U,0,U]) X(); }
+module dblock() {
+  { translate([0*U,0*U,0*U]) X(); translate([1*U,0*U,0*U]) X(); translate([2*U,0*U,0*U]) _(); }
+  { translate([0*U,1*U,0*U]) X(); translate([1*U,1*U,0*U]) _(); translate([2*U,1*U,0*U]) _(); }
+  { translate([1*U,0*U,1*U]) X(); }
+}
 
+module fblock() {
+  { translate([0*U,0*U,0*U]) X(); translate([1*U,0*U,0*U]) X(); translate([2*U,0*U,0*U]) _(); }
+  { translate([0*U,1*U,0*U]) X(); translate([1*U,1*U,0*U]) _(); translate([2*U,1*U,0*U]) _(); }
+  { translate([0*U,1*U,1*U]) X(); }
 }
 
 module magblock() {
@@ -161,9 +176,11 @@ module rocker() {
 
 
 module all_cubes() {
-  translate([0*BX,BY,0]) zblock(); translate([1*BX,BY,0]) jblock(); translate([2*BX,BY,0]) iblock();
-  translate([0*BX, 0,0]) oblock(); translate([1*BX, 0,0]) tblock(); /*translate([2*BX ,0,0]) corner();*/
+  translate([0*BX,0*BY,0]) zblock(); translate([1*BX,0*BY,0]) jblock(); translate([2*BX,0*BY,0]) iblock();
+  translate([0*BX,1*BY,0]) oblock(); translate([1*BX,1*BY,0]) tblock();
+  translate([0*BX,2*BY,0]) bblock(); translate([1*BX,2*BY,0]) dblock(); translate([2*BX,2*BY,0]) fblock();
 }
+all_cubes();
 
 module v1many(numx, numy, sizex, sizey) {
   for (i = [0 : numx - 1]) {
@@ -198,7 +215,7 @@ module many(numx, numy, sizex, sizey, shifty) {
 //base();
 //translate([0,50,0]) rocker_original();
 //rocker();
-//corner();
+//bblock();
 //zblock();
 
 //many(4,1,U*2.2,U*2.3,U*.2) { zblock(); }
@@ -206,10 +223,10 @@ module many(numx, numy, sizex, sizey, shifty) {
 //many(1,4,U*2.2,U*1.2,U*.2) { iblock(); }
 //many(4,1,U*2.2,U*2.3,U*.0) { oblock(); }
 //many(4,1,U*3.2,U*2.3,U*.0) { tblock(); }
-//many(4,1,U*2.2,U*1.3,U*.0) { corner(); }
+//many(4,1,U*2.2,U*1.3,U*.0) { bblock(); }
 //magblock();
 //translate([20,0,0]) magblock_cover();
 
 //base();
-translate([30,0,0]) magblock();
-translate([60,0,0]) magblock_cover();
+//translate([30,0,0]) magblock();
+//translate([60,0,0]) magblock_cover();
