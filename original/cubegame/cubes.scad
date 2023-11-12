@@ -1,4 +1,3 @@
-$fn=100;
 // 00000000000000000000000000000000000000000000000000000000000000000000000000000
 // cubegame
 // don't build your software on a wobbly platform
@@ -6,22 +5,14 @@ $fn=100;
 // "any sufficiently advanced technology is indistinguashable from cheating."
 //     -- arthur c clarke
 //
-// idea: put a heavy cube in the base; magnetized?
-// problem: too stable
-//             make top pieces heaveier?
-//             change circle to be smaller D?
 //
-// n.b. putting the rocker on the base solves the bistability problem.
-// Base:
-// Rocker:
-// Shapes:
+// https://en.wikipedia.org/wiki/Tetromino
 //
 // 42g 6 pieces
 // 230g 142g rocker (hollow)
 //
 // 16mm = 5/8 inch
 // 3/8 inch magnet fits inside 15mm cube
-//
 //
 //   [][]        []
 //     [][]      [][][]        [][][][]
@@ -36,20 +27,27 @@ $fn=100;
 //   B-block     D-block       F-block
 //   "branch"    "right screw" "left screw"
 //
-
-
-
+//
 //  L-block = J-block
 //  S-block = Z-block
-//  B-block = Corner (branch)
-//  D-block (right screw)
-//  F-block (left screw)
+//
+//
+//    4.) 2×2×8 box filled with one set of all tetrominoes: 
+//
+//    D Z Z L O T T T              when viewed from side
+//    D D Z Z O B T F  back slice
+//
+//    D L L L O B F F
+//    I I I I O B B F  front slice
+//
+// TODO: rename according to wiki?
+
+$fn=100;
 
 U=15;
 BX=(U*3.5);
 BY=(U*2.5);
 WALL=2;
-
 
 
 module normcube(c) {
@@ -70,15 +68,6 @@ module X() {
 
 module _() {}
 
-// TODO: add parm for x,y array of blocks to print use cleverness to make one func
-
-/*
-
-zblock("""\
-XX.
-.XX""")
-
-*/
 
 module zblock() {
   { translate([0*U,U,0]) X(); translate([1*U,U,0]) X(); translate([2*U,U,0]) _(); }
@@ -174,13 +163,40 @@ module rocker() {
     }
 }
 
+module tray() {
+  NX=8;
+  NY=2;
+  HH=8;
+  EXTRA=0.7;
+  difference() {
+    union() {
+      normcube([NX*U+2*WALL,NY*U+2*WALL,HH]);
+      //normcube([2*U,NY*U+2*WALL,22]);
+      translate([0,17,0]) rotate([90,180,0]) difference() {
+        cylinder(NY*U+2*WALL,r=22);
+        translate([-22,0,0]) cube([22*2,22,NY*U+2*WALL]);
+      }
+    }
+    translate([0,0,2]) normcube([NX*U+EXTRA,NY*U+EXTRA,30]);
+    normcube([NX*U-WALL*3,NY*U-WALL*3,30]);
+  }
+}
+
+module tray4() {
+  NY=8; // TODO: dehardcode
+  for (i=[0:3]) {
+    translate([0,i*(U+2*WALL+U-2),0]) tray();
+  }
+}
+
+
+// Various assortments below
 
 module all_cubes() {
   translate([0*BX,0*BY,0]) zblock(); translate([1*BX,0*BY,0]) jblock(); translate([2*BX,0*BY,0]) iblock();
   translate([0*BX,1*BY,0]) oblock(); translate([1*BX,1*BY,0]) tblock();
   translate([0*BX,2*BY,0]) bblock(); translate([1*BX,2*BY,0]) dblock(); translate([2*BX,2*BY,0]) fblock();
 }
-all_cubes();
 
 module v1many(numx, numy, sizex, sizey) {
   for (i = [0 : numx - 1]) {
@@ -208,8 +224,6 @@ module many(numx, numy, sizex, sizey, shifty) {
     }
   }
 }
-
-
 
 //all_cubes();
 //base();
