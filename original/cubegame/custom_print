@@ -3,8 +3,13 @@
 T=tmp.$$.scad
 SCAD=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
 
-trap "rm -f $T" 0
-rm -f $T
-(cat cubes.scad;echo;echo;echo $2) >$T
+B='zblock iblock jblock oblock tblock bblock dblock fblock magblock magblock_cover base1 base rocker tray tray4 all_cubes'
 
-$SCAD -o $1.stl $T
+for i in $B;do
+    echo $i...
+    rm -f $T
+    (cat cubes.scad;echo;echo;echo "$i();") >$T
+    $SCAD -o $i.stl $T
+    rm -f $T
+done
+

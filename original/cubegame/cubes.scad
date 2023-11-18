@@ -1,12 +1,10 @@
-// 00000000000000000000000000000000000000000000000000000000000000000000000000000
-// cubegame
-// don't build your software on a wobbly platform
+// cubegame -- don't build your software on a wobbly platform
+//
 // "sometimes the only way to win is to use the timecube." -- War Games, 1983
+//
 // "any sufficiently advanced technology is indistinguashable from cheating."
 //     -- arthur c clarke
 //
-//
-// https://en.wikipedia.org/wiki/Tetromino
 //
 // 42g 6 pieces
 // 230g 142g rocker (hollow)
@@ -32,7 +30,7 @@
 //  S-block = Z-block
 //
 //
-//    4.) 2×2×8 box filled with one set of all tetrominoes: 
+// 2×2×8 box filled with one set of all tetrominoes: 
 //
 //    D Z Z L O T T T              when viewed from side
 //    D D Z Z O B T F  back slice
@@ -41,14 +39,14 @@
 //    I I I I O B B F  front slice
 //
 // TODO: rename according to wiki?
+// https://en.wikipedia.org/wiki/Tetromino
 
 $fn=100;
 
 U=15;
-BX=(U*3.5);
-BY=(U*2.5);
 WALL=2;
 
+// building blocks
 
 module normcube(c) {
     // normalize a cube to be positioned around the origin, like a cylinder.
@@ -68,6 +66,7 @@ module X() {
 
 module _() {}
 
+// tetrominos
 
 module zblock() {
   { translate([0*U,U,0]) X(); translate([1*U,U,0]) X(); translate([2*U,U,0]) _(); }
@@ -123,19 +122,37 @@ module magblock_cover() {
   translate([WALL,WALL,WALL]) cube([U-WALL*2,U-WALL*2,WALL]);
 }
 
-module base() {
+module base1() {
   EDGE=5;
   WW=70;
   DD=55;
   HT=11;
-  MAG_WW=11;
-  MAG_DD=11;
+  MAG_WW=25.4/2+1;  // 1/2 x 1/2 x 3/8 inch magnet
+  MAG_DD=25.4/2+1;
+  
   difference() {
     union() {
       normcube([WW,DD,2]);
       normcube([WW-EDGE*2,DD-EDGE*2,HT]);
     }
     normcube([MAG_WW,MAG_DD,HT-1]);
+  }
+}
+
+module base() {
+  // for 1/2 x 1/2 x 1/2 inch magnet
+  MAG=25.4/2+1;
+  EDGE=5;
+  WW=70;
+  DD=55;
+  HT=MAG+2;
+  
+  difference() {
+    hull() {
+      normcube([WW,DD,1]);
+      normcube([WW-EDGE*2,DD-EDGE*2,HT]);
+    }
+    normcube([MAG,MAG,MAG+1]);
   }
 }
 
@@ -158,10 +175,11 @@ module rocker() {
     scale([1.1,1,1]) cylinder(U,d=DIAM);
     translate([0,20,0]) scale([1.1,1,1]) normcube([DIAM,DIAM-20,U]);
     // timecube cutout
-    V=U+1;
-    #translate([0,-46,0]) normcube([V,V,U]);
+    V=U+.5;
+    #translate([0,-44,0]) normcube([V,V,U]);
     }
 }
+
 
 module tray() {
   NX=8;
@@ -191,6 +209,9 @@ module tray4() {
 
 
 // Various assortments below
+
+BX=(U*3.5);
+BY=(U*2.5);
 
 module all_cubes() {
   translate([0*BX,0*BY,0]) zblock(); translate([1*BX,0*BY,0]) jblock(); translate([2*BX,0*BY,0]) iblock();
@@ -224,23 +245,3 @@ module many(numx, numy, sizex, sizey, shifty) {
     }
   }
 }
-
-//all_cubes();
-//base();
-//translate([0,50,0]) rocker_original();
-//rocker();
-//bblock();
-//zblock();
-
-//many(4,1,U*2.2,U*2.3,U*.2) { zblock(); }
-//many(4,1,U*3.2,U*2.3,U*.0) { jblock(); }
-//many(1,4,U*2.2,U*1.2,U*.2) { iblock(); }
-//many(4,1,U*2.2,U*2.3,U*.0) { oblock(); }
-//many(4,1,U*3.2,U*2.3,U*.0) { tblock(); }
-//many(4,1,U*2.2,U*1.3,U*.0) { bblock(); }
-//magblock();
-//translate([20,0,0]) magblock_cover();
-
-//base();
-//translate([30,0,0]) magblock();
-//translate([60,0,0]) magblock_cover();
