@@ -245,3 +245,35 @@ module many(numx, numy, sizex, sizey, shifty) {
     }
   }
 }
+
+
+module squeezed_all_cubes_x2() {
+  V=2*U+2;
+  module Q() { translate([-U/2,-U/2,0]) children(); }
+
+  translate([ 0*V,0*V,0]) rotate([0,0,0])  Q()bblock();
+  translate([.5*V,1*V,0]) rotate([0,0,180])Q()bblock();
+
+  translate([  1*V,0*V,0]) rotate([0,0,0])  Q()dblock();
+  translate([1.5*V,1*V,0]) rotate([0,0,180])Q()dblock();
+
+  translate([  2*V,0*V,0]) rotate([0,0,0])  Q()fblock();
+  translate([2.5*V,1*V,0]) rotate([0,0,180])Q()fblock();
+
+  translate([3*V,0*V,0]) rotate([0,0, 90])Q()iblock();
+  translate([3*V,2*V,0]) rotate([0,0, 90])Q()iblock();
+
+  translate([0*V,1.5*V,0]) rotate([0,0,0])Q()jblock();
+  translate([1.5*V,2*V,0]) rotate([0,0,180])Q()jblock();
+
+  translate([ 2*V,1.5*V,0]) rotate([0,0,0])  Q()oblock();
+  translate([ 1*V,3.0*V,0]) rotate([0,0,0])  Q()oblock();
+
+  translate([ 0*V,2.5*V,0]) rotate([0,0,0])  Q()tblock();
+  translate([ 1.5*V,2.5*V,0]) rotate([0,0,0])  Q()tblock();
+
+  translate([ .5*V-2,3.0*V,0]) rotate([0,0,90])  Q()zblock();
+  #translate([ 1.5*V,3.5*V,0]) rotate([0,0,0])  Q()zblock();
+  
+}
+squeezed_all_cubes_x2();
