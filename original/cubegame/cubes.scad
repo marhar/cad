@@ -7,7 +7,7 @@
 //
 //
 // 42g 6 pieces
-// 230g 142g rocker (hollow)
+// 230g rocker
 //
 // 16mm = 5/8 inch
 // 3/8 inch magnet fits inside 15mm cube
@@ -122,25 +122,9 @@ module magblock_cover() {
   translate([WALL,WALL,WALL]) cube([U-WALL*2,U-WALL*2,WALL]);
 }
 
-module base1() {
-  EDGE=5;
-  WW=70;
-  DD=55;
-  HT=11;
-  MAG_WW=25.4/2+1;  // 1/2 x 1/2 x 3/8 inch magnet
-  MAG_DD=25.4/2+1;
-  
-  difference() {
-    union() {
-      normcube([WW,DD,2]);
-      normcube([WW-EDGE*2,DD-EDGE*2,HT]);
-    }
-    normcube([MAG_WW,MAG_DD,HT-1]);
-  }
-}
-
 module base() {
   // for 1/2 x 1/2 x 1/2 inch magnet
+  // TODO Make it taller so it can hold a plaque. 
   MAG=25.4/2+1;
   EDGE=5;
   WW=70;
@@ -176,12 +160,15 @@ module rocker() {
     translate([0,20,0]) scale([1.1,1,1]) normcube([DIAM,DIAM-20,U]);
     // timecube cutout
     V=U+.5;
-    #translate([0,-44,0]) normcube([V,V,U]);
+    translate([0,-44+1,0]) normcube([V,V-2,U]);
+    #translate([0,-44+1-7,1]) normcube([V,2,U-2]);
     }
 }
 
-
 module tray() {
+  // TODO This is too short in real life, make it taller so cubes more stable.
+  // TODO Will it be better to oversize the tray a mm or two?
+  // TODO Make the tray holder tab stronger.
   NX=8;
   NY=2;
   HH=8;
@@ -208,7 +195,8 @@ module tray4() {
 }
 
 
-// Various assortments below
+// Various assortments below.  The only practically useful one
+// is the squeezed_all_cubes.
 
 BX=(U*3.5);
 BY=(U*2.5);
@@ -251,29 +239,29 @@ module squeezed_all_cubes_x2() {
   V=2*U+2;
   module Q() { translate([-U/2,-U/2,0]) children(); }
 
-  translate([ 0*V,0*V,0]) rotate([0,0,0])  Q()bblock();
-  translate([.5*V,1*V,0]) rotate([0,0,180])Q()bblock();
+  translate([ 0*V,0*V,0]) rotate([0,0,0])       Q() bblock();
+  translate([.5*V,1*V,0]) rotate([0,0,180])     Q() bblock();
 
-  translate([  1*V,0*V,0]) rotate([0,0,0])  Q()dblock();
-  translate([1.5*V,1*V,0]) rotate([0,0,180])Q()dblock();
+  translate([  1*V,0*V,0]) rotate([0,0,0])      Q() dblock();
+  translate([1.5*V,1*V,0]) rotate([0,0,180])    Q() dblock();
 
-  translate([  2*V,0*V,0]) rotate([0,0,0])  Q()fblock();
-  translate([2.5*V,1*V,0]) rotate([0,0,180])Q()fblock();
+  translate([  2*V,0*V,0]) rotate([0,0,0])      Q() fblock();
+  translate([2.5*V,1*V,0]) rotate([0,0,180])    Q() fblock();
 
-  translate([3*V,0*V,0]) rotate([0,0, 90])Q()iblock();
-  translate([3*V,2*V,0]) rotate([0,0, 90])Q()iblock();
+  translate([3*V,0*V,0]) rotate([0,0, 90])      Q() iblock();
+  translate([3*V,2*V,0]) rotate([0,0, 90])      Q() iblock();
 
-  translate([0*V,1.5*V,0]) rotate([0,0,0])Q()jblock();
-  translate([1.5*V,2*V,0]) rotate([0,0,180])Q()jblock();
+  translate([0*V,1.5*V,0]) rotate([0,0,0])      Q() jblock();
+  translate([1.5*V,2*V,0]) rotate([0,0,180])    Q() jblock();
 
-  translate([ 2*V,1.5*V,0]) rotate([0,0,0])  Q()oblock();
-  translate([ 1*V,3.0*V,0]) rotate([0,0,0])  Q()oblock();
+  translate([ 2*V,1.5*V,0]) rotate([0,0,0])     Q() oblock();
+  translate([ 1*V,3.0*V,0]) rotate([0,0,0])     Q() oblock();
 
-  translate([ 0*V,2.5*V,0]) rotate([0,0,0])  Q()tblock();
-  translate([ 1.5*V,2.5*V,0]) rotate([0,0,0])  Q()tblock();
+  translate([ 0*V,2.5*V,0]) rotate([0,0,0])     Q() tblock();
+  translate([ 1.5*V,2.5*V,0]) rotate([0,0,0])   Q() tblock();
 
-  translate([ .5*V-2,3.0*V,0]) rotate([0,0,90])  Q()zblock();
-  #translate([ 1.5*V,3.5*V,0]) rotate([0,0,0])  Q()zblock();
+  translate([ .5*V-2,3.0*V,0]) rotate([0,0,90]) Q() zblock();
+  translate([ 1.5*V,3.5*V,0]) rotate([0,0,0])   Q() zblock();
   
 }
-squeezed_all_cubes_x2();
+//squeezed_all_cubes_x2();

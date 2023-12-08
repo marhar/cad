@@ -1,6 +1,7 @@
 #!/bin/sh
 # recursively generates a catalog of all STL files under the current dir.
 # usage: find . -name '*.stl'|sort|xargs mk-stl-catalog
+OPENSCAD=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
 n=-1
 H=00-catalog.html
 echo >$H '<!DOCTYPE html>'
@@ -23,16 +24,14 @@ for i in "$@"; do
       echo >>$H '  </tr>'
       echo >>$H '  <tr>'
   fi
-  echo $i
   T=__tmp__.scad
   B=`basename $i .stl`
   echo import\(\"$i\"\)\; >$T
   cat $T
   D=$(dirname $i)/catalog
   mkdir -p $D
-  /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD -o "$D/$B.png" --imgsize=200,200 $T
+  $OPENSCAD -q -o "$D/$B.png" --imgsize=200,200 $T
   echo >>$H '    <td>'$i'<br><img src="'"$D/$B"'.png"></td>'
-
   rm $T
 done
 echo >>$H '  </tr>'
