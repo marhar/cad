@@ -48,7 +48,7 @@ WALL=2;
 
 // building blocks
 
-module normcube(c) {
+module _normcube(c) {
     // normalize a cube to be positioned around the origin, like a cylinder.
     translate([-c.x/2,-c.y/2,0]) cube(c);
 }
@@ -124,7 +124,7 @@ module magblock_cover() {
 
 module base() {
   // for 1/2 x 1/2 x 1/2 inch magnet
-  // TODO Make it taller so it can hold a plaque. 
+  // TODO Make it taller so it can hold an egraved nameplate.
   MAG=25.4/2+1;
   EDGE=5;
   WW=70;
@@ -133,10 +133,10 @@ module base() {
   
   difference() {
     hull() {
-      normcube([WW,DD,1]);
-      normcube([WW-EDGE*2,DD-EDGE*2,HT]);
+      _normcube([WW,DD,1]);
+      _normcube([WW-EDGE*2,DD-EDGE*2,HT]);
     }
-    normcube([MAG,MAG,MAG+1]);
+    _normcube([MAG,MAG,MAG+1]);
   }
 }
 
@@ -152,48 +152,134 @@ module rocker() {
     cube([(ncubes-1)*df,df/2,U]);
   }
   // gap filler
-  #translate([0,-5,0]) normcube([128,15,U]);
+  #translate([0,-5,0]) _normcube([128,15,U]);
   translate([0,15,0]) difference() {
     // base, chord=105, perpendicular=20, diam=112
     DIAM=110;
     scale([1.1,1,1]) cylinder(U,d=DIAM);
-    translate([0,20,0]) scale([1.1,1,1]) normcube([DIAM,DIAM-20,U]);
+    translate([0,20,0]) scale([1.1,1,1]) _normcube([DIAM,DIAM-20,U]);
     // timecube cutout
     V=U+.5;
-    translate([0,-44+1,0]) normcube([V,V-2,U]);
-    #translate([0,-44+1-7,1]) normcube([V,2,U-2]);
+    translate([0,-44+1,0]) _normcube([V,V-2,U]);
+    #translate([0,-44+1-7,1]) _normcube([V,2,U-2]);
     }
 }
 
-module tray() {
-  // TODO This is too short in real life, make it taller so cubes more stable.
-  // TODO Will it be better to oversize the tray a mm or two?
-  // TODO Make the tray holder tab stronger.
+//------------------------------------------------------------------------------
+
+module _tray1_base() {
   NX=8;
   NY=2;
-  HH=8;
-  EXTRA=0.7;
+  HH=27;
+  TRAY_EXTRA=2;
+  FLOOR_EDGE=5;
+
   difference() {
-    union() {
-      normcube([NX*U+2*WALL,NY*U+2*WALL,HH]);
-      //normcube([2*U,NY*U+2*WALL,22]);
-      translate([0,17,0]) rotate([90,180,0]) difference() {
-        cylinder(NY*U+2*WALL,r=22);
-        translate([-22,0,0]) cube([22*2,22,NY*U+2*WALL]);
-      }
-    }
-    translate([0,0,2]) normcube([NX*U+EXTRA,NY*U+EXTRA,30]);
-    normcube([NX*U-WALL*3,NY*U-WALL*3,30]);
+    _normcube([NX*U+2*WALL+TRAY_EXTRA,NY*U+2*WALL+TRAY_EXTRA,HH]);
+    translate([0,0,2]) _normcube([NX*U+TRAY_EXTRA,NY*U+TRAY_EXTRA,30]);
+    // floor
+    _normcube([NX*U-WALL*FLOOR_EDGE,NY*U-WALL*FLOOR_EDGE,30]);
+  }
+}
+
+module _tray4_base() {
+  NY=8; // TODO: dehardcode
+  for (i=[0:3]) {
+    translate([0,i*(U+2*WALL+U),0]) tray1();
+  }
+}
+
+module _tray1_slices() {
+  SY=300;
+  N=3;
+  // holes in the long end
+  for (qq=[-N:N-1]) {
+    translate([qq*20+5,0,5]) rotate([0,30,0]) _normcube([10,SY,20]);
+  }
+  // holes in the short end
+  translate([-100,0,U*.9]) rotate([0,90,0]) cylinder(200,d=U*1.2);
+}
+
+module tray1() {
+  difference() {
+    _tray1_base();
+    _tray1_slices();
   }
 }
 
 module tray4() {
-  NY=8; // TODO: dehardcode
-  for (i=[0:3]) {
-    translate([0,i*(U+2*WALL+U-2),0]) tray();
+  difference() {
+    _tray4_base();
   }
 }
 
+//---------------------------------------------------------------------
+
+
+module tray1_cover() {
+  linear_extrude(2) text("TODO");
+}
+
+module _tray4_cover_0() {
+  // TODO dedupe these from _tray_base
+  OXX=138;
+  OYY=126;
+  IXX=OXX-2*WALL;
+  IYY=OYY-2*WALL;
+  HH=8;
+  WGAP=5;
+  
+  difference() {
+    _normcube([OXX,OYY,HH]);
+    translate([0,0,WALL]) _normcube([IXX,IYY,HH]);
+    // floor
+    //_normcube([IXX-WGAP,IYY-WGAP,HH]);
+  }
+}
+
+INSET_TOPY=55/2;     // from base()
+INSET_TOPX=70/2;     // from base()    TODO MEASURE THESE, ADJUST HEIGHT OF INSET, CALC DEPTHS, DO HINGE, CENTER PIN?
+INSET_BOTY=-40;
+INSET_BOTX=30;
+
+PAAX=-INSET_TOPX;  PAAY=INSET_TOPY;
+PBBX= INSET_TOPX;  PBBY=INSET_TOPY;
+PCCX=-INSET_BOTX;  PCCY=INSET_BOTY;
+PDDX= INSET_BOTX;  PDDY=INSET_BOTY;
+
+module tray4_inset() {
+  hull() {
+    translate([PAAX,PAAY,0]) cylinder(2,d=10);
+    translate([PDDX,PDDY,0]) cylinder(2,d=10);
+  }
+  hull() {
+    translate([PBBX,PBBY,0]) cylinder(2,d=10);
+    translate([PCCX,PCCY,0]) cylinder(2,d=10);
+  }
+  
+  difference() {
+    translate([PAAX,PAAY,0]) cylinder(20,d=10);
+    translate([PAAX,PAAY,0]) translate([0,-10,0]) cube([10,10,20]);
+  }
+  difference() {
+    translate([PBBX,PBBY,0]) cylinder(20,d=10);
+    translate([PBBX,PBBY,0]) translate([-10,-10,0]) cube([10,10,20]);
+  }
+
+  translate([PCCX,PCCY,0]) cylinder(20,d=10);
+  translate([PDDX,PDDY,0]) cylinder(20,d=10);
+}
+
+module tray4_cover() {
+  // TODO add hinge holders
+  difference() {
+    _tray4_cover_0();
+    translate([0,0,-WALL]) tray4_inset();
+  }
+}
+
+
+//-------------------------------------------------------------
 
 // Various assortments below.  The only practically useful one
 // is the squeezed_all_cubes.
@@ -201,22 +287,7 @@ module tray4() {
 BX=(U*3.5);
 BY=(U*2.5);
 
-module all_cubes() {
-  translate([0*BX,0*BY,0]) zblock(); translate([1*BX,0*BY,0]) jblock(); translate([2*BX,0*BY,0]) iblock();
-  translate([0*BX,1*BY,0]) oblock(); translate([1*BX,1*BY,0]) tblock();
-  translate([0*BX,2*BY,0]) bblock(); translate([1*BX,2*BY,0]) dblock(); translate([2*BX,2*BY,0]) fblock();
-}
-
-module v1many(numx, numy, sizex, sizey) {
-  for (i = [0 : numx - 1]) {
-    for (j = [0 : numy - 1]) {
-      translate([i * sizex, j * sizey, 0])
-        children(); // This will invoke the child module
-    }
-  }
-}
-
-module shiftz_many(numx, numy, sizex, sizey, shiftz) {
+module _shiftz_many(numx, numy, sizex, sizey, shiftz) {
   for (i = [0 : numx - 1]) {
     for (j = [0 : numy - 1]) {
       translate([i * sizex, j * sizey, i * shiftz])
@@ -225,7 +296,7 @@ module shiftz_many(numx, numy, sizex, sizey, shiftz) {
   }
 }
 
-module many(numx, numy, sizex, sizey, shifty) {
+module _many(numx, numy, sizex, sizey, shifty) {
   for (i = [0 : numx - 1]) {
     for (j = [0 : numy - 1]) {
       translate([i * sizex, j * sizey + i * shifty, 0])
@@ -234,8 +305,13 @@ module many(numx, numy, sizex, sizey, shifty) {
   }
 }
 
+module all_cubes() {
+  translate([0*BX,0*BY,0]) zblock(); translate([1*BX,0*BY,0]) jblock(); translate([2*BX,0*BY,0]) iblock();
+  translate([0*BX,1*BY,0]) oblock(); translate([1*BX,1*BY,0]) tblock();
+  translate([0*BX,2*BY,0]) bblock(); translate([1*BX,2*BY,0]) dblock(); translate([2*BX,2*BY,0]) fblock();
+}
 
-module squeezed_all_cubes_x2() {
+module all_cubes_x2_squeezed() {
   V=2*U+2;
   module Q() { translate([-U/2,-U/2,0]) children(); }
 
@@ -264,4 +340,3 @@ module squeezed_all_cubes_x2() {
   translate([ 1.5*V,3.5*V,0]) rotate([0,0,0])   Q() zblock();
   
 }
-//squeezed_all_cubes_x2();
