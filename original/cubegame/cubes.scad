@@ -117,6 +117,16 @@ module magblock() {
   }
 }
 
+module magblock_half() {
+  MWALL=1.25;
+  ID=25.4/2+.5;
+  OD=ID+MWALL*2;
+  difference() {
+    _normcube([OD,OD,OD]);
+    translate([0,0,1]) _normcube([ID,ID,ID+MWALL*2]);
+  }
+}
+
 module magblock_cover() {
   cube([U,U,2]);
   translate([WALL,WALL,WALL]) cube([U-WALL*2,U-WALL*2,WALL]);
@@ -215,7 +225,6 @@ module tray4() {
 
 //---------------------------------------------------------------------
 
-
 module tray1_cover() {
   linear_extrude(2) text("TODO");
 }
@@ -237,50 +246,51 @@ module _tray4_cover_0() {
   }
 }
 
-INSET_TOPY=55/2;     // from base()
-INSET_TOPX=70/2;     // from base()    TODO MEASURE THESE, ADJUST HEIGHT OF INSET, CALC DEPTHS, DO HINGE, CENTER PIN?
-INSET_BOTY=-40;
-INSET_BOTX=30;
+INSET_TOPY=55/2;
+INSET_TOPX=70/2;     // TODO CALC DEPTHS, HINGE?, CENTER PIN?
+INSET_BOTY=56/2;
+INSET_BOTX=70/2;
 
 PAAX=-INSET_TOPX;  PAAY=INSET_TOPY;
 PBBX= INSET_TOPX;  PBBY=INSET_TOPY;
-PCCX=-INSET_BOTX;  PCCY=INSET_BOTY;
-PDDX= INSET_BOTX;  PDDY=INSET_BOTY;
+PCCX=-INSET_BOTX;  PCCY=INSET_BOTY-112.5;
+PDDX= INSET_BOTX;  PDDY=INSET_BOTY-112.5;
 
+INSET_HH=10;
+INSET_DD=10;
 module tray4_inset() {
   hull() {
-    translate([PAAX,PAAY,0]) cylinder(2,d=10);
-    translate([PDDX,PDDY,0]) cylinder(2,d=10);
+    translate([PAAX,PAAY,0]) cylinder(2,d=INSET_DD);
+    translate([PDDX,PDDY,0]) cylinder(2,d=INSET_DD);
   }
   hull() {
-    translate([PBBX,PBBY,0]) cylinder(2,d=10);
-    translate([PCCX,PCCY,0]) cylinder(2,d=10);
+    translate([PBBX,PBBY,0]) cylinder(2,d=INSET_DD);
+    translate([PCCX,PCCY,0]) cylinder(2,d=INSET_DD);
   }
   
   difference() {
-    translate([PAAX,PAAY,0]) cylinder(20,d=10);
-    translate([PAAX,PAAY,0]) translate([0,-10,0]) cube([10,10,20]);
+    translate([PAAX,PAAY,0]) cylinder(INSET_HH,d=10);
+    translate([PAAX,PAAY,0]) translate([0,-10,0]) cube([10,10,INSET_HH]);
   }
   difference() {
-    translate([PBBX,PBBY,0]) cylinder(20,d=10);
-    translate([PBBX,PBBY,0]) translate([-10,-10,0]) cube([10,10,20]);
+    translate([PBBX,PBBY,0]) cylinder(INSET_HH,d=10);
+    translate([PBBX,PBBY,0]) translate([-10,-10,0]) cube([10,10,INSET_HH]);
   }
 
-  translate([PCCX,PCCY,0]) cylinder(20,d=10);
-  translate([PDDX,PDDY,0]) cylinder(20,d=10);
+  translate([PCCX,PCCY,0]) cylinder(INSET_HH,d=INSET_DD);
+  translate([PDDX,PDDY,0]) cylinder(INSET_HH,d=INSET_DD);
 }
 
 module tray4_cover() {
   // TODO add hinge holders
   difference() {
     _tray4_cover_0();
-    translate([0,0,-WALL]) tray4_inset();
+    #rotate([0,0,90]) translate([0,29,WALL*2]) mirror([0,0,1]) tray4_inset();
   }
 }
 
-
+//tray4_cover();
 //-------------------------------------------------------------
-
 // Various assortments below.  The only practically useful one
 // is the squeezed_all_cubes.
 
@@ -312,31 +322,25 @@ module all_cubes() {
 }
 
 module all_cubes_x2_squeezed() {
-  V=2*U+2;
-  module Q() { translate([-U/2,-U/2,0]) children(); }
+  module Q(dx,dy,dr) { V=2*U+2; translate([dx*V,dy*V,0]) rotate([0,0,dr]) translate([-U/2,-U/2,0]) children(); }
 
-  translate([ 0*V,0*V,0]) rotate([0,0,0])       Q() bblock();
-  translate([.5*V,1*V,0]) rotate([0,0,180])     Q() bblock();
+  Q(1.5, 3.5,  0) zblock();
+  Q(1.0, 3.0,  0) oblock();
+  Q(0.5, 3.0, 90) zblock();
+  Q(0.0, 2.5,  0) tblock();
+  Q(1.5, 2.5,  0) tblock();
+  Q(2.0, 1.5,  0) oblock();
+  Q(0.0, 1.5,  0) jblock();
+  Q(3.0, 2.0, 90) iblock();
 
-  translate([  1*V,0*V,0]) rotate([0,0,0])      Q() dblock();
-  translate([1.5*V,1*V,0]) rotate([0,0,180])    Q() dblock();
-
-  translate([  2*V,0*V,0]) rotate([0,0,0])      Q() fblock();
-  translate([2.5*V,1*V,0]) rotate([0,0,180])    Q() fblock();
-
-  translate([3*V,0*V,0]) rotate([0,0, 90])      Q() iblock();
-  translate([3*V,2*V,0]) rotate([0,0, 90])      Q() iblock();
-
-  translate([0*V,1.5*V,0]) rotate([0,0,0])      Q() jblock();
-  translate([1.5*V,2*V,0]) rotate([0,0,180])    Q() jblock();
-
-  translate([ 2*V,1.5*V,0]) rotate([0,0,0])     Q() oblock();
-  translate([ 1*V,3.0*V,0]) rotate([0,0,0])     Q() oblock();
-
-  translate([ 0*V,2.5*V,0]) rotate([0,0,0])     Q() tblock();
-  translate([ 1.5*V,2.5*V,0]) rotate([0,0,0])   Q() tblock();
-
-  translate([ .5*V-2,3.0*V,0]) rotate([0,0,90]) Q() zblock();
-  translate([ 1.5*V,3.5*V,0]) rotate([0,0,0])   Q() zblock();
+  Q(1.5, 2.0,180) jblock();
+  Q(0.5, 1.0,180) bblock();
+  Q(1.5, 1.0,180) dblock();
+  Q(2.5, 1.0,180) fblock();
+  Q(0.0, 0.0,  0) bblock();
+  Q(1.0, 0.0,  0) dblock();
+  Q(2.0, 0.0,  0) fblock();
+  Q(3.0, 0.0, 90) iblock();
   
+
 }

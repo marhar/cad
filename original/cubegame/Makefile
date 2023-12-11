@@ -12,6 +12,7 @@ iblock \
 jblock \
 magblock \
 magblock_cover \
+magblock_half \
 oblock \
 rocker \
 tblock \
@@ -26,15 +27,18 @@ PNG_FILES := $(addprefix catalog/, $(addsuffix .png, $(MODULES)))
 STL_FILES := $(addsuffix .stl, $(MODULES))
 
 %.stl: cubes.scad
-	$(OPENSCAD) --enable predictable-output -q -o $@ -D '$(*)();' $<
+	$(OPENSCAD) --enable predictable-output -q -o $@ -D '$(*)();' cubes.scad
 
-all: $(STL_FILES) catalog cubes.scad
-	echo done
+catalog/%.png: catalog cubes.scad
+	$(OPENSCAD) --imgsize=200,200 -q -o $@ -D '$(*)();' cubes.scad
 
-catalog: $(STL_FILES) cubes.scad
-	../arrbot-mk2/mk_catalog $(STL_FILES)
+all: $(STL_FILES) $(PNG_FILES) 00-catalog.html
 
-####$(OPENSCAD) --enable predictable-output --enable predictible-output -q --imgsize=200,200 -o $@ $<
+catalog:
+	mkdir catalog
+
+00-catalog.html: $(PNG_FILES)
+	./mk_image_catalog catalog/*
 
 clean:
 	rm -rf $(STL_FILES) 00-catalog.html catalog cubes.stl
