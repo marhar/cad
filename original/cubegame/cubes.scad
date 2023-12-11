@@ -197,6 +197,17 @@ module _tray4_base() {
   for (i=[0:3]) {
     translate([0,i*(U+2*WALL+U),0]) tray1();
   }
+  for (qq=[-1,1]) {
+    for (i=[1]) {
+      difference() {
+        hull() {
+          translate([qq*66,U+(WALL)+i*2*(1*(U+WALL)),26]) cylinder(1,d=9);
+          translate([qq*(66-5),U+(WALL)+i*2*(1*(U+WALL)),0]) cylinder(1,d=1);
+        }
+          translate([qq*66,U+(WALL)+i*2*(1*(U+WALL)),26]) cylinder(1,d=8.1);
+      }
+    }
+  }
 }
 
 module _tray1_slices() {
@@ -216,6 +227,7 @@ module tray1() {
     _tray1_slices();
   }
 }
+
 
 module tray4() {
   difference() {

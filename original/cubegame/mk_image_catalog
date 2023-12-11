@@ -23,7 +23,11 @@ for i in "$@"; do
       echo >>$H '  </tr>'
       echo >>$H '  <tr>'
   fi
-  echo >>$H '    <td>'$(basename $i)'<br><img src="'"$i"'"></td>'
+  echo >>$H '    <td>'
+  echo >>$H '      <a href="'$i'">'
+  echo >>$H '      '$(basename $i)'<br><img width="200" height="200" src="'"$i"'">'
+  echo >>$H '      </a>'
+  echo >>$H '    </td>'
 done
 echo >>$H '  </tr>'
 echo >>$H '</table>'

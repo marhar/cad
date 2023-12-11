@@ -30,7 +30,7 @@ STL_FILES := $(addsuffix .stl, $(MODULES))
 	$(OPENSCAD) --enable predictable-output -q -o $@ -D '$(*)();' cubes.scad
 
 catalog/%.png: catalog cubes.scad
-	$(OPENSCAD) --imgsize=200,200 -q -o $@ -D '$(*)();' cubes.scad
+	$(OPENSCAD) -q -o $@ -D '$(*)();' cubes.scad
 
 all: $(STL_FILES) $(PNG_FILES) 00-catalog.html
 
