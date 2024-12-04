@@ -1,1 +1,0 @@
-Polymaker Cardboard Spool Adapter by Polymaker_3D on Thingiverse: https://www.thingiverse.com/thing:6055908
