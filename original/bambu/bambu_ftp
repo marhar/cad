@@ -1,0 +1,2 @@
+set -x
+lftp -u bblp,4c05ba74 -e "set ssl:verify-certificate no" ftps://192.168.0.101:990
