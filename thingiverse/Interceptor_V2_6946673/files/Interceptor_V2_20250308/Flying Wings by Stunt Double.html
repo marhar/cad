@@ -1,0 +1,373 @@
+<!--
+
+=======================
+3D PRINTED FLYING WINGS
+by Stunt Double
+=======================
+
+Last updated: 12th Feb 2025
+
+-->
+
+<html>
+
+<head>
+
+<script>
+
+// Setup:
+
+let planeInfo = [];
+let mousePosX;
+let canvasWidth;
+let canvasHeight;
+let headingSize;
+let scrollLength
+let scrollSpeedMaster;
+let planeStatus;
+let popupPlaneIndex;
+let popupPlaneScale;
+let popupPlanePosX;
+let popupPlanePosY;
+let popupPicAnimationIndex;
+
+let canvasMargin = 90;
+let headingWidth = 1774;
+let headingHeight = 263;
+let headingScale = 0.28;
+let scrollSpeed = 2;
+let scrollRefresh = 10;
+let scrollPlaneScale = 0.3;
+let scrollPlaneGap = 80;
+let textScale = 0.3;
+let popupMargin = 50;
+
+planeInfo[0] = new Object();
+planeInfo[0].name = "firebird";
+planeInfo[0].picWidth = 1136;
+planeInfo[0].picHeight = 544;
+planeInfo[0].textWidth = 445;
+planeInfo[0].textHeight = 90;
+planeInfo[0].link = "www.thingiverse.com/thing:6211986";
+planeInfo[0].description = "1.1m rearward swept flying wing<br>with a single pusher motor";
+planeInfo[0].wingspan = "110cm";
+planeInfo[0].length = "62cm";
+planeInfo[0].weight = "630g"
+planeInfo[0].auw = "900-1200g";
+planeInfo[0].airfoil = "PW75";
+planeInfo[0].wingArea = "20dm²"
+planeInfo[0].wingLoading = "45-60g/dm²";
+
+planeInfo[1] = new Object();
+planeInfo[1].name = "stinger";
+planeInfo[1].picWidth = 1442;
+planeInfo[1].picHeight = 538;
+planeInfo[1].textWidth = 433;
+planeInfo[1].textHeight = 115;
+planeInfo[1].link = "www.thingiverse.com/thing:6760208";
+planeInfo[1].description = "1.3m plank style flying wing<br>with twin tractor motors";
+planeInfo[1].wingspan = "130cm";
+planeInfo[1].length = "63cm";
+planeInfo[1].weight = "800g"
+planeInfo[1].auw = "1200-1600g";
+planeInfo[1].airfoil = "PW75";
+planeInfo[1].wingArea = "26dm²"
+planeInfo[1].wingLoading = "46-62g/dm²";
+
+planeInfo[2] = new Object();
+planeInfo[2].name = "interceptor";
+planeInfo[2].picWidth = 1161;
+planeInfo[2].picHeight = 479;
+planeInfo[2].textWidth = 669;
+planeInfo[2].textHeight = 115;
+planeInfo[2].link = "www.thingiverse.com/thing:6946673";
+planeInfo[2].description = "1.0m forward swept flying wing<br>with twin tractor motors";
+planeInfo[2].wingspan = "100cm";
+planeInfo[2].length = "57cm";
+planeInfo[2].weight = "580g"
+planeInfo[2].auw = "950-1250g";
+planeInfo[2].airfoil = "PW51";
+planeInfo[2].wingArea = "18dm²"
+planeInfo[2].wingLoading = "52-69g/dm²";
+
+planeInfo[3] = new Object();
+planeInfo[3].name = "stormbird";
+planeInfo[3].picWidth = 1229;
+planeInfo[3].picHeight = 521;
+planeInfo[3].textWidth = 603;
+planeInfo[3].textHeight = 90;
+planeInfo[3].link = "www.thingiverse.com/thing:6174038";
+planeInfo[3].description = "1.1m plank style flying wing<br>with a single pusher motor";
+planeInfo[3].wingspan = "110cm";
+planeInfo[3].length = "58cm";
+planeInfo[3].weight = "620g"
+planeInfo[3].auw = "900-1200g";
+planeInfo[3].airfoil = "PW75";
+planeInfo[3].wingArea = "20dm²"
+planeInfo[3].wingLoading = "45-60g/dm²";
+
+planeInfo[4] = new Object();
+planeInfo[4].name = "nemesis";
+planeInfo[4].picWidth = 1355;
+planeInfo[4].picHeight = 536;
+planeInfo[4].textWidth = 522;
+planeInfo[4].textHeight = 90;
+planeInfo[4].link = "www.thingiverse.com/thing:6644675";
+planeInfo[4].description = "1.2m forward swept flying wing<br>with twin tractor motors";
+planeInfo[4].wingspan = "120cm";
+planeInfo[4].length = "60cm";
+planeInfo[4].weight = "700g"
+planeInfo[4].auw = "1100-1400g";
+planeInfo[4].airfoil = "PW51";
+planeInfo[4].wingArea = "22dm²"
+planeInfo[4].wingLoading = "50-64g/dm²";
+
+planeInfo[5] = new Object();
+planeInfo[5].name = "eliminator";
+planeInfo[5].picWidth = 1013;
+planeInfo[5].picHeight = 444;
+planeInfo[5].textWidth = 608;
+planeInfo[5].textHeight = 90;
+planeInfo[5].link = "www.thingiverse.com/thing:6691107";
+planeInfo[5].description = "0.9m forward swept wing<br>with twin tractor motors";
+planeInfo[5].wingspan = "90cm";
+planeInfo[5].length = "55cm";
+planeInfo[5].weight = "550g"
+planeInfo[5].auw = "850-1150g";
+planeInfo[5].airfoil = "Custom";
+planeInfo[5].wingArea = "14dm²"
+planeInfo[5].wingLoading = "60-82g/dm²";
+
+/*
+planeInfo[6] = new Object();
+planeInfo[6].name = "penetrator";
+planeInfo[6].picWidth = 1052;
+planeInfo[6].picHeight = 477;
+planeInfo[6].textWidth = 603;
+planeInfo[6].textHeight = 90;
+planeInfo[6].link = "www.thingiverse.com/thing:6883181";
+planeInfo[6].description = "1.0m rearward swept wing<br>with twin tractor motors";
+planeInfo[6].wingspan = "100cm";
+planeInfo[6].length = "57cm";
+planeInfo[6].weight = "600g"
+planeInfo[6].auw = "900-1200g";
+planeInfo[6].airfoil = "Custom";
+planeInfo[6].wingArea = "19dm²"
+planeInfo[6].wingLoading = "47-63g/dm²";
+*/
+
+function loadPlanes() {
+  document.body.onmousemove = trackMouse;
+  canvasWidth = window.innerWidth - (canvasMargin * 2);
+  canvasHeight = window.innerHeight - (canvasMargin * 2);
+  popupPlaneScale = canvasHeight / 1080;
+  if (popupPlaneScale * 1920 / canvasWidth > 0.75) popupPlaneScale = canvasWidth * 0.75 / 1920;
+  scrollLength = 0;
+  scrollSpeedMaster = scrollSpeed;
+  planeStatus = 0;
+  let tempOffsetX = 0;
+  let tempOriginX = window.innerWidth - (planeInfo[0].picWidth * scrollPlaneScale) - (canvasMargin * 2.5);
+  for (let planeLoop = 0; planeLoop < planeInfo.length; planeLoop++) {
+    planeInfo[planeLoop].widthScroll = planeInfo[planeLoop].picWidth * scrollPlaneScale;
+    planeInfo[planeLoop].heightScroll = planeInfo[planeLoop].picHeight * scrollPlaneScale;
+    if (planeLoop > 0) tempOffsetX = tempOffsetX - planeInfo[planeLoop].widthScroll - scrollPlaneGap;
+    planeInfo[planeLoop].offsetX = tempOffsetX;
+    planeInfo[planeLoop].posX = tempOriginX + tempOffsetX;
+    planeInfo[planeLoop].posY = (window.innerHeight - planeInfo[planeLoop].heightScroll) / 2 + 50; 
+    planeInfo[planeLoop].divObj = document.createElement("div");
+    planeInfo[planeLoop].divObj.style.position = "absolute";
+    planeInfo[planeLoop].divObj.style.left = planeInfo[planeLoop].posX;
+    planeInfo[planeLoop].divObj.style.top = planeInfo[planeLoop].posY;
+    let tempHTML = "<a href='#' onclick='showPopup(" + planeLoop +")'>";
+    tempHTML += "<img id='plane" + planeLoop + "' src='images/" + planeInfo[planeLoop].name + " 0.png' ";
+    tempHTML += "onmouseover='overPlane(" + planeLoop + ")' onmouseout='outPlane(" + planeLoop +")' ";
+    tempHTML += "width='" + planeInfo[planeLoop].widthScroll + "' height='" + planeInfo[planeLoop].heightScroll + "'>";
+    tempHTML += "</a>";
+    planeInfo[planeLoop].divObj.innerHTML = tempHTML;
+    document.body.appendChild(planeInfo[planeLoop].divObj);
+    scrollLength = scrollLength + scrollPlaneGap + planeInfo[planeLoop].widthScroll;
+    }
+  document.getElementById("canvasDiv").style.width = canvasWidth;
+  document.getElementById("canvasDiv").style.height = canvasHeight;
+  document.getElementById("canvasDiv").style.left = canvasMargin;
+  document.getElementById("canvasDiv").style.top = canvasMargin;
+  headingSize = headingWidth * headingScale;
+  document.getElementById("headingDiv").style.width = headingSize; 
+  document.getElementById("headingDiv").style.left = (window.innerWidth - headingSize) / 2; 
+  document.getElementById("headingDiv").style.top = canvasMargin * 1.7;
+  document.getElementById("headingDiv").innerHTML = "<img src='images/heading.png' width='" + (headingWidth * headingScale) + "'>";
+  document.getElementById("infoDiv").style.width = window.innerWidth - (canvasMargin * 4); 
+  document.getElementById("infoDiv").style.left = canvasMargin + popupMargin; 
+  document.getElementById("infoDiv").style.top = canvasMargin + popupMargin;
+  document.getElementById("infoDiv").innerHTML = "";
+  let leftCurtain = document.createElement("div");
+  leftCurtain.style.position = "absolute";
+  leftCurtain.style.backgroundColor = "#333333";
+  leftCurtain.style.width = canvasMargin;
+  leftCurtain.style.height = window.innerHeight;
+  leftCurtain.style.left = 0;
+  leftCurtain.style.top = 0;
+  document.body.appendChild(leftCurtain);
+  let rightCurtain = document.createElement("div");
+  rightCurtain.style.position = "absolute";
+  rightCurtain.style.backgroundColor = "#333333";
+  rightCurtain.style.width = canvasMargin;
+  rightCurtain.style.height = window.innerHeight;
+  rightCurtain.style.left = window.innerWidth - canvasMargin;
+  rightCurtain.style.top = 0;
+  document.body.appendChild(rightCurtain);
+  document.getElementById("buttonDiv").innerHTML = "<button class='button' onclick='hidePopup()'>X</button>";
+  document.getElementById("buttonDiv").style.left = 0 - window.innerWidth;
+  document.getElementById("buttonDiv").style.top = canvasMargin + popupMargin;
+  scrollPlanes();
+  }
+
+function scrollPlanes() {
+  if (planeStatus == 0) {
+    for (let planeLoop = 0; planeLoop < planeInfo.length; planeLoop++) {
+      planeInfo[planeLoop].posX += scrollSpeedMaster;
+      if (planeInfo[planeLoop].posX >= window.innerWidth - canvasMargin) planeInfo[planeLoop].posX -= scrollLength;
+      planeInfo[planeLoop].divObj.style.left = planeInfo[planeLoop].posX;
+      } 
+    }
+  window.setTimeout("scrollPlanes()",scrollRefresh);
+  }
+
+function overPlane(PLANE) {
+  scrollSpeedMaster = 0;
+  for (let planeLoop = 0; planeLoop < planeInfo.length; planeLoop++) {
+    if (planeLoop != PLANE) planeInfo[planeLoop].divObj.style.filter = "grayscale(0.85)";
+    }
+  let tempPosX = planeInfo[PLANE].posX + (planeInfo[PLANE].widthScroll / 2);
+  tempPosX -= (planeInfo[PLANE].textWidth * textScale) / 2;
+  if (tempPosX < canvasMargin + 10) tempPosX = canvasMargin + 10;
+  if (tempPosX > window.innerWidth - (planeInfo[PLANE].textWidth * textScale) - canvasMargin - 10) tempPosX = window.innerWidth - (planeInfo[PLANE].textWidth * textScale) - canvasMargin - 10;
+  let tempPosY = planeInfo[PLANE].posY + planeInfo[PLANE].heightScroll + 30;
+  let tempHTML = "<img width='" + (planeInfo[PLANE].textWidth * textScale) + "' src='images/" + planeInfo[PLANE].name +" 5.png'>";
+  document.getElementById("textDiv").innerHTML = tempHTML;
+  document.getElementById("textDiv").style.left = tempPosX;
+  document.getElementById("textDiv").style.top = tempPosY;
+  }
+
+function outPlane(PLANE) {
+  for (let planeLoop = 0; planeLoop < planeInfo.length; planeLoop++) planeInfo[planeLoop].divObj.style.filter = "grayscale(0)";
+  document.getElementById("textDiv").style.left = 0 - window.innerWidth;
+  scrollSpeedMaster = scrollSpeed;
+  }
+
+function showPopup(PLANE) {
+  planeStatus = 1;
+  popupPlaneIndex = PLANE;
+  for (let planeLoop = 0; planeLoop < planeInfo.length; planeLoop++) planeInfo[planeLoop].divObj.style.left = 0 - planeInfo[planeLoop].widthScroll;
+  document.getElementById("headingDiv").style.left = 0 - headingSize;
+  let tempImgWidth = 1920 * popupPlaneScale;
+  let tempImgHeight = 1080 * popupPlaneScale;
+  popupPlanePosX = window.innerWidth - tempImgWidth - canvasMargin - 20;
+  popupPlanePosY = (window.innerHeight - tempImgHeight) / 2;
+  document.getElementById("planeDiv").innerHTML = "<img id='popupPlaneIndex' src='images/" + planeInfo[PLANE].name + " 1.png' width='" + tempImgWidth + "' height='" + tempImgHeight + "'>";
+  document.getElementById("planeDiv").style.left = popupPlanePosX;
+  document.getElementById("planeDiv").style.top = popupPlanePosY;
+  let tempHTML = "<img width='" + (planeInfo[PLANE].textWidth * textScale) + "' src='images/" + planeInfo[PLANE].name +" 5.png'><br><br>";
+  tempHTML += "<a href='https://" + planeInfo[PLANE].link + "'>" + planeInfo[PLANE].link + "</a><br><br>";
+  tempHTML += planeInfo[PLANE].description + "<br><br>";
+  tempHTML += "Wingspan: " + planeInfo[PLANE].wingspan + "<br>";
+  tempHTML += "Length: " + planeInfo[PLANE].length + "<br>";
+  tempHTML += "Printed weight: " + planeInfo[PLANE].weight + "<br>";
+  tempHTML += "Flying weight: " + planeInfo[PLANE].auw + "<br>";
+  tempHTML += "Airfoil: " + planeInfo[PLANE].airfoil + "<br>";
+  tempHTML += "Wing area: " + planeInfo[PLANE].wingArea + "<br>";
+  tempHTML += "Wing loading: " + planeInfo[PLANE].wingLoading + "<br><br><br>";
+  tempHTML += "<img onmouseover='overTop()' onmouseout='outTop()' class='topImg' src='images/" + planeInfo[PLANE].name +" 4.png' width='240' height='135'>";
+  document.getElementById("infoDiv").innerHTML = tempHTML;
+  document.getElementById("buttonDiv").style.left = window.innerWidth - canvasMargin - popupMargin - 40;
+  }
+
+function overTop() {
+  if (planeStatus == 1) {
+    planeStatus = 4;
+    document.getElementById("popupPlaneIndex").src = "images/" + planeInfo[popupPlaneIndex].name + " 4.png";
+    }
+  }
+
+function outTop() {
+  if (planeStatus == 4) {
+    document.getElementById("popupPlaneIndex").src = "images/" + planeInfo[popupPlaneIndex].name + " " + popupPicAnimationIndex + ".png";
+    planeStatus = 1;
+    }
+  }
+
+function hidePopup() {
+  if (planeStatus == 1) {
+    planeStatus = 2;
+    document.getElementById("buttonDiv").style.left = 0 - window.innerWidth;
+    }
+  if (planeStatus == 2) {
+    popupPlanePosX += 40;
+    popupPlanePosY += 20;
+    document.getElementById("planeDiv").style.left = popupPlanePosX;
+    document.getElementById("planeDiv").style.top = popupPlanePosY;
+    if (popupPlanePosX > window.innerWidth || popupPlanePosY > window.innerHeight) {
+      document.getElementById("planeDiv").style.left = 0 - window.innerWidth;
+      document.getElementById("infoDiv").innerHTML = "";
+      document.getElementById("headingDiv").style.left = (window.innerWidth - headingSize) / 2;
+      planeStatus = 0;
+      }
+    else {
+      window.setTimeout("hidePopup()",scrollRefresh);
+      }
+    }
+  }
+
+function trackMouse(event) { 
+  mousePosX = window.event.clientX;
+  popupPicAnimationIndex =  Math.floor(mousePosX / window.innerWidth * 5) - 1;
+  if (planeStatus == 1) {
+    if (popupPicAnimationIndex >= 1) document.getElementById("popupPlaneIndex").style.transform = "scaleX(1)";
+    else document.getElementById("popupPlaneIndex").style.transform = "scaleX(-1)";
+    if (popupPicAnimationIndex < 1) popupPicAnimationIndex = 2 - popupPicAnimationIndex;
+    document.getElementById("popupPlaneIndex").src = "images/" + planeInfo[popupPlaneIndex].name + " " + popupPicAnimationIndex + ".png";
+    }
+  } 
+
+function reloadPage() {
+  location.reload();
+  }
+
+window.onload = loadPlanes;
+window.onresize = reloadPage;
+
+</script>
+
+<style>
+
+body { background-color: #333333; overflow: hidden; }
+#canvasDiv { position: absolute; background-color: #999999; background-image: url("images/bg.jpg"); background-size: cover; border-radius: 30px; }
+#headingDiv { position: absolute; }
+#textDiv { position: absolute; }
+#infoDiv { position: absolute; font-family: courier new; font-size: 11pt; color: #333333; }
+#planeDiv { position: absolute; }
+#buttonDiv { position: absolute; }
+.topImg { border: 1px solid #666666; }
+.button { font-family: verdana; font-weight: bold; font-size: 12pt; color: #333333; background-color: #666666; padding: 15px; border: none; }
+a { color: #333333; }
+a:visited { color: #333333; }
+a:hover { color: #AAAAAA; }
+
+</style>
+
+<title>3D Printed RC Planes by Stunt Double</title>
+
+</head>
+
+<body>
+
+<div id="canvasDiv"></div>
+<div id="headingDiv"></div>
+<div id="textDiv"></div>
+<div id="infoDiv"></div>
+<div id="planeDiv"></div>
+<div id="buttonDiv"></div>
+
+</body>
+
+</html>
