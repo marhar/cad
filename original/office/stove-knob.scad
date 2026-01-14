@@ -10,7 +10,7 @@ HH=20;
 module stick() {
   difference() {
     cylinder(HH,d=12);
-    translate([0,0,10]) cylinder(HH,d=6.3);
+    translate([0,0,10]) cylinder(HH,d=6.1);
   }
   #translate([-3,2.2,0]) cube([6,2,HH]);
 }
